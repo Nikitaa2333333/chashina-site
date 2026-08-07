@@ -1,0 +1,41 @@
+---
+// Одиночный лаймовый чип-стрелка (форма с референса) — для карточек.
+interface Props {
+  class?: string;
+}
+const { class: cls = '' } = Astro.props;
+---
+
+<span class={`arrow-chip ${cls}`} aria-hidden="true">
+  <svg class="arrow-chip__shape" xmlns="http://www.w3.org/2000/svg" width="51" height="48" fill="none" viewBox="0 0 51 48">
+    <path fill="currentColor" d="M6.728 9.09A12 12 0 0 1 18.369 0H39c6.627 0 12 5.373 12 12v24c0 6.627-5.373 12-12 12H12.37C4.561 48-1.167 40.663.727 33.09l6-24Z"/>
+  </svg>
+  <svg class="arrow-chip__arrow" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 10 10" fill="none">
+    <path d="M3.2 1.6 6.8 5 3.2 8.4" stroke="#222F30" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</span>
+
+<style>
+  .arrow-chip {
+    position: relative;
+    display: inline-block;
+    width: 51px;
+    height: 48px;
+    color: var(--lime);
+    transition: color 0.3s var(--ease);
+  }
+  .arrow-chip__arrow {
+    position: absolute;
+    top: 50%;
+    left: 55%;
+    translate: -50% -50%;
+    transition: translate 0.3s var(--ease);
+  }
+  :global(a:hover) .arrow-chip,
+  .arrow-chip:hover {
+    color: var(--lime-2);
+  }
+  :global(a:hover) .arrow-chip .arrow-chip__arrow {
+    translate: -30% -50%;
+  }
+</style>

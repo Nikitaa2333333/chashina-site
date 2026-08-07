@@ -1,0 +1,2692 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import BtnPair from '../components/BtnPair.astro';
+
+// 4. Как строится работа — три ступени
+const steps = [
+  {
+    n: '01.',
+    title: 'Разобраться',
+    text: 'Сначала нужно понять, с чем мы имеем дело. Тип старения у всех разный, и от него напрямую зависит, что делать можно, а что бессмысленно или даже вредно. Иногда для этого достаточно осмотра, иногда я прошу сдать анализы: часть проблем с кожей решается не в кабинете косметолога.',
+    theme: 'lime',
+  },
+  {
+    n: '02.',
+    title: 'Подготовить ткани',
+    text: 'Радиоволновой лифтинг, микротоки, процедуры с очищающим действием — они оздоравливают ткани и сосуды, выводят лишнюю жидкость, возвращают коже плотность и сияние.',
+    theme: 'ink',
+  },
+  {
+    n: '03.',
+    title: 'Подтянуть и закрепить',
+    text: 'И только когда ткани к этому готовы, есть смысл переходить к мощному лифтингу и закреплять достигнутый результат. В обратном порядке это или не даст эффекта, или даст, но ненадолго.',
+    theme: 'frost',
+  },
+];
+
+// 5. Аппаратные методы — четыре направления
+// theme задаёт цвет текста и скрим под ним: dark-фото → светлый текст
+const methods = [
+  {
+    n: '01.',
+    title: 'Световые и лазерные методики',
+    text: 'Пигмент, сосуды, качество поверхности кожи. Свет работает адресно: разрушает то, что мешает, не задевая остальное.',
+    img: '/photos/art/method-01.webp',
+    theme: 'dark',
+  },
+  {
+    n: '02.',
+    title: 'Радиоволновой лифтинг',
+    text: 'Контролируемый прогрев тканей запускает выработку коллагена — кожа постепенно возвращает плотность и тонус.',
+    img: '/photos/art/method-02.webp',
+    theme: 'light',
+  },
+  {
+    n: '03.',
+    title: 'Токи и микротоки',
+    text: 'Дренаж, тонус, работа с отёчностью. Мягкие методики, которые готовят ткани к более мощным воздействиям.',
+    img: '/photos/art/method-03.webp',
+    theme: 'dark',
+  },
+  {
+    n: '04.',
+    title: 'Фокусированный ультразвук',
+    text: 'Работа с глубоким каркасом лица — тем слоем, до которого не достают кремы и поверхностные процедуры.',
+    img: '/photos/art/method-04.webp',
+    theme: 'dark',
+  },
+];
+
+// 7. Инъекционные методы — задачи
+const tasks = [
+  {
+    n: '01.',
+    title: 'Качество и увлажнённость кожи',
+    text: 'Плотность, сияние, увлажнённость — работа с самой тканью кожи, а не с её объёмами.',
+  },
+  {
+    n: '02.',
+    title: 'Объёмы и опора тканей',
+    text: 'Восстановление опоры там, где ткани её потеряли — без попытки «слепить» новое лицо.',
+  },
+  {
+    n: '03.',
+    title: 'Мимические зоны',
+    text: 'Расслабить то, что заламывает кожу, сохранив живую мимику и естественное выражение.',
+  },
+  {
+    n: '04.',
+    title: 'Асимметрия',
+    text: 'Аккуратное выравнивание врождённых и возрастных асимметрий — работа ювелирная и очень индивидуальная.',
+  },
+];
+
+// 13. Публикации в СМИ
+const press = [
+  { source: 'РБК', title: 'Когда лучше принимать коллаген' },
+  { source: 'ТАСС', title: 'Утренние отёки и повышенный кортизол' },
+  { source: 'Газета.ру', title: 'Компоненты косметики, которых лучше избегать' },
+  { source: 'Flacon', title: 'Как работает SMAS-лифтинг' },
+  { source: 'U Magazine', title: 'Устаревшие процедуры и что пришло им на замену' },
+  { source: 'Beautyhack', title: 'Wellness-манифест 2026' },
+];
+
+const principles = [
+  {
+    title: 'Безопасность технологии',
+    text: 'И для пациента, и для врача — это не обсуждается.',
+  },
+  {
+    title: 'Предсказуемость результата',
+    text: 'Я должна понимать, что именно получится и через какое время, и сказать это вам до начала, а не после.',
+  },
+  {
+    title: 'Ваше участие',
+    text: 'Косметология не работает в отрыве от чекапов, сна, физической нагрузки и управления стрессом. Это не дополнение к процедурам, это их условие.',
+  },
+];
+
+// 14. Обо мне — таймлайн образования и практики.
+// Шкала одна на оба ряда: КОЛОНКА СЕТКИ = ОДИН ГОД из [CV_FROM, CV_TO].
+// Поэтому учёба и работа стоят на своих годах и видно, что они шли параллельно.
+//
+// lane — «этаж». Год занимает ~70px, и когда события идут подряд (2010 → 2011,
+// 2021 → 2022), подпись в такую колонку не влезает: она шире своей ячейки и
+// наезжает на соседа. Соседей разводим по этажам — этаж 1 стоит вплотную к оси,
+// этаж 2 отодвинут от неё. Если добавляете запись — проверьте, не встала ли она
+// ближе трёх лет к соседу по этажу.
+const CV_FROM = 1997;
+const CV_TO = 2026;
+const CV_COLS = CV_TO - CV_FROM + 1;
+
+const cvEdu = [
+  { from: 1997, to: 2002, lane: 1, place: 'Сибирский государственный медицинский университет', note: 'лечебный факультет' },
+  { from: 2002, to: 2004, lane: 2, place: 'МГМСУ', note: '«Лечебное дело»' },
+  { from: 2004, to: 2006, lane: 1, place: 'РМАПО', note: 'ординатура по дерматовенерологии' },
+  { from: 2010, to: 2011, lane: 1, place: 'МГМСУ', note: 'интернатура по хирургии' },
+  { from: 2011, to: 2012, lane: 2, place: 'МИУВ МГУПП', note: 'профессиональная переподготовка по косметологии' },
+  { from: 2013, to: 2013, lane: 1, place: 'ИППО ФМБЦ им. А. И. Бурназяна', note: 'подготовка по физиотерапии' },
+  { from: 2022, to: 2022, lane: 1, place: 'Организация здравоохранения', note: 'переподготовка по общественному здоровью' },
+];
+
+const cvWork = [
+  { from: 2004, to: 2011, lane: 1, place: 'Врач-косметолог' },
+  { from: 2011, to: 2018, lane: 1, place: 'Клиника антиэйджинга', note: 'врач-косметолог, физиотерапевт, заведующая отделением эстетики тела' },
+  { from: 2018, to: 2021, lane: 1, place: 'Сеть клиник «Атлас»' },
+  { from: 2021, to: 2022, lane: 2, place: '«Олимп Клиник»' },
+  { from: 2022, to: CV_TO, lane: 1, place: 'Сеть клиник «Атлас»', now: true },
+];
+
+// Подпись годов: точечное событие — один год, текущее место работы — «сейчас».
+const cvYears = (o: { from: number; to: number; now?: boolean }) =>
+  o.now ? `${o.from} — сейчас` : o.from === o.to ? `${o.from}` : `${o.from}–${o.to}`;
+
+// Номер колонки года (сетка считает колонки с единицы) и длина в колонках.
+const cvCol = (year: number) => year - CV_FROM + 1;
+const cvSpan = (o: { from: number; to: number }) => Math.max(1, o.to - o.from);
+
+// Точки на оси — годы, с которых начинается запись в любом из рядов.
+const cvDots = [...new Set([...cvEdu, ...cvWork].map((o) => o.from))].sort((a, b) => a - b);
+
+// ================= ГАЛЕРЕЯ =================
+// Две съёмки идут блоками, а не вперемешку: сначала клиника «Атлас»
+// (белый костюм, кабинет, консультация), потом лайфстайл (халаты, тёплый
+// интерьер). Смена тона читается как смена главы — если перемешать, получится
+// винегрет из белого кабинета и апельсина у глаза.
+//
+// Ориентация берётся из w/h прямо в разметке: вертикальный кадр занимает
+// в мозаике два ряда, горизонтальный — один. Ручных пометок не держим,
+// чтобы они не разъезжались с реальными файлами.
+//
+// lg — кадр для лайтбокса. У лайфстайл-кадров его нет: они и так лежат
+// в 1000px, лайтбокс возьмёт тот же файл, что и плитка.
+// Пересобрать дериваты: pwsh -File scripts/build-photos.ps1
+// ПОРЯДОК КАДРОВ ЗДЕСЬ — ЭТО РАСКЛАДКА, А НЕ ПРОСТО СПИСОК.
+//
+// В мозаике вертикаль занимает два ряда, горизонталь один, колонок три.
+// Раскладку делает dense-упаковка строго по порядку, поэтому список собран
+// из блоков, каждый из которых закрывает свои ряды целиком и не оставляет
+// уступа следующему:
+//
+//   F = В Г В В Г Г — три ряда. В каждой колонке оказывается и вертикаль,
+//                     и горизонталь: это и даёт рваный ритм.
+//   B = В В В       — два ряда, три вертикали в ряд. Хвост, когда горизонтали
+//                     кончились.
+//
+// Сейчас F F F B = 12 вертикалей + 9 горизонталей = 11 ровных рядов.
+//
+// ДВЕ ЛОВУШКИ, ЕСЛИ МЕНЯЕТЕ СОСТАВ:
+//   1. Кратности суммы мало. 12×2+9 = 33 делится на 3, но при другом порядке
+//      колонка всё равно уйдёт вниз на целую плитку.
+//   2. Блок «В В Г Г» тоже даёт ровный низ, но кладёт все горизонтали
+//      в третью колонку — выходят полосы, а не мозаика.
+// Проверять замером: scripts/check-gallery.mjs при запущенном дев-сервере.
+const C = '/photos/clinic';
+const gallery = [
+  // --- клиника «Атлас» ---
+  // F
+  { s: `${C}/procedure-02.webp`,      lg: `${C}/lg/procedure-02.webp`,      w: 600, h: 900, alt: 'Разметка перед процедурой, крупный план' },
+  { s: `${C}/consult-01.webp`,        lg: `${C}/lg/consult-01.webp`,        w: 900, h: 600, alt: 'Оксана Чащина размечает зону подбородка на приёме' },
+  { s: `${C}/portrait-dark-01.webp`,  lg: `${C}/lg/portrait-dark-01.webp`,  w: 600, h: 900, alt: 'Портрет Оксаны Чащиной' },
+  { s: `${C}/interior-02.webp`,       lg: `${C}/lg/interior-02.webp`,       w: 600, h: 900, alt: 'Оксана Чащина в интерьере клиники «Атлас»' },
+  { s: `${C}/interior-03.webp`,       lg: `${C}/lg/interior-03.webp`,       w: 900, h: 600, alt: 'Разговор с пациенткой в коридоре клиники' },
+  { s: `${C}/consult-03.webp`,        lg: `${C}/lg/consult-03.webp`,        w: 900, h: 600, alt: 'Осмотр перед подбором процедуры' },
+  // F
+  { s: `${C}/consult-02.webp`,        lg: `${C}/lg/consult-02.webp`,        w: 600, h: 900, alt: 'Разбор плана по анатомической схеме' },
+  { s: `${C}/interior-05.webp`,       lg: `${C}/lg/interior-05.webp`,       w: 900, h: 600, alt: 'Беседа с пациенткой в зоне ожидания' },
+  { s: `${C}/portrait-dark-02.webp`,  lg: `${C}/lg/portrait-dark-02.webp`,  w: 600, h: 900, alt: 'Портрет Оксаны Чащиной в белом костюме' },
+  { s: `${C}/interior-04.webp`,       lg: `${C}/lg/interior-04.webp`,       w: 600, h: 900, alt: 'Путь в кабинет по коридору клиники' },
+  { s: `${C}/consult-04.webp`,        lg: `${C}/lg/consult-04.webp`,        w: 900, h: 600, alt: 'Объяснение процедуры на консультации' },
+  { s: `${C}/consult-07.webp`,        lg: `${C}/lg/consult-07.webp`,        w: 900, h: 600, alt: 'Оценка тонуса тканей на осмотре' },
+  // F — внутри этого блока проходит стык съёмок
+  { s: `${C}/portrait-wall-01.webp`,  lg: `${C}/lg/portrait-wall-01.webp`,  w: 600, h: 900, alt: 'Оксана Чащина у графики в холле клиники' },
+  { s: `${C}/consult-06.webp`,        lg: `${C}/lg/consult-06.webp`,        w: 900, h: 600, alt: 'Осмотр овала лица' },
+  { s: `${C}/portrait-light-01.webp`, lg: `${C}/lg/portrait-light-01.webp`, w: 600, h: 900, alt: 'Студийный портрет Оксаны Чащиной' },
+
+  // --- лайфстайл: уход и быт ---
+  { s: '/photos/web/01.webp', w: 1000, h: 1500, alt: 'Средство для домашнего ухода' },
+  { s: '/photos/web/03.webp', w: 1000, h: 666,  alt: 'Разбор ухода вдвоём' },
+  { s: '/photos/web/05.webp', w: 1000, h: 666,  alt: 'Уход у зеркала' },
+  // B
+  { s: '/photos/web/02.webp', w: 1000, h: 1500, alt: 'Подбор домашнего ухода' },
+  { s: '/photos/web/04.webp', w: 1000, h: 1500, alt: 'Питание и состояние кожи' },
+  { s: '/photos/web/08.webp', w: 1000, h: 1500, alt: 'Витамин C в уходе за кожей' },
+];
+---
+
+<Base
+  title="Оксана Чащина — врач-косметолог, специалист превентивной медицины"
+  description="Врач-косметолог с опытом 22 года. Аппаратные и инъекционные методы, работа с кожей и с внутренними причинами её состояния. Запись на консультацию."
+>
+  <Header />
+
+  <!-- ================= 1. ПЕРВЫЙ ЭКРАН =================
+       Скролл-сцена: на старте только фото по центру,
+       при прокрутке имя выезжает с боков, затем проявляются
+       подзаголовок, отстройка и кнопка записи. -->
+  <section class="hero">
+    <div class="hero__track" data-hero-track>
+      <div class="hero__sticky">
+        <div class="hero__frame">
+          <canvas class="hero__mol" data-hero-mol aria-hidden="true"></canvas>
+          <h1 class="hero__name">
+            <span class="hero__word hero__word--l" data-hero-l>Оксана</span>
+            <span class="hero__word hero__word--r" data-hero-r>Чащина</span>
+          </h1>
+          <img
+            class="hero__photo"
+            src="/photos/hero.png"
+            alt="Оксана Чащина, врач-косметолог"
+            fetchpriority="high"
+            data-hero-photo
+          />
+          <div class="hero__bottom" data-hero-bottom>
+            <div class="hero__sub">
+              <p class="hero__subtitle">Врач-косметолог, специалист превентивной медицины. 22 года практики.</p>
+              <p class="hero__lead">
+                Аппарат сам по себе не решает ничего. Решает то, насколько
+                точно понятно, что происходит с вашей кожей — и с организмом,
+                частью которого она является.
+              </p>
+            </div>
+            <div class="hero__cta">
+              <BtnPair label="Записаться на консультацию" href="#contact" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 3. ДВЕ ПОЛОВИНЫ ОДНОЙ РАБОТЫ ================= -->
+  <section class="halves" id="halves">
+    <div class="container halves__inner">
+      <span class="tag tag--on-dark mono">Подход</span>
+      <h2 class="halves__title">Две половины одной работы.</h2>
+      <div class="halves__cols">
+        <div class="halves__col">
+          <span class="halves__label mono">01. Снаружи</span>
+          <p>
+            Лазеры, фокусированный ультразвук, радиоволновой лифтинг, токи.
+            Всё, что делается с кожей и мягкими тканями непосредственно —
+            с понятной глубиной воздействия и предсказуемым результатом.
+          </p>
+        </div>
+        <div class="halves__col">
+          <span class="halves__label mono">02. Изнутри</span>
+          <p>
+            Хроническое воспаление, окислительный стресс, гликация, дефициты,
+            качество сна. Всё, из-за чего кожа стареет быстрее и хуже
+            восстанавливается — и что не исправить ни одним аппаратом.
+          </p>
+        </div>
+      </div>
+      <p class="halves__conclusion">
+        Кожа — самый большой орган человека. Работая с ней, мы включаем
+        процессы и в окружающих тканях. Поэтому для меня антивозрастная работа —
+        работа <mark>с организмом целиком</mark>, а не с отдельной морщиной.
+      </p>
+    </div>
+  </section>
+
+  <!-- ================= 4. КАК СТРОИТСЯ РАБОТА ================= -->
+  <section class="section section--flush-bottom work" id="work">
+    <div class="container">
+      <span class="tag mono">Как строится работа</span>
+      <h2 class="work__title">Почему я не начинаю с лифтинга.</h2>
+    </div>
+  </section>
+  <section class="steps">
+    {steps.map((s) => (
+      <article class={`steps__panel steps__panel--${s.theme}`}>
+        <span class="steps__num mono">{s.n}</span>
+        <div class="steps__bottom">
+          <h3 class="steps__name">{s.title}</h3>
+          <p class="steps__text">{s.text}</p>
+        </div>
+      </article>
+    ))}
+  </section>
+  <section class="section principles">
+    <div class="container">
+      <span class="tag mono">Принципы</span>
+      <h2 class="principles__title">Что для меня важно.</h2>
+      <div class="principles__grid">
+        {principles.map((p) => (
+          <div class="principles__item">
+            <h3>{p.title}</h3>
+            <p>{p.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= МАНИФЕСТ =================
+       Крупная фраза с круглыми фото-вставками между словами -->
+  <section class="section section--tight statement">
+    <div class="container">
+      <span class="tag mono statement__label">Подход в одной фразе</span>
+      <p class="statement__text">
+        Красивая кожа — это всегда <img class="statement__dot" src="/photos/web/07.webp" alt="" loading="lazy" /> результат
+        комплексной работы: ухода, процедур <img class="statement__dot" src="/photos/web/03.webp" alt="" loading="lazy" /> по
+        показаниям, питания <img class="statement__dot" src="/photos/web/05.webp" alt="" loading="lazy" /> и здоровья
+        организма в целом.
+      </p>
+    </div>
+  </section>
+
+  <!-- ================= 5. АППАРАТНЫЕ МЕТОДЫ =================
+       Горизонтальный скролл-слайдер: sticky-сцена, вертикальные
+       цветные плашки листаются по скроллу, справа — градиентное
+       затухание над невидимыми плашками -->
+  <section class="section section--flush-bottom methods" id="methods">
+    <div class="container">
+      <span class="tag mono">Аппаратные методы</span>
+      <h2 class="methods__title">Что происходит с тканями.</h2>
+      <p class="methods__intro">
+        Ниже — не перечень аппаратов, а объяснение того, что каждый метод
+        делает с кожей. Торговые названия имеет смысл обсуждать уже
+        на консультации, когда понятна задача.
+      </p>
+    </div>
+  </section>
+  <section class="mscroll" data-mscroll>
+    <div class="mscroll__track" data-mscroll-track>
+      <div class="mscroll__sticky">
+        <div class="mscroll__viewport" data-mscroll-viewport>
+          <div class="mscroll__row" data-mscroll-row>
+            {methods.map((m) => (
+              <article class={`mscroll__card mscroll__card--${m.theme}`}>
+                <img class="mscroll__img" src={m.img} alt="" loading="lazy" />
+                <img class="mscroll__img mscroll__img--blur" src={m.img} alt="" loading="lazy" aria-hidden="true" />
+                <div class="mscroll__body">
+                  <h3 class="mscroll__name">{m.title}</h3>
+                  <p>{m.text}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+        <div class="mscroll__fade" data-mscroll-fade aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 6. ГРАВИТАЦИОННЫЙ ПТОЗ И SMAS ================= -->
+  <section class="smas" id="smas">
+    <div class="container smas__inner">
+      <div class="smas__text">
+        <span class="tag tag--on-dark mono">Гравитационный птоз</span>
+        <h2 class="smas__title">Провисает не кожа — каркас, на котором она держится.</h2>
+        <p class="smas__lead">
+          С возрастом провисает не столько кожа, сколько то, на чём она
+          держится — внутренний каркас лица. Поэтому кремы и поверхностные
+          процедуры на овал почти не влияют: они работают выше,
+          а проблема глубже.
+        </p>
+        <p class="smas__body">
+          Фокусированный ультразвук — способ дотянуться до этого слоя
+          без хирургии. Что именно происходит с тканями, когда ждать
+          результат и кому метод не подходит — разбираем на консультации.
+        </p>
+        <BtnPair label="Обсудить на консультации" href="#contact" />
+      </div>
+      <figure class="smas__media">
+        <video src="/video/ripple.mp4" autoplay muted loop playsinline preload="metadata"></video>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ================= 7. ИНЪЕКЦИОННЫЕ МЕТОДЫ ================= -->
+  <section class="section inject" id="inject">
+    <div class="container">
+      <span class="tag mono">Инъекционные методы</span>
+      <h2 class="inject__title">Чего можно достичь.</h2>
+      <p class="inject__intro">
+        Говорю не о препаратах, а о задачах. Препарат подбирается под задачу,
+        а не наоборот.
+      </p>
+      <figure class="inject__media">
+        <img
+          src="/photos/clinic/lg/procedure-01.webp"
+          alt="Инъекционная процедура: работа по разметке"
+          width="1440"
+          height="960"
+          loading="lazy"
+          decoding="async"
+        />
+      </figure>
+      <div class="inject__grid">
+        {tasks.map((t) => (
+          <article class="inject__item">
+            <span class="inject__num mono">{t.n}</span>
+            <div>
+              <h3 class="inject__name">{t.title}</h3>
+              <p>{t.text}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+      <p class="inject__closing">
+        Инъекции не заменяют лифтинг, не меняют черты лица и не отменяют
+        ухода — <mark>это инструмент, а не волшебство</mark>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ================= 8. ЗОНЫ, КОТОРЫЕ ВЫДАЮТ ВОЗРАСТ ================= -->
+  <section class="section zones" id="zones">
+    <div class="container">
+      <span class="tag mono">Зоны, которые выдают возраст</span>
+      <h2 class="zones__title">Лицо ещё держится, а шея выдаёт.</h2>
+      <p class="zones__intro">
+        Возраст читается не по лбу и не по носогубным складкам. Первыми выдают
+        шея, зона декольте, кисти рук — и именно им обычно достаётся меньше
+        всего внимания.
+      </p>
+      <div class="zones__list">
+        <div class="zones__item">
+          <h3>Шея и кольца Венеры</h3>
+          <p>
+            Кожа здесь тоньше, сальных желёз меньше, а нагрузки от экранов —
+            больше, поэтому шея стареет раньше лица. Что из этого генетика,
+            а что привычки — видно на осмотре, и от этого зависит план.
+          </p>
+        </div>
+        <div class="zones__item">
+          <h3>Второй подбородок</h3>
+          <p>
+            Причины разные: лишний объём, слабый тонус тканей, особенности
+            анатомии. Часть случаев решается аппаратами — и я честно говорю,
+            где проходит граница с хирургией.
+          </p>
+        </div>
+        <div class="zones__item">
+          <h3>Кисти, локти, колени</h3>
+          <p>
+            Зоны, которым достаётся меньше всего ухода. Здесь работает
+            плотность и качество кожи: уплотняющие методики и защита
+            от солнца дают больше, чем любой крем.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 9. КРАСОТА НАЧИНАЕТСЯ НЕ С КРЕМА ================= -->
+  <section class="section inside" id="inside">
+    <div class="container inside__inner">
+      <figure class="inside__media">
+        <video src="/video/serum.mp4" autoplay muted loop playsinline preload="metadata"></video>
+      </figure>
+      <div class="inside__text">
+        <span class="tag mono">Изнутри</span>
+        <h2 class="inside__title">Красота начинается не с крема.</h2>
+        <p>
+          Про это я много пишу у себя в канале: состояние кожи во многом
+          определяется тем, что происходит внутри. Хроническое воспаление,
+          окислительный стресс, состояние кишечника, дефициты, качество сна —
+          всё это отражается на лице раньше, чем мы связываем одно с другим.
+        </p>
+        <p>
+          Я не верю в одну молекулу, которая решит все проблемы. Красивая
+          кожа — это всегда результат комплексной работы: домашнего ухода,
+          процедур по показаниям, питания, образа жизни и здоровья организма
+          в целом.
+        </p>
+        <BtnPair label="Читать статьи" href="#" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 12. СОЦСЕТИ ================= -->
+  <!-- ================= 10. ДОМАШНИЙ УХОД ================= -->
+  <section class="section care" id="care">
+    <div class="container">
+      <span class="tag mono">Домашний уход</span>
+      <h2 class="care__title">Я рекомендую.</h2>
+      <div class="care__cols">
+        <div class="care__text">
+          <p>
+            Домашний уход иногда решает больше, чем процедуры: он работает
+            каждый день, а не раз в месяц. Но вокруг него столько маркетинга,
+            что разобраться самостоятельно почти невозможно.
+          </p>
+          <p>
+            Я подбираю уход под задачу и тип кожи, а не под обещания на упаковке.
+            Чаще всего это марки с дерматологической школой и понятным составом —
+            те, которыми пользуюсь сама и которые советую пациентам на приёме.
+          </p>
+          <a class="care__link" href="https://naos.ru/" target="_blank" rel="noopener">
+            <img
+              class="care__logo"
+              src="/photos/brands/naos.png"
+              alt="NAOS"
+              width="427"
+              height="85"
+              loading="lazy"
+            />
+            <span class="care__brands">
+              Официальный дистрибьютор Bioderma, Institut Esthederm и État Pur
+              в России.
+            </span>
+            <span class="care__go mono">naos.ru</span>
+          </a>
+        </div>
+        <figure class="care__media">
+          <img
+            src="/photos/web/06.webp"
+            alt="Подбор домашнего ухода на приёме"
+            width="1000"
+            height="666"
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 12. СОЦСЕТИ ================= -->
+  <section class="social">
+    <div class="container social__inner">
+      <div class="social__text">
+        <span class="tag tag--on-dark mono">Где я ещё пишу</span>
+        <h2 class="social__title">Если пока не готовы записываться — подписывайтесь.</h2>
+        <p class="social__lead">
+          Разбираю то, о чём чаще всего спрашивают на приёме: ингредиенты,
+          процедуры, питание и мифы вокруг них.
+        </p>
+      </div>
+      <div class="social__links">
+        <a class="social__link" href="https://t.me/krasotanasspaset" target="_blank" rel="noopener">
+          <span class="social__name">Telegram</span>
+          <span class="social__handle mono">t.me/krasotanasspaset</span>
+        </a>
+        <a class="social__link" href="https://vk.com/krasotanasspaset" target="_blank" rel="noopener">
+          <span class="social__name">ВКонтакте</span>
+          <span class="social__handle mono">vk.com/krasotanasspaset</span>
+        </a>
+        <a class="social__link" href="https://dzen.ru/id/6237172c60d2e66b912c755f" target="_blank" rel="noopener">
+          <span class="social__name">Дзен</span>
+          <span class="social__handle mono">dzen.ru/krasotanasspaset</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 13. ПУБЛИКАЦИИ В СМИ ================= -->
+  <section class="section press" id="press">
+    <div class="container">
+      <span class="tag mono">Меня спрашивают</span>
+      <h2 class="press__title">Пресса.</h2>
+      <p class="press__intro">
+        За годы практики меня приглашали комментировать РБК, ТАСС, АиФ,
+        Cosmopolitan, Harper's Bazaar, Wonderzine, The Blueprint и другие
+        издания. Здесь собрано главное.
+      </p>
+      <div class="press__grid">
+        {press.map((p) => (
+          <article class="press__item">
+            <span class="press__source mono">{p.source}</span>
+            <p class="press__topic">{p.title}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 14. ОБО МНЕ ================= -->
+  <section class="section about" id="about">
+    <div class="container">
+      <span class="tag mono">Обо мне</span>
+      <h2 class="about__title">Врач, а потом уже косметолог.</h2>
+      <div class="about__row">
+        <img
+          class="about__avatar"
+          src="/photos/clinic/about-avatar.webp"
+          alt="Оксана Чащина, врач-косметолог"
+          width="800"
+          height="800"
+          loading="lazy"
+        />
+        <div class="about__text">
+          <p>
+            В косметологию я пришла из клинической медицины — и до сих пор
+            смотрю на кожу как врач: сначала разобраться, потом лечить.
+            За 22 года практики я успела поработать и с аппаратами первых
+            поколений, и с теми, что сегодня считаются золотым стандартом.
+          </p>
+          <p>
+            Главное, что изменилось за эти годы во взглядах, — я перестала
+            верить в отдельные процедуры и начала верить в систему: диагностика,
+            подготовка, воздействие и образ жизни, который результат закрепляет.
+          </p>
+        </div>
+        <p class="about__closing">
+          Дожить можно и до ста, и до ста двадцати лет — учёные говорят, что
+          это реально. Вопрос в том, каким будет <mark>качество жизни</mark> в эти
+          годы. Ради него всё и делается.
+        </p>
+      </div>
+    </div>
+
+    <!-- Таймлайн живёт ВНЕ .container: слева встаёт по сетке, справа уходит
+         в край экрана — обрез и есть приглашение тянуть. -->
+    <div class="cv" data-cv>
+      <div class="container cv__head">
+        <span class="mono">Образование и практика</span>
+        <span class="cv__hint mono" aria-hidden="true">Тяните вбок →</span>
+      </div>
+
+      <div class="cv__stage">
+        <div
+          class="cv__scroll"
+          data-cv-scroll
+          tabindex="0"
+          role="group"
+          aria-label="Таймлайн образования и практики, 1997–2026"
+        >
+          <div class="cv__grid" style={`grid-template-columns: repeat(${CV_COLS}, var(--cv-year))`}>
+            {cvEdu.map((o) => (
+              <div
+                class="cv__item cv__item--edu"
+                style={`--col: ${cvCol(o.from)}; --span: ${cvSpan(o)}; --row: ${3 - o.lane}`}
+              >
+                <span class="cv__years mono">{cvYears(o)}</span>
+                <span class="cv__place">{o.place}</span>
+                <span class="cv__note">{o.note}</span>
+              </div>
+            ))}
+
+            <div class="cv__axis" aria-hidden="true"></div>
+            {cvDots.map((y) => (
+              <span class="cv__dot" style={`--col: ${cvCol(y)}`} aria-hidden="true"></span>
+            ))}
+
+            {cvWork.map((o) => (
+              <div
+                class="cv__item cv__item--work"
+                style={`--col: ${cvCol(o.from)}; --span: ${cvSpan(o)}; --row: ${3 + o.lane}`}
+              >
+                <span class="cv__years mono">{cvYears(o)}</span>
+                <span class="cv__place">{o.place}</span>
+                {o.note && <span class="cv__note">{o.note}</span>}
+              </div>
+            ))}
+
+          </div>
+        </div>
+        <div class="cv__fade" aria-hidden="true"></div>
+      </div>
+
+      <div class="container cv__certs">
+        <span class="cv__certs-head mono">Сообщества и сертификаты</span>
+        <p>Ассоциация косметологов и мезотерапевтов; Ассоциация специалистов эстетической медицины Центральной и Восточной Европы; PreventAge</p>
+        <p>Действующие сертификаты: косметология, физиотерапия; аккредитация по организации здравоохранения</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ГАЛЕРЕЯ =================
+       Без тега, заголовка и подводки — только кадры. Мозаика идёт во всю
+       ширину экрана без радиусов и зазоров, как полноэкранные панели-ступени
+       в «Как строится работа». Вертикальные кадры занимают два ряда,
+       горизонтальные один: рваный ритм получается сам, руками не правим. -->
+  <!-- flush-top: снизу у «Обо мне» уже есть свой --section-gap, и без этого
+       два отступа складываются в дыру, из-за которой мозаика повисает
+       оторванным блоком вместо продолжения рассказа. -->
+  <section class="section section--flush-top gallery" id="gallery">
+    <!-- Обёртка нужна только на телефоне: там мозаика становится лентой,
+         и градиенту у правого края требуется позиционирующий предок.
+         На десктопе она display: contents и на сетку не влияет. -->
+    <div class="gallery__stage" data-gallery-stage>
+    <div class="gallery__grid" data-gallery-strip>
+      {gallery.map((g, i) => (
+        <button
+          class={`gallery__tile gallery__tile--${g.h > g.w ? 'v' : 'h'}`}
+          type="button"
+          data-lbox-open
+          data-index={i}
+          data-full={g.lg ?? g.s}
+          aria-label={`Открыть фото: ${g.alt}`}
+        >
+          <img src={g.s} alt={g.alt} width={g.w} height={g.h} loading="lazy" decoding="async" />
+        </button>
+      ))}
+    </div>
+      <div class="gallery__fade" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- Лайтбокс: один на всю страницу, наполняется из data-атрибутов плитки.
+       hidden снимается скриптом — без JS галерея остаётся обычной мозаикой. -->
+  <div class="lbox" data-lbox hidden role="dialog" aria-modal="true" aria-label="Просмотр фотографии">
+    <button class="lbox__close" type="button" data-lbox-close aria-label="Закрыть просмотр">
+      <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+        <path d="M1 1l14 14M15 1L1 15" stroke="currentColor" stroke-width="1.5" />
+      </svg>
+    </button>
+    <button class="lbox__nav lbox__nav--prev" type="button" data-lbox-prev aria-label="Предыдущее фото">
+      <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+        <path d="M10 1L3 8l7 7" fill="none" stroke="currentColor" stroke-width="1.5" />
+      </svg>
+    </button>
+    <figure class="lbox__stage">
+      <img class="lbox__img" data-lbox-img alt="" />
+    </figure>
+    <button class="lbox__nav lbox__nav--next" type="button" data-lbox-next aria-label="Следующее фото">
+      <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+        <path d="M6 1l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.5" />
+      </svg>
+    </button>
+    <span class="lbox__count mono" data-lbox-count aria-live="polite"></span>
+  </div>
+
+  <!-- ================= 17. ГДЕ Я ПРИНИМАЮ =================
+       Формы записи нет: сайт не собирает персональные данные,
+       запись идёт через клинику. Слева — короткая справка об «Атласе»,
+       справа — контактный столбец. -->
+  <section class="clinic" id="contact">
+    <div class="container">
+      <!-- Тег вынесен НАД сеткой: иначе левая колонка начинается с пилюли,
+           правая — с телефона, и заголовок не встаёт с ним на одну линию. -->
+      <span class="tag tag--on-dark mono">Где я принимаю</span>
+
+      <div class="clinic__inner">
+        <div class="clinic__text">
+          <h2 class="clinic__title">Принимаю в клинике «Атлас».</h2>
+          <img
+            class="clinic__logo"
+            src="/photos/brands/atlas.svg"
+            alt="Клиника «Атлас»"
+            width="134"
+            height="43"
+            loading="lazy"
+          />
+          <p class="clinic__lead">
+            Отделение эстетической медицины и дерматологии.
+          </p>
+          <p class="clinic__about">
+            Сеть работает с 2014 года и служит клинической базой кафедры
+            клинической фармакологии РМАНПО и кафедры эндокринологии
+            РНИМУ им. Пирогова. На приёме я работаю на аппаратах InMode,
+            BTL и Fotona.
+          </p>
+          <p class="clinic__legal mono">Лицензия № Л041-01137-77/00327212 от 30.03.2018</p>
+        </div>
+
+        <div class="clinic__contacts">
+          <a class="clinic__phone" href="tel:+74952120888">+7 495 212-08-88</a>
+          <span class="clinic__note mono">Филиал уточните при записи</span>
+
+          <div class="clinic__places">
+            <div class="clinic__place">
+              <span class="clinic__place-name">Кременчугская улица, 3</span>
+              <span class="clinic__place-meta mono">м. Славянский бульвар</span>
+              <span class="clinic__place-meta mono">Пн–Пт 8:00–21:00, Сб–Вс 9:00–21:00</span>
+            </div>
+            <div class="clinic__place">
+              <span class="clinic__place-name">Серпуховский Вал, 21к4</span>
+              <span class="clinic__place-meta mono">м. Шаболовская, Тульская</span>
+              <span class="clinic__place-meta mono">Пн–Пт 8:00–21:00, Сб 9:00–20:00, Вс 10:00–16:00</span>
+            </div>
+          </div>
+
+          <div class="clinic__links">
+            <a class="clinic__link" href="https://t.me/atlas_esthetics" target="_blank" rel="noopener">
+              <span>Telegram клиники</span>
+              <span class="mono">@atlas_esthetics</span>
+            </a>
+            <a class="clinic__link" href="https://atlasesthetics.ru/" target="_blank" rel="noopener">
+              <span>Сайт клиники</span>
+              <span class="mono">atlasesthetics.ru</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ФУТЕР ================= -->
+  <footer class="footer">
+    <div class="footer__bg" aria-hidden="true"></div>
+    <div class="container footer__content">
+      <div class="footer__top">
+        <div class="footer__statement-wrap">
+          <h2 class="footer__statement">Красивая кожа — это система, а не случайность. Начнём с консультации.</h2>
+          <BtnPair label="Записаться на консультацию" href="#contact" />
+        </div>
+        <nav class="footer__nav" aria-label="Навигация по сайту">
+          <div class="footer__col">
+            <span class="footer__col-head mono">Навигация</span>
+            <a href="#halves">Подход</a>
+            <a href="#work">Как строится работа</a>
+            <a href="#methods">Аппаратные методы</a>
+            <a href="#inject">Инъекционные методы</a>
+            <a href="#care">Домашний уход</a>
+            <a href="#press">Пресса</a>
+            <a href="#about">Обо мне</a>
+            <a href="#contact">Где я принимаю</a>
+          </div>
+          <div class="footer__col">
+            <span class="footer__col-head mono">Где я ещё пишу</span>
+            <a href="https://t.me/krasotanasspaset" target="_blank" rel="noopener">Telegram</a>
+            <a href="https://vk.com/krasotanasspaset" target="_blank" rel="noopener">ВКонтакте</a>
+            <a href="https://dzen.ru/id/6237172c60d2e66b912c755f" target="_blank" rel="noopener">Дзен</a>
+          </div>
+        </nav>
+      </div>
+      <div class="footer__wordmark" aria-hidden="true">Чащина</div>
+      <div class="footer__legal">
+        <p class="footer__copy mono">© 2026 Оксана Чащина. Имеются противопоказания. Необходима консультация специалиста.</p>
+      </div>
+    </div>
+  </footer>
+</Base>
+
+<style>
+  /* ================= 1. ПЕРВЫЙ ЭКРАН =================
+     Светлый, без плашки: фото по центру на канвасе страницы */
+  .hero__track {
+    /* длина скролл-сцены: 1 экран статики + ~1.6 экрана анимации */
+    height: 260svh;
+  }
+  .hero__sticky {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+  }
+  .hero__frame {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+  }
+  /* Молекулы: канвас с точками и связями, тухнет к низу, чтобы не лезть на фото */
+  .hero__mol {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    -webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent 96%);
+    mask-image: linear-gradient(to bottom, #000 62%, transparent 96%);
+  }
+  /* Фото — акцент, строго по центру, прижато к низу рамки */
+  .hero__photo {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    translate: -50% 0;
+    height: min(92%, 840px);
+    width: auto;
+    object-fit: contain;
+    object-position: bottom;
+    z-index: 2;
+  }
+  /* Имя гигантским кеглем, слова по бокам от фото, ПОД фотографией по z */
+  .hero__name {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    color: var(--ink);
+  }
+  .hero__word {
+    position: absolute;
+    font-size: clamp(3.4rem, 10.5vw, 12rem);
+    line-height: 1;
+    letter-spacing: var(--track-hero);
+    will-change: transform, opacity;
+  }
+  .hero__word--l {
+    left: var(--gutter);
+    top: 14%;
+    transform: translateX(-110vw);
+  }
+  .hero__word--r {
+    right: var(--gutter);
+    top: 36%;
+    transform: translateX(110vw);
+  }
+  .hero__bottom {
+    position: absolute;
+    z-index: 3;
+    left: var(--gutter);
+    right: var(--gutter);
+    bottom: clamp(28px, 4vh, 44px);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 32px;
+    opacity: 0;
+    transform: translateY(40px);
+    will-change: transform, opacity;
+  }
+  .hero__subtitle {
+    font-size: var(--text-lead);
+    color: var(--ink);
+    max-width: 34ch;
+    margin-bottom: 16px;
+  }
+  .hero__lead {
+    color: var(--ink);
+    max-width: 44ch;
+  }
+  .hero__cta {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+  /* Без анимаций — сразу финальное состояние */
+  @media (prefers-reduced-motion: reduce) {
+    .hero__track { height: auto; }
+    .hero__sticky { position: static; height: 100svh; }
+    .hero__word--l, .hero__word--r { transform: none; }
+    .hero__bottom { opacity: 1; transform: none; }
+  }
+
+  /* ================= 3. ДВЕ ПОЛОВИНЫ ================= */
+  .halves {
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: var(--radius-frame);
+    margin-inline: 12px;
+    padding-block: var(--section-gap);
+  }
+  .halves__title {
+    font-size: var(--text-display);
+    letter-spacing: var(--track-display);
+    line-height: 1.1;
+    max-width: var(--measure-head);
+    margin: 12px 0 clamp(32px, 5vw, 64px);
+  }
+  /* Без плашек: колонки держит сетка и вертикальный ритм */
+  .halves__cols {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(24px, 4vw, 72px);
+  }
+  .halves__col p {
+    font-size: clamp(1.1rem, 1.5vw, 1.375rem);
+    letter-spacing: var(--track-heading);
+    line-height: 1.3;
+    max-width: 44ch;
+  }
+  .halves__label {
+    display: block;
+    margin-bottom: 20px;
+  }
+  .halves__conclusion {
+    margin-top: clamp(40px, 6vw, 88px);
+    font-size: clamp(1.35rem, 2.2vw, 1.9rem);
+    letter-spacing: var(--track-heading);
+    line-height: 1.25;
+    max-width: 46ch;
+  }
+
+  /* ================= 4. КАК СТРОИТСЯ РАБОТА ================= */
+  .work__title {
+    font-size: var(--text-display);
+    letter-spacing: var(--track-display);
+    line-height: 1.1;
+    max-width: var(--measure-head);
+    margin-top: 12px;
+  }
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: clamp(28px, 4vw, 48px);
+  }
+  .steps__panel {
+    min-height: clamp(380px, 50vh, 520px);
+    padding: 28px var(--gutter) 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 48px;
+  }
+  .steps__panel--lime { background: var(--lime); color: var(--ink); }
+  .steps__panel--ink { background: var(--ink); color: var(--paper); }
+  .steps__panel--frost { background: var(--tissue); color: var(--ink); }
+  .steps__num {
+    align-self: flex-end;
+  }
+  .steps__name {
+    font-size: var(--text-card-title);
+    letter-spacing: var(--track-heading);
+    margin-bottom: 14px;
+  }
+  .steps__text {
+    max-width: 52ch;
+  }
+
+  /* Бирка → заголовок 12px, как во всех секциях; заголовок → список
+     через --block-gap. Раньше заголовка не было и бирке приходилось
+     держать увеличенный отступ, иначе она липла к первому пункту —
+     отсюда и разнобой с другими секциями. */
+  .principles__title {
+    font-size: var(--text-display);
+    letter-spacing: var(--track-display);
+    line-height: 1.1;
+    max-width: var(--measure-head);
+    margin-top: 12px;
+  }
+  /* Редакционные строки: крупный заголовок слева, текст справа.
+     Держит вертикальный ритм, без карточек и линий */
+  .principles__grid {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(22px, 2.6vw, 32px);
+    margin-top: var(--block-gap);
+  }
+  .principles__item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+    gap: clamp(20px, 3vw, 48px);
+    align-items: start;
+  }
+  .principles__item h3 {
+    font-size: clamp(1.6rem, 2.6vw, 2.4rem);
+    letter-spacing: var(--track-heading);
+    line-height: 1.15;
+  }
+  .principles__item p {
+    font-size: var(--text-lead);
+    max-width: 48ch;
+  }
+
+  /* ================= 5. АППАРАТНЫЕ МЕТОДЫ ================= */
+  .methods__title,
+  .inject__title,
+  .press__title {
+    font-size: var(--text-display);
+    letter-spacing: var(--track-display);
+    line-height: 1.1;
+    max-width: var(--measure-head);
+    margin-top: 12px;
+  }
+  .methods__intro,
+  .inject__intro,
+  .press__intro {
+    font-size: var(--text-lead);
+    max-width: var(--measure-lead);
+    margin-top: 20px;
+  }
+  /* Скролл-слайдер с вертикальными плашками */
+  .mscroll {
+    /* съедаем пустоту от вертикальной центровки плашек в 100svh-сцене —
+       симметрично сверху и снизу */
+    margin-block: calc(-1 * clamp(32px, 8svh, 80px));
+  }
+  .mscroll__sticky {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+  .mscroll__viewport {
+    position: relative;
+    width: 100%;
+    padding-inline: var(--gutter);
+  }
+  .mscroll__row {
+    display: flex;
+    gap: 20px;
+    width: max-content;
+    will-change: transform;
+  }
+  /* Вертикальная плашка: фото во всю площадь, текст поверх скрима */
+  .mscroll__card {
+    position: relative;
+    width: clamp(300px, 36vw, 480px);
+    height: min(80svh, 780px);
+    border-radius: var(--radius-card);
+    padding: 28px 28px 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 40px;
+    overflow: hidden;
+  }
+  .mscroll__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .mscroll__card--dark { background: var(--ink); color: var(--paper); }
+  .mscroll__card--light { background: var(--tissue); color: var(--ink); }
+  /* Низ фото плавно «утопает» в матовом стекле: поверх лежит размытая
+     копия того же фото, маска растворяет её кверху. Без рамок.
+     filter считается один раз и кешируется — в отличие от backdrop-filter */
+  .mscroll__img--blur {
+    filter: blur(18px);
+    transform: scale(1.08);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 46%, #000 72%);
+    mask-image: linear-gradient(to bottom, transparent 46%, #000 72%);
+  }
+  /* лёгкая тонировка снизу, чтобы текст дочитывался */
+  .mscroll__card::after {
+    content: '';
+    position: absolute;
+    inset: 50% 0 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+  /* лёгкая тонировка в цвет темы, чтобы текст дочитывался */
+  .mscroll__card--dark::after {
+    background: linear-gradient(to bottom, transparent, rgba(20, 30, 30, 0.38));
+  }
+  .mscroll__card--light::after {
+    background: linear-gradient(to bottom, transparent, rgba(247, 247, 245, 0.5));
+  }
+  .mscroll__body {
+    position: relative;
+    z-index: 1;
+    margin-top: auto;
+  }
+  .mscroll__name {
+    font-size: var(--text-card-title);
+    letter-spacing: var(--track-heading);
+    margin-bottom: 12px;
+  }
+  .mscroll__card p {
+    max-width: 40ch;
+  }
+  /* Градиент, «закрывающий» плашки за правым краем */
+  .mscroll__fade {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: clamp(140px, 16vw, 280px);
+    background: linear-gradient(to left, var(--bone) 12%, transparent);
+    pointer-events: none;
+  }
+  /* Мобильный и reduced-motion: обычный горизонтальный скролл пальцем */
+  @media (max-width: 900px), (prefers-reduced-motion: reduce) {
+    .mscroll {
+      /* На мобиле сцены нет — нужны обычные отступы. Снизу это особенно важно:
+         дальше идёт тёмная плашка SMAS со своим фоном, и при нуле последняя
+         фото-плашка упиралась прямо в неё. */
+      margin-block: var(--section-gap-tight) var(--section-gap);
+    }
+    .mscroll__track {
+      height: auto !important;
+    }
+    .mscroll__sticky {
+      position: static;
+      height: auto;
+      overflow: visible;
+    }
+    .mscroll__viewport {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .mscroll__viewport::-webkit-scrollbar {
+      display: none;
+    }
+    .mscroll__row {
+      transform: none !important;
+    }
+    .mscroll__card {
+      width: min(78vw, 420px);
+      height: min(64svh, 560px);
+    }
+    .mscroll__fade {
+      display: none;
+    }
+  }
+
+  /* Навигация под плашками */
+  .methods__nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  .methods__btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--paper);
+    border: 1px solid var(--sage);
+    color: var(--ink);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s var(--ease), border-color 0.2s var(--ease), transform 0.2s var(--ease);
+  }
+  .methods__btn:hover {
+    background: var(--lime);
+    border-color: var(--lime-2);
+    transform: scale(1.06);
+  }
+  .methods__btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    transform: none;
+    background: var(--paper);
+    border-color: var(--sage);
+  }
+  .methods__dots {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .methods__dot {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: var(--sage);
+    cursor: pointer;
+    transition: background 0.3s var(--ease), width 0.3s var(--ease), border-radius 0.3s var(--ease);
+  }
+  .methods__dot.is-active {
+    width: 24px;
+    border-radius: 4px;
+    background: var(--ink);
+  }
+
+  @media (max-width: 768px) {
+    .methods__card {
+      flex: 0 0 calc(85vw - var(--gutter));
+      width: calc(85vw - var(--gutter));
+      min-height: 360px;
+    }
+  }
+  /* ================= МАНИФЕСТ ================= */
+  .statement {
+    text-align: center;
+  }
+  /* 12px — то же, что тег→заголовок в остальных секциях. Больше не ставим:
+     у манифеста line-height 1.25, полулидинг сам добавляет сверху ~15px,
+     и коробочные 36px читались как полсотни. */
+  .statement__label {
+    margin-bottom: 12px;
+  }
+  .statement__text {
+    font-size: clamp(1.7rem, 3.2vw, 2.9rem);
+    letter-spacing: var(--track-display);
+    line-height: 1.25;
+    max-width: 30ch;
+    margin-inline: auto;
+  }
+  /* Кругляш-вставка размером с букву, сидит на строке */
+  .statement__dot {
+    display: inline-block;
+    width: 1.1em;
+    height: 1.1em;
+    border-radius: 50%;
+    object-fit: cover;
+    vertical-align: -0.18em;
+    margin-inline: 0.06em;
+  }
+
+  /* ================= 6. SMAS ================= */
+  .smas {
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: var(--radius-frame);
+    margin-inline: 12px;
+    padding-block: var(--section-gap);
+  }
+  .smas__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: clamp(28px, 4vw, 72px);
+    align-items: center;
+  }
+  .smas__title {
+    font-size: clamp(1.9rem, 3.2vw, 3rem);
+    letter-spacing: var(--track-display);
+    line-height: 1.12;
+    max-width: 24ch;
+    margin: 12px 0 clamp(20px, 3vw, 32px);
+  }
+  .smas__lead {
+    font-size: var(--text-lead);
+    max-width: 48ch;
+    margin-bottom: 16px;
+  }
+  .smas__body {
+    max-width: 52ch;
+    margin-bottom: clamp(24px, 3vw, 36px);
+  }
+  /* На тёмном канвасе кнопка светлая — правило референса */
+  .smas :global(.btn-pair__label) {
+    background: var(--paper);
+    color: var(--ink);
+  }
+  .smas :global(.btn-pair__corner) {
+    color: var(--paper);
+  }
+  .smas__media {
+    border-radius: var(--radius-card);
+    overflow: hidden;
+  }
+  .smas__media video {
+    display: block;
+    width: 100%;
+    aspect-ratio: var(--media-ratio);
+    object-fit: cover;
+  }
+
+  /* ================= 7. ИНЪЕКЦИОННЫЕ МЕТОДЫ ================= */
+  /* Полоса-иллюстрация между интро и сеткой задач. Кадр крупноплановый,
+     поэтому пропорция узкая: широкий срез по центру берёт лицо и руку,
+     а всё лишнее по краям уходит. Источник — 1440px из clinic/lg. */
+  .inject__media {
+    margin-top: var(--block-gap);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+  }
+  .inject__media img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 21 / 9;
+    object-fit: cover;
+  }
+  .inject__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(28px, 4vw, 56px) clamp(24px, 4vw, 72px);
+    margin-top: var(--block-gap);
+  }
+  .inject__item {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  .inject__num {
+    flex-shrink: 0;
+    margin-top: 0.4em;
+    color: var(--graphite);
+  }
+  .inject__name {
+    font-size: var(--text-card-title);
+    letter-spacing: var(--track-heading);
+    margin-bottom: 12px;
+  }
+  .inject__item p {
+    max-width: 44ch;
+  }
+  .inject__closing {
+    margin-top: clamp(40px, 6vw, 72px);
+    font-size: clamp(1.3rem, 2vw, 1.8rem);
+    letter-spacing: var(--track-heading);
+    line-height: 1.3;
+    max-width: 40ch;
+  }
+
+  /* ================= 9. НЕ С КРЕМА ================= */
+  .inside__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+    gap: clamp(28px, 4vw, 72px);
+    align-items: center;
+  }
+  .inside__media {
+    border-radius: var(--radius-card);
+    overflow: hidden;
+  }
+  .inside__media video {
+    display: block;
+    width: 100%;
+    aspect-ratio: var(--media-ratio);
+    object-fit: cover;
+  }
+  .inside__title {
+    font-size: clamp(1.9rem, 3.2vw, 3rem);
+    letter-spacing: var(--track-display);
+    line-height: 1.12;
+    max-width: 22ch;
+    margin: 12px 0 clamp(20px, 3vw, 28px);
+  }
+  .inside__text p {
+    max-width: 52ch;
+  }
+  .inside__text p + p {
+    margin-top: 14px;
+  }
+  .inside__text :global(.btn-pair) {
+    margin-top: clamp(24px, 3vw, 36px);
+  }
+
+  /* ================= 13. ПРЕССА ================= */
+  .press__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+    margin-top: var(--block-gap);
+  }
+  .press__item {
+    background: var(--paper);
+    border-radius: var(--radius-card);
+    padding: 24px 24px 32px;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 32px;
+  }
+  .press__topic {
+    font-size: var(--text-body-lg, 1.25rem);
+    letter-spacing: var(--track-heading);
+    line-height: 1.3;
+    max-width: 30ch;
+  }
+
+  /* ================= 8. ЗОНЫ ================= */
+  .zones__title {
+    font-size: var(--text-display);
+    letter-spacing: var(--track-display);
+    line-height: 1.1;
+    max-width: var(--measure-head);
+    margin-top: 12px;
+  }
+  .zones__intro {
+    font-size: var(--text-lead);
+    max-width: var(--measure-lead);
+    margin-top: 20px;
+  }
+  .zones__list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(24px, 4vw, 72px);
+    margin-top: var(--block-gap);
+  }
+  .zones__item h3 {
+    font-size: var(--text-card-title);
+    letter-spacing: var(--track-heading);
+    margin-bottom: 14px;
+  }
+
+  /* ================= 10. ДОМАШНИЙ УХОД ================= */
+  .care__title {
+    font-size: var(--text-display);
+    letter-spacing: var(--track-display);
+    line-height: 1.1;
+    max-width: var(--measure-head);
+    margin-top: 12px;
+  }
+  /* Слева текст и следом логотип дистрибьютора, справа — кадр
+     из лайфстайл-съёмки на всю высоту колонки. Тема бытовая, поэтому
+     и съёмка бытовая: клинические кадры работают в секциях про приём.
+     stretch, а не start: иначе правая колонка кончается выше левой
+     и под текстом остаётся пустая четверть блока. */
+  .care__cols {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    /* Ряд и колонка разведены нарочно. 88px хороши МЕЖДУ колонками, но на
+       телефоне колонки схлопываются в одну — и тот же зазор превращается
+       в дыру, из-за которой фото читается отдельным блоком, а не частью
+       секции. По вертикали внутри блока работает --block-gap. */
+    gap: var(--block-gap) clamp(28px, 5vw, 88px);
+    margin-top: var(--block-gap);
+    align-items: stretch;
+  }
+  .care__text p {
+    max-width: 52ch;
+  }
+  .care__text p + p {
+    margin-top: 16px;
+  }
+  .care__media {
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    /* Пол на случай, если текст слева окажется коротким */
+    min-height: clamp(300px, 26vw, 420px);
+  }
+  .care__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  /* Ссылка на дистрибьютора: логотип и подпись, без плашки */
+  .care__link {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    margin-top: clamp(28px, 3.4vw, 44px);
+  }
+  .care__logo {
+    width: min(100%, clamp(240px, 28vw, 380px));
+    height: auto;
+  }
+  .care__brands {
+    max-width: 34ch;
+  }
+  .care__go {
+    transition: color 0.25s var(--ease);
+  }
+  .care__link:hover .care__go {
+    color: var(--lime-2);
+  }
+
+  /* ================= 12. СОЦСЕТИ ================= */
+  .social {
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: var(--radius-frame);
+    margin-inline: 12px;
+    padding-block: var(--section-gap);
+  }
+  .social__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: clamp(28px, 5vw, 88px);
+    align-items: center;
+  }
+  .social__title {
+    font-size: var(--text-heading);
+    letter-spacing: var(--track-heading);
+    line-height: 1.15;
+    max-width: 24ch;
+    margin-block: 12px 20px;
+  }
+  .social__lead {
+    max-width: 44ch;
+  }
+  .social__links {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: start;
+    gap: 12px;
+  }
+  /* Строка-ссылка: имя + адрес, ховер подсвечивает лаймом */
+  /* Компактный чип по содержимому: имя, под ним адрес */
+  .social__link {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 16px 20px;
+    border: 1px solid var(--sea);
+    border-radius: var(--radius-card);
+    transition: border-color 0.25s var(--ease), background 0.25s var(--ease);
+  }
+  .social__link:hover {
+    border-color: var(--lime);
+    background: rgba(206, 247, 158, 0.06);
+  }
+  .social__name {
+    font-size: var(--text-card-title);
+    letter-spacing: var(--track-heading);
+  }
+
+  /* ================= 14. ОБО МНЕ ================= */
+  .about__title {
+    font-size: var(--text-display);
+    letter-spacing: var(--track-display);
+    line-height: 1.1;
+    max-width: var(--measure-head);
+    margin-top: 12px;
+  }
+  /* Верх секции — одна горизонтальная строка: портрет-кругляшок, описание,
+     цитата. Высокий кадр 4:5 рядом с текстом растягивал блок на пол-экрана,
+     поэтому фото ужато до аватара, а текст разложен в две равные колонки. */
+  .about__row {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(24px, 3.4vw, 56px);
+    margin-top: clamp(28px, 4vw, 52px);
+    align-items: start;
+  }
+  .about__avatar {
+    /* На 1280 это ~240px. Выше поднимать некуда: аватар ест ширину у двух
+       текстовых колонок, а они на этом вьюпорте и так по ~440px. */
+    width: clamp(150px, 19vw, 240px);
+    /* height: auto обязателен: атрибуты width/height у <img> работают как
+       презентационная подсказка и без сброса высоты картинка встаёт в свои
+       440px, а aspect-ratio молча не применяется. В global.css сброса нет. */
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 50%;
+    background: var(--tissue);
+  }
+  .about__text p + p {
+    margin-top: 14px;
+  }
+  /* Цитата — третья колонка, поэтому кегль ниже прежнего: на ~470px ширины
+     26px давали строку в 30 знаков, то есть рубленый столбик. */
+  .about__closing {
+    font-size: clamp(1.15rem, 1.45vw, 1.35rem);
+    letter-spacing: var(--track-heading);
+    line-height: 1.3;
+  }
+
+  /* ---------- Таймлайн образования и практики ----------
+     Сетка: одна колонка = один год. Запись занимает свои годы
+     (--col — год начала, --span — длительность), но подпись шире ячейки и
+     свободно вылезает вправо — поэтому соседей по годам разводим по этажам
+     (--lane), см. комментарий у данных во фронтматтере. */
+  .cv {
+    /* Ширина года — главная ручка длины ленты. 30 лет × 72px ≈ 2160px,
+       то есть ~1,7 экрана на вьюпорте 1280. Диапазон кручения: 44–90px. */
+    --cv-year: clamp(44px, 5.6vw, 72px);
+    /* Ширина подписи. Потолок 196px не случайный: 2010 и 2013 стоят на одном
+       этаже в трёх годах друг от друга (216px), карточка шире оставит между
+       ними щель в пару пикселей. Поднимаете потолок — разводите их по этажам. */
+    --cv-card: clamp(150px, 15vw, 196px);
+    margin-top: clamp(40px, 5vw, 72px);
+  }
+  .cv__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+  /* Подсказка и затухание гаснут, когда лента домотана до конца.
+     Класс висит на корне .cv: подсказка живёт в шапке, а не внутри .cv__stage,
+     и селектор от сцены до неё не достаёт. */
+  .cv__hint {
+    transition: opacity 0.3s var(--ease);
+  }
+  .cv.is-end .cv__hint {
+    opacity: 0;
+  }
+
+  .cv__stage {
+    position: relative;
+  }
+  .cv__scroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+    cursor: grab;
+    /* Левый край ленты встаёт по сетке .container, правый уходит в край экрана.
+       Считаем от 100% блока, а не от 100vw: вьюпортные единицы включают
+       полосу прокрутки и лента разъезжается с контентом на пару пикселей. */
+    padding-left: max(var(--gutter), calc((100% - var(--page-max)) / 2 + var(--gutter)));
+    padding-right: var(--gutter);
+    padding-block: 4px;
+  }
+  .cv__scroll.is-dragging {
+    cursor: grabbing;
+    scroll-behavior: auto;
+  }
+  .cv__scroll:focus-visible {
+    outline: 2px solid var(--lime-2);
+    outline-offset: 4px;
+  }
+  .cv__grid {
+    display: grid;
+    /* 1–2 — образование (этаж 2 выше), 3 — ось, 4–5 — практика */
+    grid-template-rows: auto auto 14px auto auto;
+    row-gap: 10px;
+    width: max-content;
+    padding-right: 24px; /* хвост после 2026-го, чтобы ось не упиралась в обрез */
+  }
+
+  /* Ось и точки событий */
+  .cv__axis {
+    grid-row: 3;
+    grid-column: 1 / -1;
+    align-self: center;
+    height: 1px;
+    background: var(--sage);
+  }
+  .cv__dot {
+    grid-row: 3;
+    grid-column: var(--col);
+    justify-self: start;
+    align-self: center;
+    width: 9px;
+    height: 9px;
+    margin-left: -4px;
+    border-radius: 2px;
+    background: var(--lime-2);
+  }
+
+  /* Запись таймлайна */
+  .cv__item {
+    grid-column: var(--col) / span var(--span);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    /* Запись не уже --cv-card, но длинные периоды растягиваются на свои годы:
+       так длительность видно шириной подписи, без отдельной полосы.
+       −16px — зазор, чтобы соседние периоды не смыкались вплотную. */
+    width: max(var(--cv-card), calc(var(--span) * var(--cv-year) - 16px));
+    padding-left: 12px;
+    border-left: 1px solid var(--sage);
+  }
+  /* Ряд считаем в шаблоне, а не через calc() в grid-row: номер линии сетки —
+     это <integer>, и calc() там поддержан не везде. */
+  .cv__item--edu {
+    grid-row: var(--row);
+    align-self: end;
+  }
+  .cv__item--work {
+    grid-row: var(--row);
+    align-self: start;
+  }
+  .cv__years {
+    color: var(--ink);
+  }
+  .cv__place {
+    font-size: 0.95rem;
+    line-height: 1.25;
+  }
+  .cv__note {
+    font-size: 0.85rem;
+    line-height: 1.25;
+  }
+  /* Затухание у правого обреза — «лента продолжается» */
+  .cv__fade {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: clamp(60px, 8vw, 140px);
+    background: linear-gradient(to left, var(--bone) 20%, transparent);
+    pointer-events: none;
+    opacity: 1;
+    transition: opacity 0.3s var(--ease);
+  }
+  .cv.is-end .cv__fade {
+    opacity: 0;
+  }
+
+  .cv__certs {
+    margin-top: clamp(12px, 1.6vw, 20px);
+  }
+  .cv__certs-head {
+    display: block;
+    margin-bottom: 12px;
+  }
+  .cv__certs p {
+    max-width: var(--measure-text);
+  }
+  .cv__certs p + p {
+    margin-top: 10px;
+  }
+
+  /* ================= 17. ГДЕ Я ПРИНИМАЮ =================
+     Тёмная плашка на месте бывшей формы записи. Слева — справка
+     о клинике, справа — контакты. Формы нет, персональные данные
+     сайт не собирает. */
+  .clinic {
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: var(--radius-frame);
+    margin-inline: 12px;
+    padding-block: var(--section-gap);
+  }
+  .clinic__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: clamp(28px, 5vw, 88px);
+    margin-top: var(--block-gap);
+    align-items: start;
+  }
+  /* Заголовок и телефон — первые элементы своих колонок, верх у них общий */
+  .clinic__title {
+    font-size: var(--text-display);
+    letter-spacing: var(--track-display);
+    line-height: 1.1;
+    max-width: var(--measure-head);
+    margin-bottom: 24px;
+  }
+  .clinic__logo {
+    width: clamp(150px, 14vw, 190px);
+    height: auto;
+    display: block;
+  }
+  .clinic__lead {
+    font-size: var(--text-lead);
+    max-width: var(--measure-lead);
+    margin-top: 20px;
+  }
+  .clinic__about {
+    max-width: 52ch;
+    margin-top: 14px;
+  }
+
+  /* Контактный столбец */
+  .clinic__contacts {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .clinic__phone {
+    font-size: var(--text-heading);
+    letter-spacing: var(--track-heading);
+    line-height: 1.1;
+    transition: color 0.25s var(--ease);
+  }
+  .clinic__phone:hover {
+    color: var(--lime);
+  }
+  .clinic__note {
+    margin-top: 10px;
+  }
+  .clinic__places {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: clamp(24px, 3vw, 36px);
+  }
+  .clinic__place {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .clinic__place-name {
+    font-size: var(--text-card-title);
+    letter-spacing: var(--track-heading);
+  }
+  .clinic__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: clamp(24px, 3vw, 36px);
+  }
+  /* Компактный чип по содержимому */
+  .clinic__link {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 14px 18px;
+    border: 1px solid var(--sea);
+    border-radius: var(--radius-card);
+    transition: border-color 0.25s var(--ease), background 0.25s var(--ease);
+  }
+  .clinic__link:hover {
+    border-color: var(--lime);
+    background: rgba(206, 247, 158, 0.06);
+  }
+  .clinic__legal {
+    margin-top: clamp(24px, 3vw, 36px);
+  }
+
+  /* ================= ФУТЕР ================= */
+  .footer {
+    position: relative;
+    overflow: hidden;
+    background: #131b1b;
+    color: var(--paper);
+    margin-top: var(--section-gap);
+  }
+  .footer__bg {
+    position: absolute;
+    inset: -25%;
+    background:
+      radial-gradient(45% 40% at 75% 20%, rgba(120, 96, 60, 0.5), transparent 70%),
+      radial-gradient(55% 45% at 20% 60%, rgba(68, 94, 95, 0.75), transparent 72%),
+      #131b1b;
+    filter: blur(50px);
+  }
+  .footer__content {
+    position: relative;
+    z-index: 1;
+    padding-top: clamp(56px, 8vw, 110px);
+  }
+  .footer__top {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: clamp(28px, 4vw, 64px);
+    align-items: start;
+  }
+  .footer__statement {
+    font-size: var(--text-heading);
+    letter-spacing: var(--track-heading);
+    line-height: 1.15;
+    max-width: 26ch;
+    margin-bottom: 36px;
+  }
+  .footer__nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .footer__col {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+  }
+  .footer__col a {
+    font-size: var(--text-body);
+    transition: color 0.25s var(--ease);
+  }
+  .footer__col a:hover {
+    color: var(--lime);
+  }
+  .footer__col-head {
+    margin-bottom: 10px;
+  }
+  .footer__wordmark {
+    font-size: clamp(5rem, 22vw, 21rem);
+    letter-spacing: var(--track-hero);
+    line-height: 0.95;
+    text-align: center;
+    margin-top: clamp(40px, 6vw, 80px);
+    margin-bottom: -0.12em;
+    white-space: nowrap;
+  }
+  .footer__legal {
+    padding-block: 20px;
+  }
+
+  /* ================= ГАЛЕРЕЯ =================
+     Ни тега, ни заголовка: секция — это ровно набор кадров. Контейнера тоже
+     нет, мозаика берёт всю ширину экрана. */
+  .gallery__grid {
+    /* Ручка плотности сетки. Высота ряда считается от ширины колонки:
+       горизонтальный кадр 3:2 занимает ровно один ряд, вертикальный — два.
+       Вертикаль при этом подрезается на ~11% (2 ряда дают 4/3 ширины
+       колонки вместо натуральных 3/2) — за это отвечает object-fit: cover. */
+    --cols: 3;
+    display: grid;
+    grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+    grid-auto-rows: calc(100vw / var(--cols) * 2 / 3);
+    grid-auto-flow: dense;
+  }
+  /* На десктопе обёртки как будто нет: сетка остаётся прямым потомком секции */
+  .gallery__stage {
+    display: contents;
+  }
+  .gallery__fade {
+    display: none;
+  }
+  /* Плитка — кнопка: сброс дефолтов браузера, никаких радиусов и зазоров */
+  .gallery__tile {
+    position: relative;
+    overflow: hidden;
+    border: 0;
+    padding: 0;
+    background: var(--tissue);
+    cursor: zoom-in;
+    font: inherit;
+    color: inherit;
+  }
+  .gallery__tile--v {
+    grid-row: span 2;
+  }
+  .gallery__tile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s var(--ease);
+  }
+  .gallery__tile:hover img,
+  .gallery__tile:focus-visible img {
+    transform: scale(1.02);
+  }
+  .gallery__tile:focus-visible {
+    outline: 2px solid var(--lime-2);
+    outline-offset: -4px;
+  }
+
+  /* ---------- Лайтбокс ---------- */
+  .lbox {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: clamp(8px, 2vw, 28px);
+    padding: clamp(56px, 8vh, 88px) clamp(12px, 3vw, 40px);
+    /* Сплошной, а не полупрозрачный: даже на 3% просвета текст страницы
+       из-под оверлея читался и мешал смотреть кадр. */
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .lbox[hidden] {
+    display: none;
+  }
+  .lbox__stage {
+    display: grid;
+    place-items: center;
+    min-width: 0;
+    height: 100%;
+  }
+  .lbox__img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
+  /* Стрелки — тот же лаймовый чип, что и у BtnPair, только круглее задачей */
+  .lbox__nav {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border: 0;
+    border-radius: var(--radius-btn);
+    background: var(--lime);
+    color: var(--ink);
+    cursor: pointer;
+    transition: background 0.25s var(--ease);
+  }
+  .lbox__nav:hover {
+    background: var(--lime-2);
+  }
+  .lbox__close {
+    position: absolute;
+    top: clamp(12px, 2.4vh, 24px);
+    right: clamp(12px, 3vw, 40px);
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--sea);
+    border-radius: var(--radius-btn);
+    background: transparent;
+    color: var(--paper);
+    cursor: pointer;
+    transition: border-color 0.25s var(--ease);
+  }
+  .lbox__close:hover {
+    border-color: var(--lime-2);
+  }
+  .lbox__nav:focus-visible,
+  .lbox__close:focus-visible {
+    outline: 2px solid var(--lime-2);
+    outline-offset: 3px;
+  }
+  .lbox__count {
+    position: absolute;
+    left: 50%;
+    bottom: clamp(16px, 3vh, 28px);
+    transform: translateX(-50%);
+    color: var(--paper);
+  }
+  /* Пока страница под лайтбоксом — не скроллим её за спиной у оверлея.
+     padding-right компенсирует исчезнувший скроллбар, иначе вёрстка дёргается. */
+  :global(body.is-lbox-open) {
+    overflow: hidden;
+    padding-right: var(--sbw, 0px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gallery__tile img,
+    .lbox__nav,
+    .lbox__close {
+      transition: none;
+    }
+    .gallery__tile:hover img,
+    .gallery__tile:focus-visible img {
+      transform: none;
+    }
+  }
+
+  /* ================= АДАПТИВ ================= */
+  @media (max-width: 900px) {
+    /* Хиро без скролл-сцены: имя → фото → текст обычным потоком */
+    .hero__track {
+      height: auto;
+    }
+    .hero__sticky {
+      position: static;
+      height: auto;
+    }
+    .hero__frame {
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      padding-top: 104px;
+    }
+    .hero__name {
+      position: static;
+      padding-inline: var(--gutter);
+    }
+    .hero__word {
+      position: static;
+      display: block;
+      font-size: clamp(3.2rem, 16vw, 5.5rem);
+      transform: none !important;
+    }
+    .hero__word--r {
+      text-align: right;
+    }
+    .hero__photo {
+      position: static;
+      translate: none;
+      width: min(88%, 420px);
+      height: auto;
+      max-height: 58svh;
+      margin: -8px auto 0;
+      scale: 1 !important;
+      /* низ фото плавно растворяется — без резкой границы */
+      -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 98%);
+      mask-image: linear-gradient(to bottom, #000 72%, transparent 98%);
+    }
+    .hero__bottom {
+      position: relative;
+      z-index: 2;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 24px;
+      /* текст приподнят и заходит на растворённый низ фото */
+      margin-top: calc(-1 * clamp(56px, 12svh, 110px));
+      padding: 0 var(--gutter) 8px;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    .halves__cols,
+    .steps,
+    .principles__item,
+    .methods__grid,
+    .inject__grid,
+    .smas__inner,
+    .inside__inner,
+    .zones__list,
+    .social__inner,
+    .about__row,
+    .care__cols,
+    .clinic__inner {
+      grid-template-columns: 1fr;
+    }
+    .press__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    /* В одну колонку тянуть фото не по чему — возвращаем ему пропорцию */
+    .care__media {
+      min-height: 0;
+      margin-top: clamp(28px, 5vw, 40px);
+    }
+    .care__media img {
+      height: auto;
+      aspect-ratio: 3 / 2;
+    }
+    .methods__card {
+      min-height: 0;
+    }
+    .smas__media video,
+    .inside__media video {
+      aspect-ratio: 16 / 9;
+    }
+    /* На мобильном текст выше видео */
+    .inside__media {
+      order: 2;
+    }
+    .steps__panel {
+      min-height: 0;
+    }
+    .cv__head {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .footer__top {
+      grid-template-columns: 1fr;
+    }
+    /* 28 кадров в две колонки — это семь экранов вертикальной колбасы: мозаика
+       на телефоне не работает. Поэтому галерея превращается в ленту: высота
+       в один экран, листается пальцем вбок. Приём на странице уже знакомый —
+       так же ведёт себя слайдер методов. */
+    .gallery__grid {
+      display: flex;
+      overflow-x: auto;
+      height: min(52svh, 400px);
+      scroll-snap-type: x proximity;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .gallery__grid::-webkit-scrollbar {
+      display: none;
+    }
+    /* Ширину задаёт пропорция самого кадра, а не общее число: в ленте
+       фиксированной высоты подгонка всех плиток под одну ширину превращает
+       горизонтальный кадр в вертикальный обрезок. Пусть лучше горизонталь
+       будет шире экрана — свайп её и покажет. */
+    .gallery__tile {
+      flex: 0 0 auto;
+      height: 100%;
+      width: auto;
+      scroll-snap-align: center;
+    }
+    .gallery__tile--v {
+      aspect-ratio: 2 / 3;
+    }
+    .gallery__tile--h {
+      aspect-ratio: 3 / 2;
+    }
+    .gallery__stage {
+      display: block;
+      position: relative;
+    }
+    /* Затухание у правого края — подсказка, что лента продолжается.
+       Тот же приём, что у слайдера методов: гаснет к концу прокрутки,
+       чтобы не мозолить глаза, когда листать уже некуда. */
+    .gallery__fade {
+      display: block;
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: clamp(48px, 14vw, 96px);
+      background: linear-gradient(to left, var(--bone) 12%, transparent);
+      pointer-events: none;
+      transition: opacity 0.3s var(--ease);
+    }
+    .gallery__stage.is-end .gallery__fade {
+      opacity: 0;
+    }
+    /* Стрелки по бокам съедали бы половину узкого экрана — уводим их вниз,
+       кадр забирает всю ширину. Основной способ листать здесь всё равно свайп. */
+    .lbox {
+      grid-template-columns: minmax(0, 1fr);
+      padding: 64px 12px 88px;
+    }
+    .lbox__nav {
+      position: absolute;
+      bottom: 22px;
+    }
+    .lbox__nav--prev {
+      left: 12px;
+    }
+    .lbox__nav--next {
+      right: 12px;
+    }
+  }
+</style>
+
+<script>
+  // Скролл-сцена хиро: фото по центру статично, имя выезжает с боков,
+  // затем проявляется нижний блок с текстом и кнопкой.
+  const track = document.querySelector('[data-hero-track]') as HTMLElement | null;
+  const wordL = document.querySelector('[data-hero-l]') as HTMLElement | null;
+  const wordR = document.querySelector('[data-hero-r]') as HTMLElement | null;
+  const bottom = document.querySelector('[data-hero-bottom]') as HTMLElement | null;
+  const photo = document.querySelector('[data-hero-photo]') as HTMLElement | null;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const mobile = window.matchMedia('(max-width: 900px)').matches;
+
+  if (track && wordL && wordR && bottom && !reduced && !mobile) {
+    const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
+    const seg = (p: number, from: number, to: number) =>
+      Math.min(1, Math.max(0, (p - from) / (to - from)));
+
+    let ticking = false;
+    const render = () => {
+      ticking = false;
+      const rect = track.getBoundingClientRect();
+      const total = rect.height - window.innerHeight;
+      const p = Math.min(1, Math.max(0, -rect.top / total));
+
+      // фаза 1 (0–0.55): имя въезжает с боков
+      const tName = easeOut(seg(p, 0.05, 0.55));
+      wordL.style.transform = `translateX(${(-110 * (1 - tName)).toFixed(2)}vw)`;
+      wordR.style.transform = `translateX(${(110 * (1 - tName)).toFixed(2)}vw)`;
+
+      // фаза 2 (0.55–0.9): нижний блок проявляется и поднимается
+      const tBottom = easeOut(seg(p, 0.55, 0.9));
+      bottom.style.opacity = tBottom.toFixed(3);
+      bottom.style.transform = `translateY(${(40 * (1 - tBottom)).toFixed(1)}px)`;
+
+      // фото едва заметно «оседает» из лёгкого приближения
+      if (photo) photo.style.scale = String(1.05 - 0.05 * easeOut(seg(p, 0, 0.4)));
+    };
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(render);
+      }
+    };
+    document.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    render();
+  } else if (wordL && wordR && bottom) {
+    wordL.style.transform = 'none';
+    wordR.style.transform = 'none';
+    bottom.style.opacity = '1';
+    bottom.style.transform = 'none';
+  }
+
+  // Горизонтальный скролл-слайдер «Аппаратные методы»:
+  // вертикальная прокрутка страницы двигает ряд плашек по горизонтали.
+  const ms = document.querySelector('[data-mscroll]');
+  if (ms && !reduced && window.matchMedia('(min-width: 901px)').matches) {
+    const msTrack = ms.querySelector('[data-mscroll-track]') as HTMLElement;
+    const msVp = ms.querySelector('[data-mscroll-viewport]') as HTMLElement;
+    const msRow = ms.querySelector('[data-mscroll-row]') as HTMLElement;
+    const msFade = ms.querySelector('[data-mscroll-fade]') as HTMLElement | null;
+    let maxShift = 0;
+
+    const msUpdate = () => {
+      const rect = msTrack.getBoundingClientRect();
+      const total = rect.height - window.innerHeight;
+      const p = total > 0 ? Math.min(1, Math.max(0, -rect.top / total)) : 0;
+      msRow.style.transform = `translate3d(${(-maxShift * p).toFixed(1)}px, 0, 0)`;
+      // затухание справа исчезает, когда доехали до последней плашки
+      if (msFade) msFade.style.opacity = String(Math.min(1, (1 - p) * 6));
+    };
+    const msMeasure = () => {
+      const vpStyles = getComputedStyle(msVp);
+      const pads = parseFloat(vpStyles.paddingLeft) + parseFloat(vpStyles.paddingRight);
+      maxShift = Math.max(0, msRow.scrollWidth - (msVp.clientWidth - pads));
+      // высота трека = экран + путь, чтобы скорость листания совпадала со скроллом
+      msTrack.style.height = `calc(100svh + ${Math.round(maxShift)}px)`;
+      msUpdate();
+    };
+
+    let msTicking = false;
+    const msOnScroll = () => {
+      if (!msTicking) {
+        msTicking = true;
+        requestAnimationFrame(() => {
+          msTicking = false;
+          msUpdate();
+        });
+      }
+    };
+    document.addEventListener('scroll', msOnScroll, { passive: true });
+    window.addEventListener('resize', msMeasure, { passive: true });
+    msMeasure();
+  }
+
+  // «Молекулы»: дрейфующие узлы со связями — научный слой за фото.
+  const canvas = document.querySelector('[data-hero-mol]') as HTMLCanvasElement | null;
+  if (canvas && !reduced) {
+    const ctx = canvas.getContext('2d')!;
+    const DOTS = 46;
+    const LINK = 150; // максимальная длина связи, px
+    let w = 0, h = 0, dpr = 1;
+    type Dot = { x: number; y: number; vx: number; vy: number; r: number; lime: boolean };
+    let dots: Dot[] = [];
+
+    const seed = () => {
+      dots = Array.from({ length: DOTS }, () => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: (Math.random() - 0.5) * 0.35,
+        r: 1.5 + Math.random() * 2.5,
+        lime: Math.random() < 0.22, // каждая ~пятая точка — лаймовый «сигнал»
+      }));
+    };
+    const resize = () => {
+      const rect = canvas.getBoundingClientRect();
+      dpr = Math.min(2, window.devicePixelRatio || 1);
+      w = rect.width;
+      h = rect.height;
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      if (!dots.length) seed();
+    };
+
+    const tick = () => {
+      ctx.clearRect(0, 0, w, h);
+      for (const d of dots) {
+        d.x += d.vx;
+        d.y += d.vy;
+        if (d.x < -20) d.x = w + 20; else if (d.x > w + 20) d.x = -20;
+        if (d.y < -20) d.y = h + 20; else if (d.y > h + 20) d.y = -20;
+      }
+      // связи
+      for (let i = 0; i < dots.length; i++) {
+        for (let j = i + 1; j < dots.length; j++) {
+          const a = dots[i], b = dots[j];
+          const dx = a.x - b.x, dy = a.y - b.y;
+          const dist = Math.hypot(dx, dy);
+          if (dist < LINK) {
+            const alpha = (1 - dist / LINK) * 0.35;
+            ctx.strokeStyle = `rgba(140, 150, 135, ${alpha.toFixed(3)})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
+          }
+        }
+      }
+      // узлы
+      for (const d of dots) {
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+        ctx.fillStyle = d.lime ? 'rgba(167, 226, 110, 0.9)' : 'rgba(140, 150, 135, 0.55)';
+        ctx.fill();
+        if (d.lime) {
+          // ореол вокруг лаймовых узлов
+          ctx.beginPath();
+          ctx.arc(d.x, d.y, d.r + 5, 0, Math.PI * 2);
+          ctx.strokeStyle = 'rgba(167, 226, 110, 0.25)';
+          ctx.stroke();
+        }
+      }
+      raf = requestAnimationFrame(tick);
+    };
+
+    let raf = 0;
+    resize();
+    window.addEventListener('resize', resize, { passive: true });
+    // не жечь батарею, когда вкладка скрыта или хиро уехал из вьюпорта
+    const vis = new IntersectionObserver(([e]) => {
+      cancelAnimationFrame(raf);
+      if (e.isIntersecting) raf = requestAnimationFrame(tick);
+    });
+    vis.observe(canvas);
+  }
+
+  // 5. Аппаратные методы — скролл и переключение плашек
+  const methodsScroll = document.querySelector<HTMLElement>('[data-methods-scroll]');
+  const prevBtn = document.querySelector<HTMLButtonElement>('[data-methods-prev]');
+  const nextBtn = document.querySelector<HTMLButtonElement>('[data-methods-next]');
+  const dots = document.querySelectorAll<HTMLButtonElement>('[data-methods-dot]');
+
+  if (methodsScroll) {
+    const stage = methodsScroll.closest<HTMLElement>('.methods__stage');
+
+    const updateNav = () => {
+      const scrollLeft = methodsScroll.scrollLeft;
+      const maxScroll = methodsScroll.scrollWidth - methodsScroll.clientWidth;
+
+      stage?.classList.toggle('has-scroll-left', scrollLeft > 10);
+      stage?.classList.toggle('has-scroll-right', scrollLeft < maxScroll - 10);
+
+      if (prevBtn) prevBtn.disabled = scrollLeft <= 8;
+      if (nextBtn) nextBtn.disabled = scrollLeft >= maxScroll - 8;
+
+      const card = methodsScroll.querySelector<HTMLElement>('.methods__card');
+      const step = card ? card.offsetWidth + 20 : 320;
+      const activeIdx = Math.min(dots.length - 1, Math.max(0, Math.round(scrollLeft / step)));
+
+      dots.forEach((dot, idx) => {
+        dot.classList.toggle('is-active', idx === activeIdx);
+      });
+    };
+
+    methodsScroll.addEventListener('scroll', updateNav, { passive: true });
+    updateNav();
+
+    // Скролл колесиком мыши по горизонтали при вызове колесика над областью плашек
+    methodsScroll.addEventListener('wheel', (e) => {
+      if (Math.abs(e.deltaX) < Math.abs(e.deltaY)) {
+        const canScrollLeft = methodsScroll.scrollLeft > 0 && e.deltaY < 0;
+        const canScrollRight = methodsScroll.scrollLeft < (methodsScroll.scrollWidth - methodsScroll.clientWidth - 5) && e.deltaY > 0;
+        if (canScrollLeft || canScrollRight) {
+          e.preventDefault();
+          methodsScroll.scrollBy({ left: e.deltaY * 1.1, behavior: 'smooth' });
+        }
+      }
+    }, { passive: false });
+
+    prevBtn?.addEventListener('click', () => {
+      const card = methodsScroll.querySelector<HTMLElement>('.methods__card');
+      const step = card ? card.offsetWidth + 20 : 320;
+      methodsScroll.scrollBy({ left: -step, behavior: 'smooth' });
+    });
+
+    nextBtn?.addEventListener('click', () => {
+      const card = methodsScroll.querySelector<HTMLElement>('.methods__card');
+      const step = card ? card.offsetWidth + 20 : 320;
+      methodsScroll.scrollBy({ left: step, behavior: 'smooth' });
+    });
+
+    dots.forEach((dot, idx) => {
+      dot.addEventListener('click', () => {
+        const card = methodsScroll.querySelector<HTMLElement>('.methods__card');
+        const step = card ? card.offsetWidth + 20 : 320;
+        methodsScroll.scrollTo({ left: idx * step, behavior: 'smooth' });
+      });
+    });
+  }
+
+  // 6. Обо мне — таймлайн: тянем мышью, крутим колесиком, гасим подсказку в конце
+  const cvScroll = document.querySelector<HTMLElement>('[data-cv-scroll]');
+  const cvRoot = document.querySelector<HTMLElement>('[data-cv]');
+
+  if (cvScroll) {
+    const atEnd = () => {
+      const max = cvScroll.scrollWidth - cvScroll.clientWidth;
+      // max <= 1 — лента целиком влезла в экран, тянуть нечего
+      return max <= 1 || cvScroll.scrollLeft >= max - 8;
+    };
+    const updateEnd = () => cvRoot?.classList.toggle('is-end', atEnd());
+
+    cvScroll.addEventListener('scroll', updateEnd, { passive: true });
+    window.addEventListener('resize', updateEnd);
+    updateEnd();
+
+    // Вертикальное колесо мыши двигает ленту вбок, но только пока внутри есть
+    // куда ехать: на краях отдаём событие странице, иначе скролл «залипает».
+    cvScroll.addEventListener(
+      'wheel',
+      (e) => {
+        if (Math.abs(e.deltaX) >= Math.abs(e.deltaY)) return;
+        const max = cvScroll.scrollWidth - cvScroll.clientWidth;
+        const canLeft = cvScroll.scrollLeft > 0 && e.deltaY < 0;
+        const canRight = cvScroll.scrollLeft < max - 5 && e.deltaY > 0;
+        if (canLeft || canRight) {
+          e.preventDefault();
+          cvScroll.scrollLeft += e.deltaY;
+        }
+      },
+      { passive: false }
+    );
+
+    // Тянуть мышью. Порог в 4px — чтобы обычный клик не считался перетаскиванием.
+    let down = false;
+    let startX = 0;
+    let startScroll = 0;
+    let moved = false;
+
+    cvScroll.addEventListener('pointerdown', (e) => {
+      if (e.pointerType !== 'mouse') return; // палец и так скроллит нативно
+      down = true;
+      moved = false;
+      startX = e.clientX;
+      startScroll = cvScroll.scrollLeft;
+    });
+
+    cvScroll.addEventListener('pointermove', (e) => {
+      if (!down) return;
+      const dx = e.clientX - startX;
+      if (!moved && Math.abs(dx) < 4) return;
+      if (!moved) {
+        moved = true;
+        cvScroll.classList.add('is-dragging');
+        cvScroll.setPointerCapture(e.pointerId);
+      }
+      e.preventDefault();
+      cvScroll.scrollLeft = startScroll - dx;
+    });
+
+    const endDrag = (e: PointerEvent) => {
+      if (!down) return;
+      down = false;
+      cvScroll.classList.remove('is-dragging');
+      if (cvScroll.hasPointerCapture(e.pointerId)) cvScroll.releasePointerCapture(e.pointerId);
+    };
+    cvScroll.addEventListener('pointerup', endDrag);
+    cvScroll.addEventListener('pointercancel', endDrag);
+  }
+
+  // ================= ЛЕНТА ГАЛЕРЕИ (телефон) =================
+  // На узких экранах мозаика превращается в горизонтальную ленту. Градиент
+  // справа держим, пока есть куда листать, и гасим на последнем кадре.
+  const strip = document.querySelector('[data-gallery-strip]') as HTMLElement | null;
+  const stripStage = document.querySelector('[data-gallery-stage]') as HTMLElement | null;
+
+  if (strip && stripStage) {
+    const syncFade = () => {
+      const atEnd = strip.scrollLeft + strip.clientWidth >= strip.scrollWidth - 4;
+      // На десктопе ленты нет: сетка не прокручивается, и условие всегда истинно
+      stripStage.classList.toggle('is-end', atEnd);
+    };
+    strip.addEventListener('scroll', syncFade, { passive: true });
+    window.addEventListener('resize', syncFade);
+    syncFade();
+  }
+
+  // ================= ЛАЙТБОКС ГАЛЕРЕИ =================
+  // Плитка несёт в data-атрибутах всё, что нужно оверлею: крупный файл и alt.
+  // Отдельного массива в JS не держим — иначе он разъедется с разметкой.
+  const lbox = document.querySelector('[data-lbox]') as HTMLElement | null;
+  const lboxImg = document.querySelector('[data-lbox-img]') as HTMLImageElement | null;
+  const lboxCount = document.querySelector('[data-lbox-count]') as HTMLElement | null;
+  const tiles = Array.from(
+    document.querySelectorAll('[data-lbox-open]')
+  ) as HTMLButtonElement[];
+
+  if (lbox && lboxImg && lboxCount && tiles.length) {
+    const prevBtn = lbox.querySelector('[data-lbox-prev]') as HTMLButtonElement;
+    const nextBtn = lbox.querySelector('[data-lbox-next]') as HTMLButtonElement;
+    const closeBtn = lbox.querySelector('[data-lbox-close]') as HTMLButtonElement;
+    const focusable = [prevBtn, nextBtn, closeBtn];
+
+    let current = 0;
+    let opener: HTMLElement | null = null;
+
+    const show = (i: number) => {
+      current = (i + tiles.length) % tiles.length;
+      const tile = tiles[current];
+      const thumb = tile.querySelector('img') as HTMLImageElement;
+      // Пока грузится крупный кадр, показываем уже скачанную плитку —
+      // вместо пустоты зритель видит ту же картинку, только мягче.
+      lboxImg.src = thumb.currentSrc || thumb.src;
+      lboxImg.alt = thumb.alt;
+      const full = new Image();
+      const wanted = tile.dataset.full as string;
+      full.onload = () => {
+        if (tile.dataset.full === wanted) lboxImg.src = wanted;
+      };
+      full.src = wanted;
+      lboxCount.textContent = `${String(current + 1).padStart(2, '0')} / ${tiles.length}`;
+    };
+
+    const open = (i: number) => {
+      opener = tiles[i];
+      // Ширина скроллбара — чтобы страница не дёрнулась вбок под оверлеем
+      const sbw = window.innerWidth - document.documentElement.clientWidth;
+      document.body.style.setProperty('--sbw', `${sbw}px`);
+      document.body.classList.add('is-lbox-open');
+      lbox.hidden = false;
+      show(i);
+      closeBtn.focus();
+    };
+
+    const close = () => {
+      lbox.hidden = true;
+      document.body.classList.remove('is-lbox-open');
+      document.body.style.removeProperty('--sbw');
+      opener?.focus();
+      opener = null;
+    };
+
+    tiles.forEach((tile, i) => tile.addEventListener('click', () => open(i)));
+    prevBtn.addEventListener('click', () => show(current - 1));
+    nextBtn.addEventListener('click', () => show(current + 1));
+    closeBtn.addEventListener('click', close);
+    // Клик мимо кадра закрывает; по самому кадру и кнопкам — нет
+    lbox.addEventListener('click', (e) => {
+      if (e.target === lbox || (e.target as HTMLElement).classList.contains('lbox__stage')) close();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (lbox.hidden) return;
+      if (e.key === 'Escape') close();
+      else if (e.key === 'ArrowLeft') show(current - 1);
+      else if (e.key === 'ArrowRight') show(current + 1);
+      else if (e.key === 'Tab') {
+        // Фокус-ловушка: по кругу между тремя кнопками оверлея
+        e.preventDefault();
+        const at = focusable.indexOf(document.activeElement as HTMLButtonElement);
+        const step = e.shiftKey ? -1 : 1;
+        focusable[(at + step + focusable.length) % focusable.length].focus();
+      }
+    });
+
+    // Свайп на тач-экранах. Порог 45px, вертикальный жест игнорируем,
+    // чтобы обычная прокрутка пальцем не листала галерею.
+    let sx = 0;
+    let sy = 0;
+    lbox.addEventListener(
+      'touchstart',
+      (e) => {
+        sx = e.changedTouches[0].clientX;
+        sy = e.changedTouches[0].clientY;
+      },
+      { passive: true }
+    );
+    lbox.addEventListener(
+      'touchend',
+      (e) => {
+        const dx = e.changedTouches[0].clientX - sx;
+        const dy = e.changedTouches[0].clientY - sy;
+        if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) show(current + (dx < 0 ? 1 : -1));
+      },
+      { passive: true }
+    );
+  }
+</script>

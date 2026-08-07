@@ -1,0 +1,234 @@
+/* ============================================================
+   ТОКЕНЫ ДИЗАЙН-СИСТЕМЫ
+   Референс: integratedbio.com («биолюминесцентная лаборатория»).
+   Палитра и механика взяты из живого сайта, не из макета.
+   ============================================================ */
+
+/* Aspekta (референс) не содержит кириллицы — используем документированную
+   в стайлгайде замену: Inter Tight 400. Сабсеты cyrillic + latin. */
+@font-face {
+  font-family: 'Inter Tight';
+  src: url('/fonts/InterTight-400-cyr.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Inter Tight';
+  src: url('/fonts/InterTight-400-lat.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Roboto Mono';
+  src: url('/fonts/RobotoMono-400-cyr.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Roboto Mono';
+  src: url('/fonts/RobotoMono-400-lat.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  /* ---------- Цвета ---------- */
+  --ink: #222f30;        /* тёмный канвас и основной текст; НЕ чёрный — с зелёной нотой */
+  --ink-rgb: 34, 47, 48;
+  --lime: #cef79e;       /* главный акцент: чипы-стрелки, точки тегов, активные пилюли */
+  --lime-2: #a7e26e;     /* насыщенный лайм: hover/active состояния акцента */
+  --bone: #f7f7f5;       /* светлый канвас страницы */
+  --paper: #ffffff;      /* карточки и пилюли на светлом */
+  --sea: #445e5f;        /* приглушённый сине-зелёный: средняя карточка, границы на тёмном */
+  --sage: #c9cbbe;       /* волосяные линии на светлом */
+  --tissue: #e4e3e3;     /* альтернативная светлая поверхность */
+  --frost: #eeeeee;      /* нейтральная светлая поверхность (3-я панель услуг) */
+  --void: #000000;       /* только якорные элементы, не контентные секции */
+
+  /* ---------- Шрифты ---------- */
+  --font-sans: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Roboto Mono', Menlo, Consolas, monospace;
+
+  /* ---------- Типографическая шкала (резина: мобила → десктоп) ----------
+     Единственное начертание 400; иерархия — размером и трекингом.
+     Ориентир: на вьюпорте 1280px hero ≈ 100px, display ≈ 66px. */
+  --text-hero: clamp(2.9rem, 7.9vw, 9.5rem);       /* h1 хиро */
+  --text-display: clamp(2.1rem, 5.2vw, 4.6rem);    /* h2 крупных секций */
+  --text-reveal: clamp(1.6rem, 3.9vw, 3.4rem);     /* скролл-текст в хиро */
+  --text-heading: clamp(1.7rem, 2.9vw, 2.6rem);    /* h2 «О докторе», заголовок карточной секции */
+  --text-card-title: clamp(1.35rem, 1.9vw, 1.6rem);/* заголовки карточек и панелей услуг */
+  --text-lead: clamp(1.1rem, 1.7vw, 1.4rem);       /* лид под хиро */
+  --text-body: 1.125rem;                            /* наборный текст, 18px */
+  --text-caption: 0.85rem;                          /* mono-подписи, ~13.6px */
+  --track-hero: -0.03em;
+  --track-display: -0.02em;
+  --track-heading: -0.012em;
+  --track-body: -0.001em;
+  --track-mono: -0.02em;
+
+  /* ---------- Мера строки (в ch — привязана к кеглю элемента) ---------- */
+  --measure-text: 66ch;   /* наборный текст: ~68–72 знака */
+  --measure-lead: 58ch;   /* лид */
+  --measure-head: 24ch;   /* h2 секций */
+  --measure-hero: 16ch;   /* h1 хиро */
+
+  /* ============================================================
+     ПУЛЬТ ОТСТУПОВ — править здесь, а не в компонентах.
+     ============================================================ */
+  /* Ширина контента. Референс живёт на 1520px; на вьюпорте ~1280px
+     это значит «во всю ширину минус поля». Диапазон кручения: 1200–1520. */
+  --page-max: 1520px;
+  /* Боковое поле от края экрана до контента. Диапазон: 20–48px. */
+  --gutter: clamp(20px, 3.4vw, 48px);
+  /* Вертикальный ритм: отступ секции С ОДНОЙ стороны.
+     Итоговая дыра между секциями = ×2 (низ верхней + верх нижней),
+     поэтому здесь ставим ПОЛОВИНУ желаемого разрыва: 120px → 60px. */
+  --section-gap: clamp(36px, 4.4vw, 64px);
+  --section-gap-tight: clamp(20px, 2.5vw, 36px);
+  /* Отступ ВНУТРИ секции: от её шапки (тег + заголовок + лид) до содержимого —
+     колонок, сетки карточек, списка. Обязан быть заметно меньше --section-gap,
+     иначе внутреннее расстояние сравнивается с внешним и содержимое читается
+     как отдельный блок. Держим примерно половину. Диапазон: 24–40px. */
+  --block-gap: clamp(22px, 2.6vw, 32px);
+  /* Пропорция видео/картинки в двухколоночных секциях (текст + медиа).
+     Это ручка ВЫСОТЫ блока: колонка ~510px, поэтому 4/5 даёт 635px и текст
+     рядом «плавает» в пустоте. Диапазон: 1/1 (вровень с текстом) — 4/3 (низко). */
+  --media-ratio: 1 / 1;
+
+  /* ---------- Скругления ---------- */
+  --radius-btn: 8px;      /* кнопки, пилюли навигации */
+  --radius-nav: 12px;     /* плашки шапки */
+  --radius-card: 20px;    /* карточки */
+  --radius-frame: 24px;   /* рамка хиро и крупные блоки-плашки */
+  --radius-pill: 9999px;  /* теги-пилюли */
+
+  /* ---------- Движение ---------- */
+  --ease: cubic-bezier(0.16, 1, 0.3, 1); /* фирменный изинг референса */
+}
+
+/* ============================================================
+   БАЗА
+   ============================================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Шапка fixed (58px + отступ сверху) — иначе якорь уводит контент под неё */
+  scroll-padding-top: 96px;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: var(--text-body);
+  letter-spacing: var(--track-body);
+  line-height: 1.3;
+  color: var(--ink);
+  background: var(--bone);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-weight: 400; /* единственное начертание — иерархия размером */
+}
+
+img, video {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul, ol {
+  list-style: none; /* перечисления держит ритм, не декор */
+}
+
+/* Предохранитель: жирность/курсив внутри наборного текста запрещены */
+p b, p strong, p em, p i,
+li > b, li > strong, li > em, li > i,
+dd b, dd strong, td b, td strong {
+  font-weight: inherit !important;
+  color: inherit !important;
+  font-style: normal;
+}
+
+mark {
+  background: var(--lime);
+  color: var(--ink);
+  padding: 0.05em 0.18em;
+}
+
+::selection {
+  background: var(--lime);
+  color: var(--ink);
+}
+
+/* ============================================================
+   КАРКАС: контейнер и секции читают только переменные
+   ============================================================ */
+.container {
+  max-width: var(--page-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  padding-block: var(--section-gap);
+}
+.section--tight {
+  padding-block: var(--section-gap-tight);
+}
+.section--flush-top {
+  padding-top: 0;
+}
+.section--flush-bottom {
+  padding-bottom: 0;
+}
+
+/* ---------- Служебная типографика ---------- */
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  letter-spacing: var(--track-mono);
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+/* Тег секции: белая пилюля + лаймовый квадратик (как на референсе) */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--paper);
+  border-radius: var(--radius-btn);
+  padding: 10px 14px;
+}
+.tag::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--lime-2);
+}
+.tag--on-dark {
+  background: transparent;
+  border: 1px solid var(--sea);
+  color: var(--paper);
+}

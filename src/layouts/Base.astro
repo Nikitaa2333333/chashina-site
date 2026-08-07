@@ -1,0 +1,54 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description = 'Врач-косметолог, дерматолог. Инъекционные и аппаратные методики с доказанной эффективностью.' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preload" href="/fonts/InterTight-400-cyr.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/InterTight-400-lat.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/RobotoMono-400-cyr.woff2" as="font" type="font/woff2" crossorigin />
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+
+    <script>
+      // Глобальный проход типографа: висячие предлоги → неразрывный пробел
+      import { typo } from '../lib/typo';
+
+      function fixTypography(root: HTMLElement | null = document.body) {
+        if (!root) return;
+        const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+          acceptNode(node) {
+            const tag = node.parentElement?.tagName;
+            if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'TEXTAREA' || tag === 'CODE' || tag === 'PRE')
+              return NodeFilter.FILTER_REJECT;
+            return node.nodeValue && node.nodeValue.trim()
+              ? NodeFilter.FILTER_ACCEPT
+              : NodeFilter.FILTER_REJECT;
+          },
+        });
+        const nodes: Text[] = [];
+        let n: Node | null;
+        while ((n = walker.nextNode())) nodes.push(n as Text);
+        for (const t of nodes) {
+          const fixed = typo(t.nodeValue ?? '');
+          if (fixed !== t.nodeValue) t.nodeValue = fixed;
+        }
+      }
+      fixTypography();
+      document.addEventListener('astro:page-load', () => fixTypography());
+    </script>
+  </body>
+</html>

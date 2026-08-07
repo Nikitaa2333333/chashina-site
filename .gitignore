@@ -1,0 +1,16 @@
+# зависимости и сборка
+node_modules/
+dist/
+.astro/
+.vercel/
+
+# окружение
+.env
+.env.*
+!.env.example
+
+# системное
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*

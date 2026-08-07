@@ -1,0 +1,295 @@
+- generic [active] [ref=f5e1]:
+  - banner [ref=f5e2]:
+    - navigation "Основная навигация" [ref=f5e3]:
+      - link "Подход" [ref=f5e4] [cursor=pointer]:
+        - /url: "#halves"
+      - link "Как я работаю" [ref=f5e5] [cursor=pointer]:
+        - /url: "#work"
+      - link "Методы" [ref=f5e6] [cursor=pointer]:
+        - /url: "#methods"
+      - link "Записаться" [ref=f5e7] [cursor=pointer]:
+        - /url: "#contact"
+  - generic [ref=f5e11]:
+    - heading "Оксана Чащина" [level=1] [ref=f5e13]:
+      - generic [ref=f5e14]: Оксана
+      - generic [ref=f5e15]: Чащина
+    - img "Оксана Чащина, врач-косметолог" [ref=f5e16]
+    - generic [ref=f5e17]:
+      - generic [ref=f5e18]:
+        - paragraph [ref=f5e19]: Врач-косметолог, специалист превентивной медицины. 22 года практики.
+        - paragraph [ref=f5e20]: Аппарат сам по себе не решает ничего. Решает то, насколько точно понятно, что происходит с вашей кожей — и с организмом, частью которого она является.
+      - generic [ref=f5e21]:
+        - link "Записаться на консультацию" [ref=f5e22] [cursor=pointer]:
+          - /url: "#contact"
+        - generic [ref=f5e32]: Консультация — 60 минут
+  - generic [ref=f5e34]:
+    - generic [ref=f5e35]: Подход
+    - heading "Две половины одной работы." [level=2] [ref=f5e36]
+    - generic [ref=f5e37]:
+      - generic [ref=f5e38]:
+        - generic [ref=f5e39]: 01. Снаружи
+        - paragraph [ref=f5e40]: Лазеры, фокусированный ультразвук, радиоволновой лифтинг, токи. Всё, что делается с кожей и мягкими тканями непосредственно — с понятной глубиной воздействия и предсказуемым результатом.
+      - generic [ref=f5e41]:
+        - generic [ref=f5e42]: 02. Изнутри
+        - paragraph [ref=f5e43]: Хроническое воспаление, окислительный стресс, гликация, дефициты, качество сна. Всё, из-за чего кожа стареет быстрее и хуже восстанавливается — и что не исправить ни одним аппаратом.
+    - paragraph [ref=f5e44]:
+      - text: Кожа — самый большой орган человека. Работая с ней, мы включаем процессы и в окружающих тканях. Поэтому для меня антивозрастная работа — работа
+      - mark [ref=f5e45]: с организмом целиком
+      - text: ", а не с отдельной морщиной."
+  - generic [ref=f5e47]:
+    - generic [ref=f5e48]: Как строится работа
+    - heading "Почему я не начинаю с лифтинга." [level=2] [ref=f5e49]
+  - generic [ref=f5e50]:
+    - article [ref=f5e51]:
+      - generic [ref=f5e52]: "01."
+      - generic [ref=f5e53]:
+        - heading "Разобраться" [level=3] [ref=f5e54]
+        - paragraph [ref=f5e55]: "Сначала нужно понять, с чем мы имеем дело. Тип старения у всех разный, и от него напрямую зависит, что делать можно, а что бессмысленно или даже вредно. Иногда для этого достаточно осмотра, иногда я прошу сдать анализы: часть проблем с кожей решается не в кабинете косметолога."
+    - article [ref=f5e56]:
+      - generic [ref=f5e57]: "02."
+      - generic [ref=f5e58]:
+        - heading "Подготовить ткани" [level=3] [ref=f5e59]
+        - paragraph [ref=f5e60]: Радиоволновой лифтинг, микротоки, процедуры с очищающим действием — они оздоравливают ткани и сосуды, выводят лишнюю жидкость, возвращают коже плотность и сияние.
+    - article [ref=f5e61]:
+      - generic [ref=f5e62]: "03."
+      - generic [ref=f5e63]:
+        - heading "Подтянуть и закрепить" [level=3] [ref=f5e64]
+        - paragraph [ref=f5e65]: И только когда ткани к этому готовы, есть смысл переходить к мощному лифтингу и закреплять достигнутый результат. В обратном порядке это или не даст эффекта, или даст, но ненадолго.
+  - generic [ref=f5e67]:
+    - generic [ref=f5e68]: Что для меня важно
+    - generic [ref=f5e69]:
+      - generic [ref=f5e70]:
+        - heading "Безопасность технологии" [level=3] [ref=f5e71]
+        - paragraph [ref=f5e72]: И для пациента, и для врача — это не обсуждается.
+      - generic [ref=f5e73]:
+        - heading "Предсказуемость результата" [level=3] [ref=f5e74]
+        - paragraph [ref=f5e75]: Я должна понимать, что именно получится и через какое время, и сказать это вам до начала, а не после.
+      - generic [ref=f5e76]:
+        - heading "Ваше участие" [level=3] [ref=f5e77]
+        - paragraph [ref=f5e78]: Косметология не работает в отрыве от чекапов, сна, физической нагрузки и управления стрессом. Это не дополнение к процедурам, это их условие.
+  - generic [ref=f5e80]:
+    - generic [ref=f5e81]: Подход в одной фразе
+    - paragraph [ref=f5e82]: "Красивая кожа — это всегда результат комплексной работы: ухода, процедур по показаниям, питания и здоровья организма в целом."
+  - generic [ref=f5e84]:
+    - generic [ref=f5e85]: Аппаратные методы
+    - heading "Что происходит с тканями." [level=2] [ref=f5e86]
+    - paragraph [ref=f5e87]: Ниже — не перечень аппаратов, а объяснение того, что каждый метод делает с кожей. Торговые названия имеет смысл обсуждать уже на консультации, когда понятна задача.
+  - generic [ref=f5e92]:
+    - article [ref=f5e93]:
+      - generic [ref=f5e95]:
+        - heading "Световые и лазерные методики" [level=3] [ref=f5e96]
+        - paragraph [ref=f5e97]: "Пигмент, сосуды, качество поверхности кожи. Свет работает адресно: разрушает то, что мешает, не задевая остальное."
+    - article [ref=f5e98]:
+      - generic [ref=f5e100]:
+        - heading "Радиоволновой лифтинг" [level=3] [ref=f5e101]
+        - paragraph [ref=f5e102]: Контролируемый прогрев тканей запускает выработку коллагена — кожа постепенно возвращает плотность и тонус.
+    - article [ref=f5e103]:
+      - generic [ref=f5e105]:
+        - heading "Токи и микротоки" [level=3] [ref=f5e106]
+        - paragraph [ref=f5e107]: Дренаж, тонус, работа с отёчностью. Мягкие методики, которые готовят ткани к более мощным воздействиям.
+    - article [ref=f5e108]:
+      - generic [ref=f5e110]:
+        - heading "Фокусированный ультразвук" [level=3] [ref=f5e111]
+        - paragraph [ref=f5e112]: Работа с глубоким каркасом лица — тем слоем, до которого не достают кремы и поверхностные процедуры.
+  - generic [ref=f5e115]:
+    - generic [ref=f5e116]: Чего я больше не делаю
+    - paragraph [ref=f5e117]: Косметология меняется быстро, и часть процедур, популярных десять лет назад, сегодня либо неэффективна, либо вытеснена более безопасными методами. Я о них рассказываю честно — в том числе о тех, что мне самой когда-то нравились.
+  - generic [ref=f5e119]:
+    - generic [ref=f5e120]:
+      - generic [ref=f5e121]: Гравитационный птоз
+      - heading "Провисает не кожа — каркас, на котором она держится." [level=2] [ref=f5e122]
+      - paragraph [ref=f5e123]: "С возрастом провисает не столько кожа, сколько то, на чём она держится — внутренний каркас лица. Поэтому кремы и поверхностные процедуры на овал почти не влияют: они работают выше, а проблема глубже."
+      - paragraph [ref=f5e124]: Фокусированный ультразвук — способ дотянуться до этого слоя без хирургии. Что именно происходит с тканями, когда ждать результат и кому метод не подходит — разбираем на консультации.
+      - link "Обсудить на консультации" [ref=f5e125] [cursor=pointer]:
+        - /url: "#contact"
+    - figure [ref=f5e135]
+  - generic [ref=f5e138]:
+    - generic [ref=f5e139]: Инъекционные методы
+    - heading "Чего можно достичь." [level=2] [ref=f5e140]
+    - paragraph [ref=f5e141]: Говорю не о препаратах, а о задачах. Препарат подбирается под задачу, а не наоборот.
+    - generic [ref=f5e142]:
+      - article [ref=f5e143]:
+        - generic [ref=f5e144]: "01."
+        - generic [ref=f5e145]:
+          - heading "Качество и увлажнённость кожи" [level=3] [ref=f5e146]
+          - paragraph [ref=f5e147]: Плотность, сияние, увлажнённость — работа с самой тканью кожи, а не с её объёмами.
+      - article [ref=f5e148]:
+        - generic [ref=f5e149]: "02."
+        - generic [ref=f5e150]:
+          - heading "Объёмы и опора тканей" [level=3] [ref=f5e151]
+          - paragraph [ref=f5e152]: Восстановление опоры там, где ткани её потеряли — без попытки «слепить» новое лицо.
+      - article [ref=f5e153]:
+        - generic [ref=f5e154]: "03."
+        - generic [ref=f5e155]:
+          - heading "Мимические зоны" [level=3] [ref=f5e156]
+          - paragraph [ref=f5e157]: Расслабить то, что заламывает кожу, сохранив живую мимику и естественное выражение.
+      - article [ref=f5e158]:
+        - generic [ref=f5e159]: "04."
+        - generic [ref=f5e160]:
+          - heading "Асимметрия" [level=3] [ref=f5e161]
+          - paragraph [ref=f5e162]: Аккуратное выравнивание врождённых и возрастных асимметрий — работа ювелирная и очень индивидуальная.
+    - paragraph [ref=f5e163]:
+      - text: Инъекции не заменяют лифтинг, не меняют черты лица и не отменяют ухода —
+      - mark [ref=f5e164]: это инструмент, а не волшебство
+      - text: .
+  - generic [ref=f5e166]:
+    - generic [ref=f5e167]: Зоны, которые выдают возраст
+    - heading "Лицо ещё держится, а шея выдаёт." [level=2] [ref=f5e168]
+    - paragraph [ref=f5e169]: Возраст читается не по лбу и не по носогубным складкам. Первыми выдают шея, зона декольте, кисти рук — и именно им обычно достаётся меньше всего внимания.
+    - generic [ref=f5e170]:
+      - generic [ref=f5e171]:
+        - heading "Шея и кольца Венеры" [level=3] [ref=f5e172]
+        - paragraph [ref=f5e173]: Кожа здесь тоньше, сальных желёз меньше, а нагрузки от экранов — больше, поэтому шея стареет раньше лица. Что из этого генетика, а что привычки — видно на осмотре, и от этого зависит план.
+      - generic [ref=f5e174]:
+        - heading "Второй подбородок" [level=3] [ref=f5e175]
+        - paragraph [ref=f5e176]: "Причины разные: лишний объём, слабый тонус тканей, особенности анатомии. Часть случаев решается аппаратами — и я честно говорю, где проходит граница с хирургией."
+      - generic [ref=f5e177]:
+        - heading "Кисти, локти, колени" [level=3] [ref=f5e178]
+        - paragraph [ref=f5e179]: "Зоны, которым достаётся меньше всего ухода. Здесь работает плотность и качество кожи: уплотняющие методики и защита от солнца дают больше, чем любой крем."
+  - generic [ref=f5e181]:
+    - figure [ref=f5e182]
+    - generic [ref=f5e184]:
+      - generic [ref=f5e185]: Изнутри
+      - heading "Красота начинается не с крема." [level=2] [ref=f5e186]
+      - paragraph [ref=f5e187]: "Про это я много пишу у себя в канале: состояние кожи во многом определяется тем, что происходит внутри. Хроническое воспаление, окислительный стресс, состояние кишечника, дефициты, качество сна — всё это отражается на лице раньше, чем мы связываем одно с другим."
+      - paragraph [ref=f5e188]: "Я не верю в одну молекулу, которая решит все проблемы. Красивая кожа — это всегда результат комплексной работы: домашнего ухода, процедур по показаниям, питания, образа жизни и здоровья организма в целом."
+      - link "Читать статьи" [ref=f5e189] [cursor=pointer]:
+        - /url: "#"
+  - generic [ref=f5e200]:
+    - generic [ref=f5e201]: Домашний уход
+    - heading "Я рекомендую." [level=2] [ref=f5e202]
+    - generic [ref=f5e203]:
+      - generic [ref=f5e204]:
+        - paragraph [ref=f5e205]: "Домашний уход иногда решает больше, чем процедуры: он работает каждый день, а не раз в месяц. Но вокруг него столько маркетинга, что разобраться самостоятельно почти невозможно."
+        - paragraph [ref=f5e206]: Я подбираю уход под задачу и тип кожи, а не под обещания на упаковке. Чаще всего это марки с дерматологической школой и понятным составом — те, которыми пользуюсь сама и которые советую пациентам на приёме.
+      - link "NAOS Официальный дистрибьютор Bioderma, Institut Esthederm и État Pur в России. naos.ru" [ref=f5e207] [cursor=pointer]:
+        - /url: https://naos.ru/
+        - img "NAOS" [ref=f5e208]
+        - generic [ref=f5e209]: Официальный дистрибьютор Bioderma, Institut Esthederm и État Pur в России.
+        - generic [ref=f5e210]: naos.ru
+  - generic [ref=f5e212]:
+    - generic [ref=f5e213]:
+      - generic [ref=f5e214]: Где я ещё пишу
+      - heading "Если пока не готовы записываться — подписывайтесь." [level=2] [ref=f5e215]
+      - paragraph [ref=f5e216]: "Разбираю то, о чём чаще всего спрашивают на приёме: ингредиенты, процедуры, питание и мифы вокруг них."
+    - generic [ref=f5e217]:
+      - link "Telegram t.me/krasotanasspaset" [ref=f5e218] [cursor=pointer]:
+        - /url: https://t.me/krasotanasspaset
+        - generic [ref=f5e219]: Telegram
+        - generic [ref=f5e220]: t.me/krasotanasspaset
+      - link "ВКонтакте vk.com/krasotanasspaset" [ref=f5e221] [cursor=pointer]:
+        - /url: https://vk.com/krasotanasspaset
+        - generic [ref=f5e222]: ВКонтакте
+        - generic [ref=f5e223]: vk.com/krasotanasspaset
+      - link "Дзен dzen.ru/krasotanasspaset" [ref=f5e224] [cursor=pointer]:
+        - /url: https://dzen.ru/id/6237172c60d2e66b912c755f
+        - generic [ref=f5e225]: Дзен
+        - generic [ref=f5e226]: dzen.ru/krasotanasspaset
+  - generic [ref=f5e228]:
+    - generic [ref=f5e229]: Меня спрашивают
+    - heading "Пресса." [level=2] [ref=f5e230]
+    - paragraph [ref=f5e231]: За годы практики меня приглашали комментировать РБК, ТАСС, АиФ, Cosmopolitan, Harper's Bazaar, Wonderzine, The Blueprint и другие издания. Здесь собрано главное.
+    - generic [ref=f5e232]:
+      - article [ref=f5e233]:
+        - generic [ref=f5e234]: РБК
+        - paragraph [ref=f5e235]: Когда лучше принимать коллаген
+      - article [ref=f5e236]:
+        - generic [ref=f5e237]: ТАСС
+        - paragraph [ref=f5e238]: Утренние отёки и повышенный кортизол
+      - article [ref=f5e239]:
+        - generic [ref=f5e240]: Газета.ру
+        - paragraph [ref=f5e241]: Компоненты косметики, которых лучше избегать
+      - article [ref=f5e242]:
+        - generic [ref=f5e243]: Flacon
+        - paragraph [ref=f5e244]: Как работает SMAS-лифтинг
+      - article [ref=f5e245]:
+        - generic [ref=f5e246]: U Magazine
+        - paragraph [ref=f5e247]: Устаревшие процедуры и что пришло им на замену
+      - article [ref=f5e248]:
+        - generic [ref=f5e249]: Beautyhack
+        - paragraph [ref=f5e250]: Wellness-манифест 2026
+  - generic [ref=f5e252]:
+    - generic [ref=f5e253]: Обо мне
+    - heading "Врач, а потом уже косметолог." [level=2] [ref=f5e254]
+    - generic [ref=f5e255]:
+      - generic [ref=f5e256]:
+        - paragraph [ref=f5e257]: "В косметологию я пришла из клинической медицины — и до сих пор смотрю на кожу как врач: сначала разобраться, потом лечить. За 22 года практики я успела поработать и с аппаратами первых поколений, и с теми, что сегодня считаются золотым стандартом."
+        - paragraph [ref=f5e258]: "Главное, что изменилось за эти годы во взглядах, — я перестала верить в отдельные процедуры и начала верить в систему: диагностика, подготовка, воздействие и образ жизни, который результат закрепляет."
+        - paragraph [ref=f5e259]:
+          - text: Дожить можно и до ста, и до ста двадцати лет — учёные говорят, что это реально. Вопрос в том, каким будет
+          - mark [ref=f5e260]: качество жизни
+          - text: в эти годы. Ради него всё и делается.
+      - group [ref=f5e261]:
+        - generic "Образование и квалификация" [ref=f5e262] [cursor=pointer]: +
+  - generic [ref=f5e266]:
+    - generic [ref=f5e267]: Где я принимаю
+    - generic [ref=f5e268]:
+      - generic [ref=f5e269]:
+        - heading "Принимаю в клинике «Атлас»." [level=2] [ref=f5e270]
+        - img "Клиника «Атлас»" [ref=f5e271]
+        - paragraph [ref=f5e272]: Отделение эстетической медицины и дерматологии.
+        - paragraph [ref=f5e273]: Сеть работает с 2014 года и служит клинической базой кафедры клинической фармакологии РМАНПО и кафедры эндокринологии РНИМУ им. Пирогова. На приёме я работаю на аппаратах InMode, BTL и Fotona.
+        - paragraph [ref=f5e274]: Лицензия № Л041-01137-77/00327212 от 30.03.2018
+      - generic [ref=f5e275]:
+        - link "+7 495 212-08-88" [ref=f5e276] [cursor=pointer]:
+          - /url: tel:+74952120888
+        - generic [ref=f5e277]: Филиал уточните при записи
+        - generic [ref=f5e278]:
+          - generic [ref=f5e279]:
+            - generic [ref=f5e280]: Кременчугская улица, 3
+            - generic [ref=f5e281]: м. Славянский бульвар
+            - generic [ref=f5e282]: Пн–Пт 8:00–21:00, Сб–Вс 9:00–21:00
+          - generic [ref=f5e283]:
+            - generic [ref=f5e284]: Серпуховский Вал, 21к4
+            - generic [ref=f5e285]: м. Шаболовская, Тульская
+            - generic [ref=f5e286]: Пн–Пт 8:00–21:00, Сб 9:00–20:00, Вс 10:00–16:00
+        - generic [ref=f5e287]:
+          - link "Telegram клиники @atlas_esthetics" [ref=f5e288] [cursor=pointer]:
+            - /url: https://t.me/atlas_esthetics
+            - generic [ref=f5e289]: Telegram клиники
+            - generic [ref=f5e290]: "@atlas_esthetics"
+          - link "Сайт клиники atlasesthetics.ru" [ref=f5e291] [cursor=pointer]:
+            - /url: https://atlasesthetics.ru/
+            - generic [ref=f5e292]: Сайт клиники
+            - generic [ref=f5e293]: atlasesthetics.ru
+  - contentinfo [ref=f5e294]:
+    - generic [ref=f5e296]:
+      - generic [ref=f5e297]:
+        - generic [ref=f5e298]:
+          - heading "Красивая кожа — это система, а не случайность. Начнём с консультации." [level=2] [ref=f5e299]
+          - link "Записаться на консультацию" [ref=f5e300] [cursor=pointer]:
+            - /url: "#contact"
+        - navigation "Навигация по сайту" [ref=f5e310]:
+          - generic [ref=f5e311]:
+            - generic [ref=f5e312]: Навигация
+            - link "Подход" [ref=f5e313] [cursor=pointer]:
+              - /url: "#halves"
+            - link "Как строится работа" [ref=f5e314] [cursor=pointer]:
+              - /url: "#work"
+            - link "Аппаратные методы" [ref=f5e315] [cursor=pointer]:
+              - /url: "#methods"
+            - link "Инъекционные методы" [ref=f5e316] [cursor=pointer]:
+              - /url: "#inject"
+            - link "Домашний уход" [ref=f5e317] [cursor=pointer]:
+              - /url: "#care"
+            - link "Пресса" [ref=f5e318] [cursor=pointer]:
+              - /url: "#press"
+            - link "Обо мне" [ref=f5e319] [cursor=pointer]:
+              - /url: "#about"
+            - link "Где я принимаю" [ref=f5e320] [cursor=pointer]:
+              - /url: "#contact"
+          - generic [ref=f5e321]:
+            - generic [ref=f5e322]: Где я ещё пишу
+            - link "Telegram" [ref=f5e323] [cursor=pointer]:
+              - /url: https://t.me/krasotanasspaset
+            - link "ВКонтакте" [ref=f5e324] [cursor=pointer]:
+              - /url: https://vk.com/krasotanasspaset
+            - link "Дзен" [ref=f5e325] [cursor=pointer]:
+              - /url: https://dzen.ru/id/6237172c60d2e66b912c755f
+      - generic [ref=f5e326]: Чащина
+      - paragraph [ref=f5e328]: © 2026 Оксана Чащина. Имеются противопоказания. Необходима консультация специалиста.
+  - generic [ref=f5e331]:
+    - button [ref=f5e332]
+    - button [ref=f5e338]
+    - button [ref=f5e342]
+    - button [ref=f5e350]

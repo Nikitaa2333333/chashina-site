@@ -1,0 +1,73 @@
+---
+// Шапка референса: слева белая плашка-логотип, справа плашка-навигация
+// с mono-ссылками и тёмной CTA. Обе — скруглённые пилюли, фиксированы сверху.
+---
+
+<header class="header">
+  <nav class="header__nav" aria-label="Основная навигация">
+    <a class="header__link mono" href="#halves">Подход</a>
+    <a class="header__link mono" href="#work">Как я работаю</a>
+    <a class="header__link mono" href="#methods">Методы</a>
+    <a class="header__link mono" href="#care">Уход</a>
+    <!-- Ведёт в блок «Где я принимаю»: формы нет, там телефон клиники -->
+    <a class="header__cta mono" href="#contact">Записаться</a>
+  </nav>
+</header>
+
+<style>
+  .header {
+    position: fixed;
+    inset: 16px var(--gutter) auto;
+    z-index: 50;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  /* Глассморфизм: полупрозрачное стекло с блюром */
+  .header__nav {
+    display: inline-flex;
+    align-items: center;
+    height: 58px;
+    padding: 6px;
+    background: rgba(255, 255, 255, 0.4);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    border-radius: var(--radius-nav);
+  }
+  .header__link {
+    display: inline-flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 17px;
+    border-radius: var(--radius-btn);
+    color: var(--ink);
+    transition: background 0.25s var(--ease);
+  }
+  .header__link:hover {
+    background: var(--lime);
+  }
+  .header__cta {
+    display: inline-flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 20px;
+    margin-left: 6px;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: var(--radius-btn);
+    transition: background 0.25s var(--ease), color 0.25s var(--ease);
+  }
+  .header__cta:hover {
+    background: var(--lime);
+    color: var(--ink);
+  }
+
+  /* На мобиле шапку прячем целиком: одинокая кнопка «Записаться»
+     смотрится сиротливо, CTA есть в хиро и по ходу страницы */
+  @media (max-width: 760px) {
+    .header {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,96 @@
+- generic [active] [ref=f5e1]:
+  - banner [ref=f5e2]:
+    - navigation "Основная навигация" [ref=f5e3]:
+      - link "Подход" [ref=f5e4] [cursor=pointer]:
+        - /url: "#halves"
+      - link "Как я работаю" [ref=f5e5] [cursor=pointer]:
+        - /url: "#work"
+      - link "Записаться" [ref=f5e6] [cursor=pointer]:
+        - /url: "#contact"
+  - generic [ref=f5e10]:
+    - heading "Оксана Чащина" [level=1] [ref=f5e12]:
+      - generic [ref=f5e13]: Оксана
+      - generic [ref=f5e14]: Чащина
+    - img "Оксана Чащина, врач-косметолог" [ref=f5e15]
+    - generic [ref=f5e16]:
+      - generic [ref=f5e17]:
+        - paragraph [ref=f5e18]: Врач-косметолог, специалист превентивной медицины. 22 года практики.
+        - paragraph [ref=f5e19]: Аппарат сам по себе не решает ничего. Решает то, насколько точно понятно, что происходит с вашей кожей — и с организмом, частью которого она является.
+      - generic [ref=f5e20]:
+        - link "Записаться на консультацию" [ref=f5e21] [cursor=pointer]:
+          - /url: "#contact"
+        - generic [ref=f5e31]: Консультация — 60 минут
+  - generic [ref=f5e33]:
+    - generic [ref=f5e34]: Подход
+    - heading "Две половины одной работы." [level=2] [ref=f5e35]
+    - generic [ref=f5e36]:
+      - generic [ref=f5e37]:
+        - generic [ref=f5e38]: 01. Снаружи
+        - paragraph [ref=f5e39]: Лазеры, фокусированный ультразвук, радиоволновой лифтинг, токи. Всё, что делается с кожей и мягкими тканями непосредственно — с понятной глубиной воздействия и предсказуемым результатом.
+      - generic [ref=f5e40]:
+        - generic [ref=f5e41]: 02. Изнутри
+        - paragraph [ref=f5e42]: Хроническое воспаление, окислительный стресс, гликация, дефициты, качество сна. Всё, из-за чего кожа стареет быстрее и хуже восстанавливается — и что не исправить ни одним аппаратом.
+    - paragraph [ref=f5e43]:
+      - text: Кожа — самый большой орган человека. Работая с ней, мы включаем процессы и в окружающих тканях. Поэтому для меня антивозрастная работа — работа
+      - mark [ref=f5e44]: с организмом целиком
+      - text: ", а не с отдельной морщиной."
+  - generic [ref=f5e46]:
+    - generic [ref=f5e47]: Как строится работа
+    - heading "Почему я не начинаю с лифтинга." [level=2] [ref=f5e48]
+  - generic [ref=f5e49]:
+    - article [ref=f5e50]:
+      - generic [ref=f5e51]: "01."
+      - generic [ref=f5e52]:
+        - heading "Разобраться" [level=3] [ref=f5e53]
+        - paragraph [ref=f5e54]: "Сначала нужно понять, с чем мы имеем дело. Тип старения у всех разный, и от него напрямую зависит, что делать можно, а что бессмысленно или даже вредно. Иногда для этого достаточно осмотра, иногда я прошу сдать анализы: часть проблем с кожей решается не в кабинете косметолога."
+    - article [ref=f5e55]:
+      - generic [ref=f5e56]: "02."
+      - generic [ref=f5e57]:
+        - heading "Подготовить ткани" [level=3] [ref=f5e58]
+        - paragraph [ref=f5e59]: Радиоволновой лифтинг, микротоки, процедуры с очищающим действием — они оздоравливают ткани и сосуды, выводят лишнюю жидкость, возвращают коже плотность и сияние.
+    - article [ref=f5e60]:
+      - generic [ref=f5e61]: "03."
+      - generic [ref=f5e62]:
+        - heading "Подтянуть и закрепить" [level=3] [ref=f5e63]
+        - paragraph [ref=f5e64]: И только когда ткани к этому готовы, есть смысл переходить к мощному лифтингу и закреплять достигнутый результат. В обратном порядке это или не даст эффекта, или даст, но ненадолго.
+  - generic [ref=f5e66]:
+    - generic [ref=f5e67]: Что для меня важно
+    - generic [ref=f5e68]:
+      - generic [ref=f5e69]:
+        - heading "Безопасность технологии" [level=3] [ref=f5e70]
+        - paragraph [ref=f5e71]: И для пациента, и для врача — это не обсуждается.
+      - generic [ref=f5e72]:
+        - heading "Предсказуемость результата" [level=3] [ref=f5e73]
+        - paragraph [ref=f5e74]: Я должна понимать, что именно получится и через какое время, и сказать это вам до начала, а не после.
+      - generic [ref=f5e75]:
+        - heading "Ваше участие" [level=3] [ref=f5e76]
+        - paragraph [ref=f5e77]: Косметология не работает в отрыве от чекапов, сна, физической нагрузки и управления стрессом. Это не дополнение к процедурам, это их условие.
+  - contentinfo [ref=f5e78]:
+    - generic [ref=f5e80]:
+      - generic [ref=f5e81]:
+        - generic [ref=f5e82]:
+          - heading "Оставьте номер — я или мой помощник свяжемся с вами, ответим на вопросы и подберём удобное время." [level=2] [ref=f5e83]
+          - link "Записаться на консультацию" [ref=f5e84] [cursor=pointer]:
+            - /url: "#"
+        - navigation "Навигация по сайту" [ref=f5e94]:
+          - generic [ref=f5e95]:
+            - generic [ref=f5e96]: Навигация
+            - link "Подход" [ref=f5e97] [cursor=pointer]:
+              - /url: "#halves"
+            - link "Как строится работа" [ref=f5e98] [cursor=pointer]:
+              - /url: "#work"
+          - generic [ref=f5e99]:
+            - generic [ref=f5e100]: Где я ещё пишу
+            - link "Telegram" [ref=f5e101] [cursor=pointer]:
+              - /url: https://t.me/krasotanasspaset
+            - link "ВКонтакте" [ref=f5e102] [cursor=pointer]:
+              - /url: https://vk.com/krasotanasspaset
+            - link "Дзен" [ref=f5e103] [cursor=pointer]:
+              - /url: https://dzen.ru/id/6237172c60d2e66b912c755f
+      - generic [ref=f5e104]: Чащина
+      - paragraph [ref=f5e106]: © 2026 Оксана Чащина. Имеются противопоказания. Необходима консультация специалиста.
+  - generic [ref=f5e109]:
+    - button [ref=f5e110]
+    - button [ref=f5e116]
+    - button [ref=f5e120]
+    - button [ref=f5e128]
