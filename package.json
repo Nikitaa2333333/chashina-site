@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "astro dev --host 127.0.0.1 --port 4331",
     "build": "astro build",
+    "texts": "astro build && node scripts/extract-texts.mjs",
     "preview": "astro preview --host 127.0.0.1 --port 4332"
   },
   "dependencies": {

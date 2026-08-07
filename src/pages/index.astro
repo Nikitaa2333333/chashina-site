@@ -92,21 +92,6 @@ const press = [
   { source: 'Beautyhack', title: 'Wellness-манифест 2026' },
 ];
 
-const principles = [
-  {
-    title: 'Безопасность технологии',
-    text: 'И для пациента, и для врача — это не обсуждается.',
-  },
-  {
-    title: 'Предсказуемость результата',
-    text: 'Я должна понимать, что именно получится и через какое время, и сказать это вам до начала, а не после.',
-  },
-  {
-    title: 'Ваше участие',
-    text: 'Косметология не работает в отрыве от чекапов, сна, физической нагрузки и управления стрессом. Это не дополнение к процедурам, это их условие.',
-  },
-];
-
 // 14. Обо мне — таймлайн образования и практики.
 // Шкала одна на оба ряда: КОЛОНКА СЕТКИ = ОДИН ГОД из [CV_FROM, CV_TO].
 // Поэтому учёба и работа стоят на своих годах и видно, что они шли параллельно.
@@ -308,26 +293,11 @@ const gallery = [
       </article>
     ))}
   </section>
-  <section class="section principles">
-    <div class="container">
-      <span class="tag mono">Принципы</span>
-      <h2 class="principles__title">Что для меня важно.</h2>
-      <div class="principles__grid">
-        {principles.map((p) => (
-          <div class="principles__item">
-            <h3>{p.title}</h3>
-            <p>{p.text}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
   <!-- ================= МАНИФЕСТ =================
-       Крупная фраза с круглыми фото-вставками между словами -->
+       Крупная фраза с круглыми фото-вставками между словами.
+       Без бирки: фраза сама себе заголовок, пилюля над ней только мешала. -->
   <section class="section section--tight statement">
     <div class="container">
-      <span class="tag mono statement__label">Подход в одной фразе</span>
       <p class="statement__text">
         Красивая кожа — это всегда <img class="statement__dot" src="/photos/web/07.webp" alt="" loading="lazy" /> результат
         комплексной работы: ухода, процедур <img class="statement__dot" src="/photos/web/03.webp" alt="" loading="lazy" /> по
@@ -1022,41 +992,6 @@ const gallery = [
     max-width: 52ch;
   }
 
-  /* Бирка → заголовок 12px, как во всех секциях; заголовок → список
-     через --block-gap. Раньше заголовка не было и бирке приходилось
-     держать увеличенный отступ, иначе она липла к первому пункту —
-     отсюда и разнобой с другими секциями. */
-  .principles__title {
-    font-size: var(--text-display);
-    letter-spacing: var(--track-display);
-    line-height: 1.1;
-    max-width: var(--measure-head);
-    margin-top: 12px;
-  }
-  /* Редакционные строки: крупный заголовок слева, текст справа.
-     Держит вертикальный ритм, без карточек и линий */
-  .principles__grid {
-    display: flex;
-    flex-direction: column;
-    gap: clamp(22px, 2.6vw, 32px);
-    margin-top: var(--block-gap);
-  }
-  .principles__item {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
-    gap: clamp(20px, 3vw, 48px);
-    align-items: start;
-  }
-  .principles__item h3 {
-    font-size: clamp(1.6rem, 2.6vw, 2.4rem);
-    letter-spacing: var(--track-heading);
-    line-height: 1.15;
-  }
-  .principles__item p {
-    font-size: var(--text-lead);
-    max-width: 48ch;
-  }
-
   /* ================= 5. АППАРАТНЫЕ МЕТОДЫ ================= */
   .methods__title,
   .inject__title,
@@ -1268,12 +1203,6 @@ const gallery = [
   /* ================= МАНИФЕСТ ================= */
   .statement {
     text-align: center;
-  }
-  /* 12px — то же, что тег→заголовок в остальных секциях. Больше не ставим:
-     у манифеста line-height 1.25, полулидинг сам добавляет сверху ~15px,
-     и коробочные 36px читались как полсотни. */
-  .statement__label {
-    margin-bottom: 12px;
   }
   .statement__text {
     font-size: clamp(1.7rem, 3.2vw, 2.9rem);
@@ -2143,7 +2072,6 @@ const gallery = [
     }
     .halves__cols,
     .steps,
-    .principles__item,
     .methods__grid,
     .inject__grid,
     .smas__inner,
@@ -2293,7 +2221,8 @@ const gallery = [
       bottom.style.opacity = tBottom.toFixed(3);
       bottom.style.transform = `translateY(${(40 * (1 - tBottom)).toFixed(1)}px)`;
 
-      // фото едва заметно «оседает» из лёгкого приближения
+      // фото едва заметно «оседает» из лёгкого приближения (только десктоп —
+      // ниже 900px сцена не запускается, а фото прибито `scale: 1 !important`)
       if (photo) photo.style.scale = String(1.05 - 0.05 * easeOut(seg(p, 0, 0.4)));
     };
     const onScroll = () => {

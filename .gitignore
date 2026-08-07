@@ -9,8 +9,14 @@ dist/
 .env.*
 !.env.example
 
+# промежуточный файл для заливки в Google Docs (генерится из .md)
+docs/*.html
+
 # системное
 .DS_Store
 Thumbs.db
 *.log
 npm-debug.log*
+
+# служебное от playwright-mcp
+.playwright-mcp/
