@@ -21,6 +21,7 @@ import crypto from 'node:crypto';
 const ROOT = path.resolve(import.meta.dirname, '..');
 const RAW = path.join(ROOT, 'data/press-raw.tsv');
 const OUT = path.join(ROOT, 'data/press-audit.json');
+const BRIEF = path.join(ROOT, 'data/press-brief.tsv');
 const CACHE = path.join(ROOT, '.cache/press');
 
 const FORCE = process.argv.includes('--force');
@@ -213,6 +214,20 @@ console.log(`Записей: ${entries.length}, после вычистки ду
 const results = await pool(unique, CONCURRENCY, inspect);
 await fs.writeFile(OUT, JSON.stringify(results, null, 2));
 
+// Короткая выжимка — её и отдают Клоду на вёрстку. Полный JSON весит
+// в разы больше: там сырые описания и по четыре абзаца-кандидата на
+// каждую публикацию, и всё это в разбор раздела не нужно.
+const brief = results.map((r) => [
+  r.outlet,
+  r.kind,
+  r.year ?? '',
+  r.alive ? (r.title ?? r.note) : 'НЕ ОТКРЫЛАСЬ',
+  r.image ? 'обложка' : '',
+  (r.quotes?.[0] ?? '').slice(0, 220),
+  r.url,
+].join('\t'));
+await fs.writeFile(BRIEF, brief.join('\n'));
+
 const alive = results.filter((r) => r.alive);
 const dead = results.filter((r) => !r.alive);
 const withQuote = alive.filter((r) => r.quotes?.length);
@@ -239,3 +254,4 @@ for (const [o, n] of Object.entries(byOutlet).sort((a, b) => b[1] - a[1])) {
   console.log(`  ${String(n).padStart(3)}  ${o}`);
 }
 console.log(`\nПодробности: ${path.relative(ROOT, OUT)}`);
+console.log(`Выжимка для вёрстки (её и присылайте): ${path.relative(ROOT, BRIEF)}`);
