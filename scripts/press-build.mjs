@@ -49,9 +49,27 @@ const built = live.map((r) => {
   };
 });
 
-// Свежее сверху; публикации без года — в конец, но внутри своего издания
-// порядок сохраняем, чтобы «Личный опыт, часть 1 и 2» не разъезжались.
-built.sort((a, b) => (b.year ?? 0) - (a.year ?? 0));
+// Порядок в сетке. Просто «свежее сверху» не годится: год есть меньше
+// чем у половины, а карточки одного вида идут в исходнике подряд —
+// все двенадцать U Magazine без обложек встают сплошным тёмным столбцом.
+// Поэтому внутри каждого вида сортируем по свежести, а в общий список
+// выкладываем по кругу: с обложкой и цитатой, с обложкой, строкой.
+const bucket = { full: [], card: [], line: [] };
+for (const r of built) bucket[r.tier].push(r);
+for (const b of Object.values(bucket)) b.sort((a, c) => (c.year ?? 0) - (a.year ?? 0));
+
+const order = ['full', 'card', 'line'];
+const mixed = [];
+while (mixed.length < built.length) {
+  let moved = false;
+  for (const t of order) {
+    const next = bucket[t].shift();
+    if (next) { mixed.push(next); moved = true; }
+  }
+  if (!moved) break;
+}
+built.length = 0;
+built.push(...mixed);
 
 await fs.mkdir(path.dirname(OUT), { recursive: true });
 await fs.writeFile(OUT, JSON.stringify(built, null, 2));

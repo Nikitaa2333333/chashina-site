@@ -90,15 +90,27 @@ const pick = (html, ...res) => {
   return null;
 };
 
+// Мнемоники, которые реально встречаются в текстах изданий. Кавычки-лапки
+// &bdquo;…&ldquo; приезжали неразобранными и торчали в цитате прямо в вёрстке.
+const ENTITIES = {
+  quot: '"', apos: "'", amp: '&', lt: '<', gt: '>', nbsp: ' ', shy: '',
+  laquo: '«', raquo: '»', bdquo: '„', ldquo: '“', rdquo: '”',
+  lsquo: '‘', rsquo: '’', sbquo: '‚',
+  mdash: '—', ndash: '–', minus: '−', hellip: '…', middot: '·', bull: '•',
+  deg: '°', times: '×', ensp: ' ', emsp: ' ', thinsp: ' ', numero: '№',
+};
+
 function decode(s) {
   return s
-    .replace(/&(?:quot|#34);/g, '"').replace(/&(?:apos|#39);/g, "'")
-    .replace(/&(?:amp|#38);/g, '&').replace(/&(?:lt|#60);/g, '<')
-    .replace(/&(?:gt|#62);/g, '>').replace(/&(?:nbsp|#160);/g, ' ')
-    .replace(/&(?:laquo|#171);/g, '«').replace(/&(?:raquo|#187);/g, '»')
-    .replace(/&(?:mdash|#8212);/g, '—').replace(/&(?:ndash|#8211);/g, '–')
+    .replace(/&([a-zA-Z]+);/g, (m, name) => {
+      const key = name.toLowerCase();
+      return key in ENTITIES ? ENTITIES[key] : m;
+    })
+    .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
     .replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(+d))
-    .replace(/\s+/g, ' ').trim();
+    .replace(/\s+/g, ' ')
+    .replace(/\s+([,.;:!?»])/g, '$1')
+    .trim();
 }
 
 const meta = (prop) =>
@@ -124,15 +136,19 @@ function titleLooksBroken(title, outlet) {
 }
 
 // Хвосты вида «… | Salt», «… - ZDR», «… / Передачи НТВ», «…. BEAUTYHACK».
-function stripOutletTail(title, outlet) {
+function stripOutletTail(title, outlet, domain = '') {
   if (!title) return title;
   const key = outlet.toLowerCase().replace(/[^a-zа-яё0-9]/gi, '');
+  // Издание в заголовке нередко зовётся доменом, а не своим названием.
+  const dom = domain.replace(/\.[a-z.]+$/, '').replace(/[^a-z0-9]/gi, '').toLowerCase();
   let out = title;
   for (let i = 0; i < 3; i++) {
     const m = /^(.*?)[\s]*[|\u2013\u2014\-\/]\s*([^|\u2013\u2014\-\/]{2,40})$/.exec(out);
     if (!m) break;
     const tail = m[2].toLowerCase().replace(/[^a-zа-яё0-9]/gi, '');
-    const isOutlet = key && (tail.includes(key) || key.includes(tail));
+    const isOutlet =
+      (key && (tail.includes(key) || key.includes(tail))) ||
+      (dom && dom.length > 2 && (tail === dom || tail.includes(dom)));
     if (!isOutlet && !/передач|выпуск/i.test(m[2])) break;
     out = m[1].trim();
   }
@@ -155,6 +171,7 @@ function scoreQuote(text) {
   if (/(рассказал|поясня|объясня|уверен|отмеча|добавля|соглас)\w*[^.]{0,60}Чащин/i.test(text)) score += 2;
   if (/Чащин\w*[^.]{0,60}(рассказал|поясня|объясня|уверен|отмеча|добавля)/i.test(text)) score += 2;
   if (EDITORIAL.test(text.trim())) score -= 5;              // это говорит редакция, не она
+  if (/[:\u2014\u2013-]$/.test(text.trim())) score -= 4;         // «Отвечает Оксана Чащина:» — подводка
   if (/^[^.!?]{0,120}$/.test(text) && !/[«"]/.test(text)) score -= 1; // огрызок без речи
   if (text.length > 160) score += 1;
   return score;
@@ -242,7 +259,7 @@ async function inspect(entry) {
     const rawTitle =
       pick(html, meta('og:title'), metaRev('og:title'), /<title[^>]*>([\s\S]*?)<\/title>/i);
     const broken = titleLooksBroken(rawTitle, base.outlet);
-    const title = broken ? note : stripOutletTail(rawTitle, base.outlet);
+    const title = broken ? note : stripOutletTail(rawTitle, base.outlet, h);
     const published =
       pick(html, meta('article:published_time'), metaRev('article:published_time'),
            meta('publish-date'), /<time[^>]+datetime=["']([^"']+)["']/i);
