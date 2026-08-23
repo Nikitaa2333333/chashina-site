@@ -1,5 +1,15 @@
 [
   {
+    "title": "Чистый взгляд - ZDR",
+    "outlet": "Здоровье",
+    "kind": "статья",
+    "year": 2024,
+    "url": "https://zdr.ru/chistyj-vzglyad/",
+    "cover": "press/zdr-chistyj-vzglyad-ebc13a.webp",
+    "quote": "Кроме этого, в зоне риска – те, кто близорук, но не жалует очки, контактные линзы или все еще не отважился на лазерную коррекцию зрения.",
+    "tier": "full"
+  },
+  {
     "title": "Ear seeding: что это такое и кому стоит попробовать",
     "outlet": "Focus Moda",
     "kind": "статья",
@@ -20,14 +30,14 @@
     "tier": "line"
   },
   {
-    "title": "Как выбрать постельное белье без вреда для кожи?",
-    "outlet": "Газета.ру",
+    "title": "«Чтобы было красиво и не выбивало из графика». Как работает SMAS-лифтинг",
+    "outlet": "Flacon",
     "kind": "статья",
-    "year": 2026,
-    "url": "https://www.gazeta.ru/social/news/2026/03/31/28174591.shtml",
-    "cover": null,
-    "quote": null,
-    "tier": "line"
+    "year": 2023,
+    "url": "https://flacon-magazine.com/ukhod/kosmetologiya/3580194-chtoby-bylo-krasivo-i-ne-vybivalo-iz-grafika-kak-rabotayet-smas-lifting",
+    "cover": "press/flacon-magazine-3580194-chtoby-bylo-krasivo-i-ne-v-3ca14e.webp",
+    "quote": "Оксана Чащина: В косметологии широко используется ультразвуковой SMAS-лифтинг. Это работает так: ультразвуковая волна соединяется в одной точке в глубине кожи, происходит нагрев, который приводит к сокращению кожи и подкожных структур.",
+    "tier": "full"
   },
   {
     "title": "Когда лучше принимать коллаген: утром или вечером, до или после еды",
@@ -40,63 +50,13 @@
     "tier": "card"
   },
   {
-    "title": "Лето в городе: полный гид по уходу и макияжу в жару",
-    "outlet": "Focus Moda",
-    "kind": "статья",
-    "year": 2026,
-    "url": "https://focusmoda.ru/beauty/skincare/beautysummer",
-    "cover": "press/focusmoda-beautysummer-0ecaba.webp",
-    "quote": null,
-    "tier": "card"
-  },
-  {
-    "title": "Хватит считать овец: как наладить режим сна",
-    "outlet": "Focus Moda",
-    "kind": "статья",
-    "year": 2025,
-    "url": "https://focusmoda.ru/beauty/health/son-i-zdorove-kak-naladit-rezhim-i-chto-proishodit-s-organizmom-cheloveka-nochyu",
-    "cover": "press/focusmoda-son-i-zdorove-kak-naladit-rezhim-i-999b04.webp",
-    "quote": null,
-    "tier": "card"
-  },
-  {
-    "title": "Чистый взгляд - ZDR",
-    "outlet": "Здоровье",
-    "kind": "статья",
-    "year": 2024,
-    "url": "https://zdr.ru/chistyj-vzglyad/",
-    "cover": "press/zdr-chistyj-vzglyad-ebc13a.webp",
-    "quote": "Кроме этого, в зоне риска – те, кто близорук, но не жалует очки, контактные линзы или все еще не отважился на лазерную коррекцию зрения.",
-    "tier": "full"
-  },
-  {
-    "title": "Врач-косметолог Оксана Чащина назвала компоненты косметики, которых лучше избегать",
+    "title": "Как выбрать постельное белье без вреда для кожи?",
     "outlet": "Газета.ру",
     "kind": "статья",
-    "year": 2023,
-    "url": "https://www.gazeta.ru/style/news/2023/04/11/20187565.shtml",
+    "year": 2026,
+    "url": "https://www.gazeta.ru/social/news/2026/03/31/28174591.shtml",
     "cover": null,
     "quote": null,
-    "tier": "line"
-  },
-  {
-    "title": "«Чтобы было красиво и не выбивало из графика». Как работает SMAS-лифтинг",
-    "outlet": "Flacon",
-    "kind": "статья",
-    "year": 2023,
-    "url": "https://flacon-magazine.com/ukhod/kosmetologiya/3580194-chtoby-bylo-krasivo-i-ne-vybivalo-iz-grafika-kak-rabotayet-smas-lifting",
-    "cover": "press/flacon-magazine-3580194-chtoby-bylo-krasivo-i-ne-v-3ca14e.webp",
-    "quote": "Оксана Чащина: В косметологии широко используется ультразвуковой SMAS-лифтинг. Это работает так: ультразвуковая волна соединяется в одной точке в глубине кожи, происходит нагрев, который приводит к сокращению кожи и подкожных структур.",
-    "tier": "full"
-  },
-  {
-    "title": "Масла для тела: как пользоваться, чтобы был толк?",
-    "outlet": "Beauty Insider",
-    "kind": "статья",
-    "year": 2022,
-    "url": "https://www.beautyinsider.ru/2022/09/29/masla-dlya-tela-kak-polzovatsa-chtoby-byl-tolkcc/",
-    "cover": null,
-    "quote": "Масла получают из листьев, семян, ствола самых разнообразных растений. Оксана Чащина : «С химической точки зрения, косметическое масло для тела представляет собой смесь жирных кислот, которая богата каротиноидами и антиоксидантами».",
     "tier": "line"
   },
   {
@@ -110,6 +70,26 @@
     "tier": "full"
   },
   {
+    "title": "Лето в городе: полный гид по уходу и макияжу в жару",
+    "outlet": "Focus Moda",
+    "kind": "статья",
+    "year": 2026,
+    "url": "https://focusmoda.ru/beauty/skincare/beautysummer",
+    "cover": "press/focusmoda-beautysummer-0ecaba.webp",
+    "quote": null,
+    "tier": "card"
+  },
+  {
+    "title": "Врач-косметолог Оксана Чащина назвала компоненты косметики, которых лучше избегать",
+    "outlet": "Газета.ру",
+    "kind": "статья",
+    "year": 2023,
+    "url": "https://www.gazeta.ru/style/news/2023/04/11/20187565.shtml",
+    "cover": null,
+    "quote": null,
+    "tier": "line"
+  },
+  {
     "title": "Как ухаживать за жирной возрастной кожей?",
     "outlet": "Beauty Insider",
     "kind": "статья",
@@ -120,6 +100,26 @@
     "tier": "full"
   },
   {
+    "title": "Хватит считать овец: как наладить режим сна",
+    "outlet": "Focus Moda",
+    "kind": "статья",
+    "year": 2025,
+    "url": "https://focusmoda.ru/beauty/health/son-i-zdorove-kak-naladit-rezhim-i-chto-proishodit-s-organizmom-cheloveka-nochyu",
+    "cover": "press/focusmoda-son-i-zdorove-kak-naladit-rezhim-i-999b04.webp",
+    "quote": null,
+    "tier": "card"
+  },
+  {
+    "title": "Масла для тела: как пользоваться, чтобы был толк?",
+    "outlet": "Beauty Insider",
+    "kind": "статья",
+    "year": 2022,
+    "url": "https://www.beautyinsider.ru/2022/09/29/masla-dlya-tela-kak-polzovatsa-chtoby-byl-tolkcc/",
+    "cover": null,
+    "quote": "Масла получают из листьев, семян, ствола самых разнообразных растений. Оксана Чащина : «С химической точки зрения, косметическое масло для тела представляет собой смесь жирных кислот, которая богата каротиноидами и антиоксидантами».",
+    "tier": "line"
+  },
+  {
     "title": "Кольца венеры на шее: как убрать, избавиться, советы экспертов, отзывы",
     "outlet": "Beauty Insider",
     "kind": "статья",
@@ -128,6 +128,16 @@
     "cover": "press/beautyinsider-kolcza-venery-kak-ubrat-sovetuyut-e447ed.webp",
     "quote": "Оксана Чащина: Правда. В этой области очень небольшое количество подкожно-жировой клетчатки. С возрастом ее становится еще меньше. Там также мало и сальных желез, которые отвечают за образование защитной жировой пленки на коже.",
     "tier": "full"
+  },
+  {
+    "title": "Чем пахнет старость?",
+    "outlet": "Аргументы и факты",
+    "kind": "статья",
+    "year": 2020,
+    "url": "https://aif.ru/health/life/chem_pahnet_starost",
+    "cover": "press/aif-chem-pahnet-starost-71ed84.webp",
+    "quote": null,
+    "tier": "card"
   },
   {
     "title": "Как изменить нос без операции - и стоит ли?",
@@ -150,202 +160,12 @@
     "tier": "full"
   },
   {
-    "title": "Чем опасно весеннее солнце?",
-    "outlet": "Аргументы и факты",
-    "kind": "статья",
-    "year": 2021,
-    "url": "https://aif.ru/health/life/chem_opasno_vesennee_solnce",
-    "cover": "press/aif-chem-opasno-vesennee-solnce-a20fd2.webp",
-    "quote": "«Весеннее солнце коварно, — рассказывает врач-косметолог медицинского центра &bdquo;Атлас&ldquo; Оксана Чащина. — Хотя летом оно воздействует на человека активнее, уровень ультрафиолетового излучения и весной высок.",
-    "tier": "full"
-  },
-  {
-    "title": "LED-терапия для красоты и молодости: правда ли помогает?",
-    "outlet": "Beauty Insider",
-    "kind": "статья",
-    "year": 2021,
-    "url": "https://www.beautyinsider.ru/2021/04/21/chto-takoe-led-terapiya-i-nuzhna-li-ona-lichno-vam/",
-    "cover": "press/beautyinsider-chto-takoe-led-terapiya-i-nuzhna-l-5af970.webp",
-    "quote": "Оксана Чащина: Световая терапия стимулирует восстановительные процессы и выработку коллагена, выравнивает тон кожи, делает ее более эластичной, способствует снижению количества воспалений и регулирует работу сальных желез.",
-    "tier": "full"
-  },
-  {
-    "title": "Чем пахнет старость?",
-    "outlet": "Аргументы и факты",
-    "kind": "статья",
-    "year": 2020,
-    "url": "https://aif.ru/health/life/chem_pahnet_starost",
-    "cover": "press/aif-chem-pahnet-starost-71ed84.webp",
-    "quote": null,
-    "tier": "card"
-  },
-  {
-    "title": "Как купаться безопасно и с заботой о своем теле",
-    "outlet": "Perito Burrito",
-    "kind": "статья",
-    "year": 2020,
-    "url": "https://perito-burrito.com/posts/safety-swimming",
-    "cover": "press/perito-burrito-safety-swimming-23bb56.webp",
-    "quote": "Если вы проглотили совсем немного воды, можно расслабиться — опасность минимальна. Оксана Чащина объясняет, что организм здорового человека вырабатывает достаточное количество ферментов, чтобы нормализовать флору при попадании бактерий.",
-    "tier": "full"
-  },
-  {
-    "title": "Как справиться с гусиной кожей? Советуют эксперты",
-    "outlet": "Beauty Insider",
-    "kind": "статья",
-    "year": 2020,
-    "url": "https://www.beautyinsider.ru/2020/12/22/kak-spravitsya-s-gusinoj-kozhej-sovetuyut-eksperty/",
-    "cover": "press/beautyinsider-kak-spravitsya-s-gusinoj-kozhej-so-8d8b98.webp",
-    "quote": "«Средства с AHA и бета-гидроксикислотами тоже могут помочь, — добавляет Чащина. — Они размягчают роговые пробки (и их потом легче удалить).",
-    "tier": "full"
-  },
-  {
-    "title": "Отёчность лица по утрам: как избавиться",
-    "outlet": "Buro 24/7",
-    "kind": "статья",
-    "year": 2020,
-    "url": "https://www.buro247.ru/beauty/cosmetic/12-feb-2019-facial-swelling.html",
-    "cover": "press/buro247-12-feb-2019-facial-swelling-4782e4.webp",
-    "quote": "«Основной причиной отеков лица является определённый тип старения , то есть определённый тип строения мягких тканей. Не каждый тип старения имеет тенденцию к отечности.",
-    "tier": "full"
-  },
-  {
-    "title": "Что такое инфламэйджинг кожи и как он возникает",
-    "outlet": "Buro 24/7",
-    "kind": "статья",
-    "year": 2019,
-    "url": "https://m.buro247.ru/beauty/health/27-mar-2019-inflammaging-skin.html",
-    "cover": "press/buro247-27-mar-2019-inflammaging-skin-02831b.webp",
-    "quote": "Инфламэйджинг затрагивает весь организм: от кожи до иммунной системы и ЖКТ. «Главное отличие от острого воспаления: долгое время может протекать бессимптомно. Первые видимые признаки — сухая тонкая кожа и её пигментация, большое количество тонких морщин.",
-    "tier": "full"
-  },
-  {
-    "title": "Нужна ли волосам шапка?",
-    "outlet": "Аргументы и факты",
-    "kind": "статья",
-    "year": 2019,
-    "url": "https://aif.ru/health/secrets/nuzhna_li_volosam_shapka",
-    "cover": "press/aif-nuzhna-li-volosam-shapka-3db7d8.webp",
-    "quote": "Отвечает врач-косметолог, физиотерапевт медицинского центра «Атлас» Оксана Чащина :",
-    "tier": "full"
-  },
-  {
-    "title": "Чем опасны приклеенные ресницы?",
-    "outlet": "Аргументы и факты",
-    "kind": "статья",
-    "year": 2019,
-    "url": "https://aif.ru/health/secrets/chem_opasny_prikleennye_resnicy",
-    "cover": "press/aif-chem-opasny-prikleennye-resnicy-a94e9b.webp",
-    "quote": "– В ходе наращивания к одной ресничке прикрепляются 2–3 дополнительных волоска, – объясняет врач-косметолог Оксана Чащина. – Фолликул (корень ресницы) не справляется с дополнительным весом, поэтому может травмироваться и атрофироваться.",
-    "tier": "full"
-  },
-  {
-    "title": "Что нужно знать об омоложении собственными фибробластами",
-    "outlet": "Buro 24/7",
-    "kind": "статья",
-    "year": 2019,
-    "url": "https://www.buro247.ru/beauty/health/29-jan-2019-rejuvenation-with-your-own-fibroblasts.html",
-    "cover": "press/buro247-29-jan-2019-rejuvenation-with-your-e22dc2.webp",
-    "quote": "«Почему образец берётся за ухом? Потому что эта зона наименее подвержена травматическому воздействию солнца», — поясняет Оксана Чащина, врач-дерматокосметолог, физиотерапевт медицинского центра «Атлас».",
-    "tier": "full"
-  },
-  {
     "title": "Ботокс, мезотерапия, филлеры: отзывы редакторов",
     "outlet": "Beauty Insider",
     "kind": "статья",
     "year": 2019,
     "url": "https://www.beautyinsider.ru/2019/06/30/na-chto-sposobna-kosmetologiya-podborka-samyih-effektivnyih-protsedur/",
     "cover": "press/beautyinsider-na-chto-sposobna-kosmetologiya-pod-c4c143.webp",
-    "quote": null,
-    "tier": "card"
-  },
-  {
-    "title": "Как избавиться от филлеров",
-    "outlet": "Buro 24/7",
-    "kind": "статья",
-    "year": 2018,
-    "url": "https://www.buro247.ru/beauty/health/17-jul-2018-how-to-get-rid-of-fillers.html",
-    "cover": "press/buro247-17-jul-2018-how-to-get-rid-of-fill-6420e2.webp",
-    "quote": "«Во время инъекции ферментного препарата возникает пощипывание. Скорость расщепления, в зависимости от введенного объема, составляет от 30 минут до 5–7 дней, она зависит от точности введения и распределения ферментного препарата, в каждом случае реакция…",
-    "tier": "full"
-  },
-  {
-    "title": "Кожа, волосы, ногти. Как восстановиться после лета?",
-    "outlet": "Аргументы и факты",
-    "kind": "статья",
-    "year": 2018,
-    "url": "http://www.aif.ru/health/secrets/kozha_volosy_nogti_kak_vosstanovitsya_posle_leta",
-    "cover": "press/aif-kozha-volosy-nogti-kak-vosstanovit-0d947e.webp",
-    "quote": "Врач-дерматокосметолог, специалист превентивной медицины, физиотерапевт, лазеротерапевт медицинского центра Оксана Чащина :",
-    "tier": "full"
-  },
-  {
-    "title": "Отзывы на омолаживающие процедуры для шеи и зоны декольте",
-    "outlet": "Beauty Insider",
-    "kind": "статья",
-    "year": 2018,
-    "url": "https://www.beautyinsider.ru/2018/09/25/omolozhenie-shei-i-zonyi-dekolte-posle-40-let-protseduryi-i-tsenyi/",
-    "cover": "press/beautyinsider-omolozhenie-shei-i-zonyi-dekolte-p-7af9b3.webp",
-    "quote": null,
-    "tier": "card"
-  },
-  {
-    "title": "Как убрать второй подбородок? Использование липолитиков, отзывы",
-    "outlet": "Beauty Insider",
-    "kind": "статья",
-    "year": 2015,
-    "url": "https://www.beautyinsider.ru/2015/06/08/double-chin-reduction-fifth-element/",
-    "cover": "press/beautyinsider-double-chin-reduction-fifth-elemen-1a4e73.webp",
-    "quote": null,
-    "tier": "card"
-  },
-  {
-    "title": "Как убрать второй подбородок. Личный опыт",
-    "outlet": "Beauty Insider",
-    "kind": "статья",
-    "year": 2015,
-    "url": "https://www.beautyinsider.ru/2015/10/24/mentoplasty/",
-    "cover": "press/beautyinsider-mentoplasty-b640fc.webp",
-    "quote": "Доктор Чащина объясняет мне это подробно и доходчиво, как ребенку: «Все, что мы делаем на этом этапе, мы делаем с одной целью: ускорить обмен веществ, который с возрастом тормозится. Лет до 20-25 мы растем.",
-    "tier": "full"
-  },
-  {
-    "title": "Дело молодое: что сделать для своей красоты сегодня, чтобы хорошо выглядеть через 20 лет",
-    "outlet": "Harper’s Bazaar",
-    "kind": "статья",
-    "year": null,
-    "url": "https://bazaar.ru/beauty/reviews/delo-molodoe-chto-sdelat-dlya-svoey-krasoty-segodnya-chtoby-horosho-vyglyadet-cherez-20-let/",
-    "cover": "press/bazaar-delo-molodoe-chto-sdelat-dlya-svoe-736c98.webp",
-    "quote": null,
-    "tier": "card"
-  },
-  {
-    "title": "Сохранить лицо: что такое гравитационный птоз и как его остановить",
-    "outlet": "Salt",
-    "kind": "статья",
-    "year": null,
-    "url": "https://saltmag.ru/beauty/face/98-sohranit-litso-chto-takoe-gravitatsionnyj-ptoz-i-kak-ego-ostanovit",
-    "cover": "press/saltmag-98-sohranit-litso-chto-takoe-gravi-43fc96.webp",
-    "quote": null,
-    "tier": "card"
-  },
-  {
-    "title": "Клетки красоты: кто такие фибробласты и почему от них зависит наша молодость",
-    "outlet": "Salt",
-    "kind": "статья",
-    "year": null,
-    "url": "https://saltmag.ru/beauty/face/83-kletki-krasoty-kto-takie-fibroblasty-i-pochemu-ot-nih-zavisit-nasha-molodost/",
-    "cover": "press/saltmag-83-kletki-krasoty-kto-takie-fibrob-731961.webp",
-    "quote": null,
-    "tier": "card"
-  },
-  {
-    "title": "Косметика с гиалуроновой кислотой: панацея или маркетинговый ход",
-    "outlet": "Salt",
-    "kind": "статья",
-    "year": null,
-    "url": "https://saltmag.ru/beauty/face/71-kosmetika-s-gialuronovoj-kislotoj-panatseja-ili-marketingovyj-hod/",
-    "cover": "press/saltmag-71-kosmetika-s-gialuronovoj-kislot-182a84.webp",
     "quote": null,
     "tier": "card"
   },
@@ -360,6 +180,26 @@
     "tier": "line"
   },
   {
+    "title": "Чем опасно весеннее солнце?",
+    "outlet": "Аргументы и факты",
+    "kind": "статья",
+    "year": 2021,
+    "url": "https://aif.ru/health/life/chem_opasno_vesennee_solnce",
+    "cover": "press/aif-chem-opasno-vesennee-solnce-a20fd2.webp",
+    "quote": "«Весеннее солнце коварно, — рассказывает врач-косметолог медицинского центра &bdquo;Атлас&ldquo; Оксана Чащина. — Хотя летом оно воздействует на человека активнее, уровень ультрафиолетового излучения и весной высок.",
+    "tier": "full"
+  },
+  {
+    "title": "Отзывы на омолаживающие процедуры для шеи и зоны декольте",
+    "outlet": "Beauty Insider",
+    "kind": "статья",
+    "year": 2018,
+    "url": "https://www.beautyinsider.ru/2018/09/25/omolozhenie-shei-i-zonyi-dekolte-posle-40-let-protseduryi-i-tsenyi/",
+    "cover": "press/beautyinsider-omolozhenie-shei-i-zonyi-dekolte-p-7af9b3.webp",
+    "quote": null,
+    "tier": "card"
+  },
+  {
     "title": "Клеточные технологии в косметологии — 2 эффективные методики омоложения.",
     "outlet": "U Magazine",
     "kind": "статья",
@@ -370,12 +210,22 @@
     "tier": "line"
   },
   {
-    "title": "Враг или нет: как влияет солнце на организм и стоит ли его бояться",
-    "outlet": "Cosmopolitan",
+    "title": "LED-терапия для красоты и молодости: правда ли помогает?",
+    "outlet": "Beauty Insider",
     "kind": "статья",
-    "year": null,
-    "url": "https://www.cosmo.ru/beauty/face/vrag-ili-net-kak-vliyaet-solnce-na-organizm-i-stoit-li-ego-boyatsya/",
-    "cover": "press/cosmo-vrag-ili-net-kak-vliyaet-solnce-na-6f53d6.webp",
+    "year": 2021,
+    "url": "https://www.beautyinsider.ru/2021/04/21/chto-takoe-led-terapiya-i-nuzhna-li-ona-lichno-vam/",
+    "cover": "press/beautyinsider-chto-takoe-led-terapiya-i-nuzhna-l-5af970.webp",
+    "quote": "Оксана Чащина: Световая терапия стимулирует восстановительные процессы и выработку коллагена, выравнивает тон кожи, делает ее более эластичной, способствует снижению количества воспалений и регулирует работу сальных желез.",
+    "tier": "full"
+  },
+  {
+    "title": "Как убрать второй подбородок? Использование липолитиков, отзывы",
+    "outlet": "Beauty Insider",
+    "kind": "статья",
+    "year": 2015,
+    "url": "https://www.beautyinsider.ru/2015/06/08/double-chin-reduction-fifth-element/",
+    "cover": "press/beautyinsider-double-chin-reduction-fifth-elemen-1a4e73.webp",
     "quote": null,
     "tier": "card"
   },
@@ -390,12 +240,22 @@
     "tier": "line"
   },
   {
-    "title": "Холодный прием: 5 косметологических процедур, которые стоит сделать зимой",
-    "outlet": "Cosmopolitan",
+    "title": "Как купаться безопасно и с заботой о своем теле",
+    "outlet": "Perito Burrito",
+    "kind": "статья",
+    "year": 2020,
+    "url": "https://perito-burrito.com/posts/safety-swimming",
+    "cover": "press/perito-burrito-safety-swimming-23bb56.webp",
+    "quote": "Если вы проглотили совсем немного воды, можно расслабиться — опасность минимальна. Оксана Чащина объясняет, что организм здорового человека вырабатывает достаточное количество ферментов, чтобы нормализовать флору при попадании бактерий.",
+    "tier": "full"
+  },
+  {
+    "title": "Дело молодое: что сделать для своей красоты сегодня, чтобы хорошо выглядеть через 20 лет",
+    "outlet": "Harper’s Bazaar",
     "kind": "статья",
     "year": null,
-    "url": "https://www.cosmo.ru/beauty/face/holodnyy-priem-5-kosmetologicheskih-procedur-kotorye-stoit-sdelat-zimoy/",
-    "cover": "press/cosmo-holodnyy-priem-5-kosmetologicheski-c55c09.webp",
+    "url": "https://bazaar.ru/beauty/reviews/delo-molodoe-chto-sdelat-dlya-svoey-krasoty-segodnya-chtoby-horosho-vyglyadet-cherez-20-let/",
+    "cover": "press/bazaar-delo-molodoe-chto-sdelat-dlya-svoe-736c98.webp",
     "quote": null,
     "tier": "card"
   },
@@ -410,6 +270,26 @@
     "tier": "line"
   },
   {
+    "title": "Как справиться с гусиной кожей? Советуют эксперты",
+    "outlet": "Beauty Insider",
+    "kind": "статья",
+    "year": 2020,
+    "url": "https://www.beautyinsider.ru/2020/12/22/kak-spravitsya-s-gusinoj-kozhej-sovetuyut-eksperty/",
+    "cover": "press/beautyinsider-kak-spravitsya-s-gusinoj-kozhej-so-8d8b98.webp",
+    "quote": "«Средства с AHA и бета-гидроксикислотами тоже могут помочь, — добавляет Чащина. — Они размягчают роговые пробки (и их потом легче удалить).",
+    "tier": "full"
+  },
+  {
+    "title": "Сохранить лицо: что такое гравитационный птоз и как его остановить",
+    "outlet": "Salt",
+    "kind": "статья",
+    "year": null,
+    "url": "https://saltmag.ru/beauty/face/98-sohranit-litso-chto-takoe-gravitatsionnyj-ptoz-i-kak-ego-ostanovit",
+    "cover": "press/saltmag-98-sohranit-litso-chto-takoe-gravi-43fc96.webp",
+    "quote": null,
+    "tier": "card"
+  },
+  {
     "title": "Можно ли стать моложе, лежа на диване: 4 основных способа.",
     "outlet": "U Magazine",
     "kind": "статья",
@@ -418,6 +298,26 @@
     "cover": null,
     "quote": null,
     "tier": "line"
+  },
+  {
+    "title": "Отёчность лица по утрам: как избавиться",
+    "outlet": "Buro 24/7",
+    "kind": "статья",
+    "year": 2020,
+    "url": "https://www.buro247.ru/beauty/cosmetic/12-feb-2019-facial-swelling.html",
+    "cover": "press/buro247-12-feb-2019-facial-swelling-4782e4.webp",
+    "quote": "«Основной причиной отеков лица является определённый тип старения , то есть определённый тип строения мягких тканей. Не каждый тип старения имеет тенденцию к отечности.",
+    "tier": "full"
+  },
+  {
+    "title": "Клетки красоты: кто такие фибробласты и почему от них зависит наша молодость",
+    "outlet": "Salt",
+    "kind": "статья",
+    "year": null,
+    "url": "https://saltmag.ru/beauty/face/83-kletki-krasoty-kto-takie-fibroblasty-i-pochemu-ot-nih-zavisit-nasha-molodost/",
+    "cover": "press/saltmag-83-kletki-krasoty-kto-takie-fibrob-731961.webp",
+    "quote": null,
+    "tier": "card"
   },
   {
     "title": "Чем опасны автозагары и как они связаны с гликацией, приводящей к ускоренному старению.",
@@ -430,6 +330,26 @@
     "tier": "line"
   },
   {
+    "title": "Что такое инфламэйджинг кожи и как он возникает",
+    "outlet": "Buro 24/7",
+    "kind": "статья",
+    "year": 2019,
+    "url": "https://m.buro247.ru/beauty/health/27-mar-2019-inflammaging-skin.html",
+    "cover": "press/buro247-27-mar-2019-inflammaging-skin-02831b.webp",
+    "quote": "Инфламэйджинг затрагивает весь организм: от кожи до иммунной системы и ЖКТ. «Главное отличие от острого воспаления: долгое время может протекать бессимптомно. Первые видимые признаки — сухая тонкая кожа и её пигментация, большое количество тонких морщин.",
+    "tier": "full"
+  },
+  {
+    "title": "Косметика с гиалуроновой кислотой: панацея или маркетинговый ход",
+    "outlet": "Salt",
+    "kind": "статья",
+    "year": null,
+    "url": "https://saltmag.ru/beauty/face/71-kosmetika-s-gialuronovoj-kislotoj-panatseja-ili-marketingovyj-hod/",
+    "cover": "press/saltmag-71-kosmetika-s-gialuronovoj-kislot-182a84.webp",
+    "quote": null,
+    "tier": "card"
+  },
+  {
     "title": "Усталый вид лица: как с этим бороться",
     "outlet": "So Many Horses",
     "kind": "статья",
@@ -438,6 +358,26 @@
     "cover": null,
     "quote": null,
     "tier": "line"
+  },
+  {
+    "title": "Нужна ли волосам шапка?",
+    "outlet": "Аргументы и факты",
+    "kind": "статья",
+    "year": 2019,
+    "url": "https://aif.ru/health/secrets/nuzhna_li_volosam_shapka",
+    "cover": "press/aif-nuzhna-li-volosam-shapka-3db7d8.webp",
+    "quote": "Отвечает врач-косметолог, физиотерапевт медицинского центра «Атлас» Оксана Чащина :",
+    "tier": "full"
+  },
+  {
+    "title": "Враг или нет: как влияет солнце на организм и стоит ли его бояться",
+    "outlet": "Cosmopolitan",
+    "kind": "статья",
+    "year": null,
+    "url": "https://www.cosmo.ru/beauty/face/vrag-ili-net-kak-vliyaet-solnce-na-organizm-i-stoit-li-ego-boyatsya/",
+    "cover": "press/cosmo-vrag-ili-net-kak-vliyaet-solnce-na-6f53d6.webp",
+    "quote": null,
+    "tier": "card"
   },
   {
     "title": "Какие анализы вам стоит сдать, чтобы привести кожу в полный порядок.",
@@ -450,6 +390,26 @@
     "tier": "line"
   },
   {
+    "title": "Чем опасны приклеенные ресницы?",
+    "outlet": "Аргументы и факты",
+    "kind": "статья",
+    "year": 2019,
+    "url": "https://aif.ru/health/secrets/chem_opasny_prikleennye_resnicy",
+    "cover": "press/aif-chem-opasny-prikleennye-resnicy-a94e9b.webp",
+    "quote": "– В ходе наращивания к одной ресничке прикрепляются 2–3 дополнительных волоска, – объясняет врач-косметолог Оксана Чащина. – Фолликул (корень ресницы) не справляется с дополнительным весом, поэтому может травмироваться и атрофироваться.",
+    "tier": "full"
+  },
+  {
+    "title": "Холодный прием: 5 косметологических процедур, которые стоит сделать зимой",
+    "outlet": "Cosmopolitan",
+    "kind": "статья",
+    "year": null,
+    "url": "https://www.cosmo.ru/beauty/face/holodnyy-priem-5-kosmetologicheskih-procedur-kotorye-stoit-sdelat-zimoy/",
+    "cover": "press/cosmo-holodnyy-priem-5-kosmetologicheski-c55c09.webp",
+    "quote": null,
+    "tier": "card"
+  },
+  {
     "title": "Про самые эффективные процедуры, которые помогут скорректировать темные круги под глазами",
     "outlet": "U Magazine",
     "kind": "статья",
@@ -460,54 +420,14 @@
     "tier": "line"
   },
   {
-    "title": "Как вернуть молодость шее, кистям рук, локтям, коленям и ушам",
-    "outlet": "U Magazine",
+    "title": "Что нужно знать об омоложении собственными фибробластами",
+    "outlet": "Buro 24/7",
     "kind": "статья",
-    "year": null,
-    "url": "https://umagazine.ru/krasota/practice/kak-vernut-molodost-shee-kistyam-ruk-loktyam-kolenyam-i-usham/",
-    "cover": null,
-    "quote": null,
-    "tier": "line"
-  },
-  {
-    "title": "Старение шеи: лучшие средства и советы врача-дерматокосметолога",
-    "outlet": "So Many Horses",
-    "kind": "статья",
-    "year": null,
-    "url": "https://somanyhorses.ru/prezhdevremenno-starenie-shei-kak-obratit-vremya-vspyat/",
-    "cover": null,
-    "quote": null,
-    "tier": "line"
-  },
-  {
-    "title": "Какие косметологические процедуры устарели и что пришло им на замену.",
-    "outlet": "U Magazine",
-    "kind": "статья",
-    "year": null,
-    "url": "https://umagazine.ru/krasota/health/zolotye-niti-mekhanicheskaya-chistka-i-drugie-ustarevshie-protsedury-krasoty/",
-    "cover": null,
-    "quote": null,
-    "tier": "line"
-  },
-  {
-    "title": "Пигментные пятна: лучшие средства, кремы и секреты «отбеливания»",
-    "outlet": "So Many Horses",
-    "kind": "статья",
-    "year": null,
-    "url": "https://somanyhorses.ru/pigmentnye-pyatna-i-sredstva-borby-s-nimi-kremy-i-sovety-kosmetologa/",
-    "cover": null,
-    "quote": null,
-    "tier": "line"
-  },
-  {
-    "title": "Самые эффективные процедуры, которые за неделю или максимум десять дней помогут скорректировать черты лица, не прибегая к «тяжелой артиллерии»",
-    "outlet": "U Magazine",
-    "kind": "статья",
-    "year": null,
-    "url": "https://umagazine.ru/krasota/health/uspet-do-boya-kurantov-top-7-sposobov-bystrogo-preobrazitsya-i-omoloditsya/",
-    "cover": null,
-    "quote": null,
-    "tier": "line"
+    "year": 2019,
+    "url": "https://www.buro247.ru/beauty/health/29-jan-2019-rejuvenation-with-your-own-fibroblasts.html",
+    "cover": "press/buro247-29-jan-2019-rejuvenation-with-your-e22dc2.webp",
+    "quote": "«Почему образец берётся за ухом? Потому что эта зона наименее подвержена травматическому воздействию солнца», — поясняет Оксана Чащина, врач-дерматокосметолог, физиотерапевт медицинского центра «Атлас».",
+    "tier": "full"
   },
   {
     "title": "Личный вопрос: интимные проблемы и как с ними бороться с помощью косметологии",
@@ -520,6 +440,26 @@
     "tier": "card"
   },
   {
+    "title": "Как вернуть молодость шее, кистям рук, локтям, коленям и ушам",
+    "outlet": "U Magazine",
+    "kind": "статья",
+    "year": null,
+    "url": "https://umagazine.ru/krasota/practice/kak-vernut-molodost-shee-kistyam-ruk-loktyam-kolenyam-i-usham/",
+    "cover": null,
+    "quote": null,
+    "tier": "line"
+  },
+  {
+    "title": "Как избавиться от филлеров",
+    "outlet": "Buro 24/7",
+    "kind": "статья",
+    "year": 2018,
+    "url": "https://www.buro247.ru/beauty/health/17-jul-2018-how-to-get-rid-of-fillers.html",
+    "cover": "press/buro247-17-jul-2018-how-to-get-rid-of-fill-6420e2.webp",
+    "quote": "«Во время инъекции ферментного препарата возникает пощипывание. Скорость расщепления, в зависимости от введенного объема, составляет от 30 минут до 5–7 дней, она зависит от точности введения и распределения ферментного препарата, в каждом случае реакция…",
+    "tier": "full"
+  },
+  {
     "title": "Доброе утро: откуда берутся отеки и как предотвратить их появление",
     "outlet": "Salt",
     "kind": "статья",
@@ -528,6 +468,76 @@
     "cover": "press/saltmag-95-dobroe-utro-otkuda-berutsja-ote-3ba725.webp",
     "quote": null,
     "tier": "card"
+  },
+  {
+    "title": "Старение шеи: лучшие средства и советы врача-дерматокосметолога",
+    "outlet": "So Many Horses",
+    "kind": "статья",
+    "year": null,
+    "url": "https://somanyhorses.ru/prezhdevremenno-starenie-shei-kak-obratit-vremya-vspyat/",
+    "cover": null,
+    "quote": null,
+    "tier": "line"
+  },
+  {
+    "title": "Кожа, волосы, ногти. Как восстановиться после лета?",
+    "outlet": "Аргументы и факты",
+    "kind": "статья",
+    "year": 2018,
+    "url": "http://www.aif.ru/health/secrets/kozha_volosy_nogti_kak_vosstanovitsya_posle_leta",
+    "cover": "press/aif-kozha-volosy-nogti-kak-vosstanovit-0d947e.webp",
+    "quote": "Врач-дерматокосметолог, специалист превентивной медицины, физиотерапевт, лазеротерапевт медицинского центра Оксана Чащина :",
+    "tier": "full"
+  },
+  {
+    "title": "Проверка на себе | Стоит ли покупать LED-маску?",
+    "outlet": "YouTube",
+    "kind": "видео",
+    "year": null,
+    "url": "https://youtu.be/0hWcytIfFjw",
+    "cover": "press/youtu-0hwcytiffjw-03994c.webp",
+    "quote": null,
+    "tier": "card"
+  },
+  {
+    "title": "Какие косметологические процедуры устарели и что пришло им на замену.",
+    "outlet": "U Magazine",
+    "kind": "статья",
+    "year": null,
+    "url": "https://umagazine.ru/krasota/health/zolotye-niti-mekhanicheskaya-chistka-i-drugie-ustarevshie-protsedury-krasoty/",
+    "cover": null,
+    "quote": null,
+    "tier": "line"
+  },
+  {
+    "title": "Как убрать второй подбородок. Личный опыт",
+    "outlet": "Beauty Insider",
+    "kind": "статья",
+    "year": 2015,
+    "url": "https://www.beautyinsider.ru/2015/10/24/mentoplasty/",
+    "cover": "press/beautyinsider-mentoplasty-b640fc.webp",
+    "quote": "Доктор Чащина объясняет мне это подробно и доходчиво, как ребенку: «Все, что мы делаем на этом этапе, мы делаем с одной целью: ускорить обмен веществ, который с возрастом тормозится. Лет до 20-25 мы растем.",
+    "tier": "full"
+  },
+  {
+    "title": "Живая еда / Выпуски / Влияние молок на либидо, польза уксуса и мифы об абрикосах",
+    "outlet": "НТВ",
+    "kind": "видео",
+    "year": null,
+    "url": "https://www.ntv.ru/peredacha/Jivaya_eda/m81761/o618376/video/",
+    "cover": "press/ntv-video-d1c480.webp",
+    "quote": null,
+    "tier": "card"
+  },
+  {
+    "title": "Пигментные пятна: лучшие средства, кремы и секреты «отбеливания»",
+    "outlet": "So Many Horses",
+    "kind": "статья",
+    "year": null,
+    "url": "https://somanyhorses.ru/pigmentnye-pyatna-i-sredstva-borby-s-nimi-kremy-i-sovety-kosmetologa/",
+    "cover": null,
+    "quote": null,
+    "tier": "line"
   },
   {
     "title": "Стоит ли бояться лактозы? А от пастеризованного никакой пользы? Обезжиренное лучше цельного? Развеиваем главные мифы о молоке",
@@ -540,12 +550,32 @@
     "tier": "full"
   },
   {
-    "title": "Проверка на себе | Стоит ли покупать LED-маску?",
-    "outlet": "YouTube",
+    "title": "Чудо техники / Выпуски программы / Тайны полимеров, моментальный загар и капсула для тушения пожара",
+    "outlet": "НТВ",
     "kind": "видео",
     "year": null,
-    "url": "https://youtu.be/0hWcytIfFjw",
-    "cover": "press/youtu-0hwcytiffjw-03994c.webp",
+    "url": "https://www.ntv.ru/peredacha/chudo_tehniki/m24780/o632520/video/",
+    "cover": "press/ntv-video-404e36.webp",
+    "quote": null,
+    "tier": "card"
+  },
+  {
+    "title": "Самые эффективные процедуры, которые за неделю или максимум десять дней помогут скорректировать черты лица, не прибегая к «тяжелой артиллерии»",
+    "outlet": "U Magazine",
+    "kind": "статья",
+    "year": null,
+    "url": "https://umagazine.ru/krasota/health/uspet-do-boya-kurantov-top-7-sposobov-bystrogo-preobrazitsya-i-omoloditsya/",
+    "cover": null,
+    "quote": null,
+    "tier": "line"
+  },
+  {
+    "title": "Рацион долгожителей: 7 продуктов, которые не дадут вам стареть",
+    "outlet": "Woman’s Day",
+    "kind": "статья",
+    "year": null,
+    "url": "https://www.wday.ru/krasota-zdorovie/dietyi-i-sport/racion-dolgozhitelei-7-produktov-kotorye-ne-dadut-vam-staret/",
+    "cover": "press/wday-racion-dolgozhitelei-7-produktov-k-467f3b.webp",
     "quote": null,
     "tier": "card"
   },
@@ -560,6 +590,16 @@
     "tier": "line"
   },
   {
+    "title": "Лучшие омолаживающие процедуры для тех, кому за 30",
+    "outlet": "Woman’s Day",
+    "kind": "статья",
+    "year": null,
+    "url": "https://www.wday.ru/krasota-zdorovie/beauty-gid/luchshie-omolazhivayushie-procedury-dlya-tekh-komu-za-30/",
+    "cover": "press/wday-luchshie-omolazhivayushie-procedur-4f2ee7.webp",
+    "quote": null,
+    "tier": "card"
+  },
+  {
     "title": "Радио России онлайн - слушать эфир радио бесплатно на Смотрим",
     "outlet": "Радио России",
     "kind": "радио",
@@ -570,22 +610,12 @@
     "tier": "line"
   },
   {
-    "title": "Живая еда / Выпуски / Влияние молок на либидо, польза уксуса и мифы об абрикосах",
-    "outlet": "НТВ",
-    "kind": "видео",
+    "title": "Wellness-манифест 2026: точность, нейронаука и естественность",
+    "outlet": "Beautyhack",
+    "kind": "статья",
     "year": null,
-    "url": "https://www.ntv.ru/peredacha/Jivaya_eda/m81761/o618376/video/",
-    "cover": "press/ntv-video-d1c480.webp",
-    "quote": null,
-    "tier": "card"
-  },
-  {
-    "title": "Чудо техники / Выпуски программы / Тайны полимеров, моментальный загар и капсула для тушения пожара",
-    "outlet": "НТВ",
-    "kind": "видео",
-    "year": null,
-    "url": "https://www.ntv.ru/peredacha/chudo_tehniki/m24780/o632520/video/",
-    "cover": "press/ntv-video-404e36.webp",
+    "url": "https://beautyhack.ru/krasota/uhod/wellness-manifest-2026-tochnost-neyronauka-i-estestvennost",
+    "cover": "press/beautyhack-wellness-manifest-2026-tochnost-ne-00b12a.webp",
     "quote": null,
     "tier": "card"
   },
@@ -630,26 +660,6 @@
     "tier": "line"
   },
   {
-    "title": "Рацион долгожителей: 7 продуктов, которые не дадут вам стареть",
-    "outlet": "Woman’s Day",
-    "kind": "статья",
-    "year": null,
-    "url": "https://www.wday.ru/krasota-zdorovie/dietyi-i-sport/racion-dolgozhitelei-7-produktov-kotorye-ne-dadut-vam-staret/",
-    "cover": "press/wday-racion-dolgozhitelei-7-produktov-k-467f3b.webp",
-    "quote": null,
-    "tier": "card"
-  },
-  {
-    "title": "Лучшие омолаживающие процедуры для тех, кому за 30",
-    "outlet": "Woman’s Day",
-    "kind": "статья",
-    "year": null,
-    "url": "https://www.wday.ru/krasota-zdorovie/beauty-gid/luchshie-omolazhivayushie-procedury-dlya-tekh-komu-za-30/",
-    "cover": "press/wday-luchshie-omolazhivayushie-procedur-4f2ee7.webp",
-    "quote": null,
-    "tier": "card"
-  },
-  {
     "title": "Чащина Оксана Валериевна – заместитель главного врача, косметолог, лазеротерапевт, физиотерапевт, специалист превентивной медицины — НКК",
     "outlet": "NBC Development",
     "kind": "статья",
@@ -658,16 +668,6 @@
     "cover": null,
     "quote": null,
     "tier": "line"
-  },
-  {
-    "title": "Wellness-манифест 2026: точность, нейронаука и естественность",
-    "outlet": "Beautyhack",
-    "kind": "статья",
-    "year": null,
-    "url": "https://beautyhack.ru/krasota/uhod/wellness-manifest-2026-tochnost-neyronauka-i-estestvennost",
-    "cover": "press/beautyhack-wellness-manifest-2026-tochnost-ne-00b12a.webp",
-    "quote": null,
-    "tier": "card"
   },
   {
     "title": "Утренние отеки говорят о повышенном кортизоле",
