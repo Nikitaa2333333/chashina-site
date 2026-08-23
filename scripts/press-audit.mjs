@@ -304,6 +304,21 @@ await fs.mkdir(CACHE, { recursive: true });
 console.log(`Записей: ${entries.length}, после вычистки дублей: ${unique.length}`);
 
 const results = await pool(unique, CONCURRENCY, inspect);
+
+// Обложки проставляет press-covers.mjs, дописывая их в этот же файл.
+// Перезапись результата затирала их — переносим из прошлого прогона.
+try {
+  const prev = JSON.parse(await fs.readFile(OUT, 'utf8'));
+  const byUrl = new Map(prev.map((r) => [r.url, r]));
+  for (const r of results) {
+    const old = byUrl.get(r.url);
+    if (!old) continue;
+    for (const k of ['cover', 'slug', 'coverError', 'coverSize']) {
+      if (old[k] !== undefined && r[k] === undefined) r[k] = old[k];
+    }
+  }
+} catch {}
+
 await fs.writeFile(OUT, JSON.stringify(results, null, 2));
 
 // Короткая выжимка — её и отдают Клоду на вёрстку. Полный JSON весит

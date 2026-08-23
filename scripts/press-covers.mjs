@@ -16,6 +16,7 @@
  */
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import crypto from 'node:crypto';
 import sharp from 'sharp';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
@@ -30,19 +31,31 @@ const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,
 
 const translit = { а:'a',б:'b',в:'v',г:'g',д:'d',е:'e',ё:'e',ж:'zh',з:'z',и:'i',й:'i',к:'k',л:'l',м:'m',н:'n',о:'o',п:'p',р:'r',с:'s',т:'t',у:'u',ф:'f',х:'h',ц:'c',ч:'ch',ш:'sh',щ:'sch',ъ:'',ы:'y',ь:'',э:'e',ю:'yu',я:'ya' };
 
-function slugify(s, i) {
-  const base = [...s.toLowerCase()]
+const slugify = (s, max = 40) =>
+  [...String(s).toLowerCase()]
     .map((c) => translit[c] ?? c)
     .join('')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '')
-    .slice(0, 48);
-  return `${String(i + 1).padStart(2, '0')}-${base || 'cover'}`;
+    .slice(0, max)
+    .replace(/-$/, '');
+
+// Имя файла выводим из адреса, а не из заголовка. Заголовок меняется
+// при каждой правке разбора — и тогда все обложки переименовываются
+// и качаются заново, а старые остаются висеть сиротами. Адрес не меняется.
+function slugFor(url) {
+  const u = new URL(url);
+  const host = slugify(u.hostname.replace(/^(www|m)\./, '').replace(/\.[a-z.]+$/, ''), 18);
+  const last =
+    u.pathname.split('/').filter(Boolean).pop()?.replace(/\.(html?|php|shtml)$/i, '') ?? '';
+  const tail = slugify(last, 34);
+  const hash = crypto.createHash('sha1').update(url).digest('hex').slice(0, 6);
+  return [host, tail, hash].filter(Boolean).join('-');
 }
 
-async function cover(item, i) {
+async function cover(item) {
   if (!item.alive || !item.image) return { ...item, cover: null };
-  const slug = slugify(`${item.outlet} ${item.title ?? item.note}`, i);
+  const slug = slugFor(item.url);
   const rel = `press/${slug}.webp`;
   const file = path.join(DST, `${slug}.webp`);
 
@@ -110,4 +123,22 @@ console.log(`\n
 Без og:image:     ${result.filter((r) => r.alive && !r.image).length}
 `);
 for (const f of failed) console.log(`  ${f.outlet} — ${f.coverError}\n      ${f.url}`);
+// Уборка осиротевших файлов — только тех, чьё имя не соответствует ни
+// одной публикации из списка. Считаем по всем записям, а не по удачно
+// скачанным: иначе разовый сбой сети стёр бы всю папку разом.
+const expected = new Set(
+  items.filter((r) => r.alive && r.image).map((r) => `${slugFor(r.url)}.webp`)
+);
+const onDisk = (await fs.readdir(DST)).filter((f) => f.endsWith('.webp'));
+const orphans = onDisk.filter((f) => !expected.has(f));
+
+if (orphans.length && orphans.length >= onDisk.length && onDisk.length > 3) {
+  // Под снос идёт вообще всё — так не бывает при нормальном прогоне.
+  console.log(`\nПод уборку попала вся папка (${orphans.length} файлов) — это похоже на сбой, ничего не удаляю.`);
+  console.log('Если имена сменились намеренно, удалите public/press вручную и запустите заново.');
+} else if (orphans.length) {
+  for (const f of orphans) await fs.unlink(path.join(DST, f));
+  console.log(`Убрано осиротевших файлов: ${orphans.length}`);
+}
+
 console.log(`\nКартинки: public/press/  ·  пути проставлены в data/press-audit.json`);
