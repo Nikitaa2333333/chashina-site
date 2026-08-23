@@ -170,13 +170,15 @@ const label = (r: Item) => [r.outlet, r.year].filter(Boolean).join(' · ');
   .pcard:hover { transform: translateY(-3px); }
   .pcard[hidden] { display: none; }
 
+  /* Обложка в край карточки: вылезает из падингов отрицательными полями,
+     скругление повторяет верхние углы карточки. */
   .pcard__cover {
-    width: 100%;
+    width: calc(100% + 40px);
+    margin: -20px -20px 16px;
     height: auto;
     aspect-ratio: 3 / 2;
     object-fit: cover;
-    border-radius: 12px;
-    margin-bottom: 16px;
+    border-radius: var(--radius-card) var(--radius-card) 0 0;
   }
   .pcard__meta {
     display: block;
@@ -192,8 +194,6 @@ const label = (r: Item) => [r.outlet, r.year].filter(Boolean).join(' · ');
   .pcard__quote {
     display: block;
     margin-top: 12px;
-    padding-left: 14px;
-    border-left: 2px solid var(--lime-2);
     font-size: 0.95rem;
     line-height: 1.4;
     color: var(--sea);
@@ -219,6 +219,9 @@ const label = (r: Item) => [r.outlet, r.year].filter(Boolean).join(' · ');
     padding-block: 26px 30px;
   }
   .pcard--line .pcard__meta { color: var(--lime); }
+  /* На тёмной плашке приглушённый --sea проваливается в фон:
+     цитата становится нечитаемой. Осветляем. */
+  .pcard--line .pcard__quote { color: var(--sage); }
 
   .press-page__empty {
     color: var(--sea);
