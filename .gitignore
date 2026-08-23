@@ -20,3 +20,7 @@ npm-debug.log*
 
 # служебное от playwright-mcp
 .playwright-mcp/
+
+# аудит публикаций: кэш скачанных страниц и результат прогона
+.cache/
+data/press-audit.json
