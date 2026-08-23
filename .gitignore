@@ -21,8 +21,8 @@ npm-debug.log*
 # служебное от playwright-mcp
 .playwright-mcp/
 
-# аудит публикаций: кэш скачанных страниц и результат прогона
+# аудит публикаций: кэш страниц и промежуточные выгрузки.
+# Обложки в public/press/ НЕ игнорируем — они уезжают в сборку сайта.
 .cache/
 data/press-audit.json
 data/press-brief.tsv
-public/press/
