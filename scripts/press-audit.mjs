@@ -106,17 +106,102 @@ const meta = (prop) =>
 const metaRev = (prop) =>
   new RegExp(`<meta[^>]+content=["']([^"']*)["'][^>]+(?:property|name)=["']${prop}["']`, 'i');
 
-// Абзацы, где Оксану называют по фамилии, — это её реплики.
-// Из них и берётся цитата для карточки: чужой текст не копируем,
-// цитируем именно её слова со ссылкой на источник.
+// Заголовок со страницы годится не всегда. U Magazine, Газета.ру и
+// Радио России отдают в og:title название сайта или вовсе «Document»:
+// страница собирается скриптом, а в исходном HTML заголовка ещё нет.
+// Такие отбраковываем и берём описание из документа — оно человечнее.
+const TITLE_JUNK = /^(document|untitled|главная|home|\s*)$/i;
+
+function titleLooksBroken(title, outlet) {
+  if (!title) return true;
+  if (TITLE_JUNK.test(title.trim())) return true;
+  if (title.includes('\uFFFD')) return true;
+  // «U MAGAZINE — мода, красота, культура» — это название издания, не статьи.
+  const bare = title.toLowerCase().replace(/[^a-zа-яё0-9]/gi, '');
+  const out = outlet.toLowerCase().replace(/[^a-zа-яё0-9]/gi, '');
+  if (out && bare.startsWith(out) && title.length < 60) return true;
+  return false;
+}
+
+// Хвосты вида «… | Salt», «… - ZDR», «… / Передачи НТВ», «…. BEAUTYHACK».
+function stripOutletTail(title, outlet) {
+  if (!title) return title;
+  const key = outlet.toLowerCase().replace(/[^a-zа-яё0-9]/gi, '');
+  let out = title;
+  for (let i = 0; i < 3; i++) {
+    const m = /^(.*?)[\s]*[|\u2013\u2014\-\/]\s*([^|\u2013\u2014\-\/]{2,40})$/.exec(out);
+    if (!m) break;
+    const tail = m[2].toLowerCase().replace(/[^a-zа-яё0-9]/gi, '');
+    const isOutlet = key && (tail.includes(key) || key.includes(tail));
+    if (!isOutlet && !/передач|выпуск/i.test(m[2])) break;
+    out = m[1].trim();
+  }
+  // «Wellness-манифест 2026: точность… . BEAUTYHACK»
+  const dot = new RegExp(`[.\\s]+${outlet.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*$`, 'i');
+  out = out.replace(dot, '').trim();
+  return out || title;
+}
+
+// Абзацы с фамилией Оксаны бывают двух сортов, и путать их нельзя.
+// Одни — её прямая речь: «…», или «Оксана Чащина: …». Такие и нужны.
+// Другие — текст редакции о ней: «Мы обратились к врачу-косметологу…».
+// Это слова журналиста, в раздел они не годятся — там мы цитируем её.
+const EDITORIAL = /^(мы |наша редакция|в новом выпуске|разбираемся|вместе с|редакция )/i;
+
+function scoreQuote(text) {
+  let score = 0;
+  if (/[«"„][^»"“]{40,}[»"“]/.test(text)) score += 3;      // есть закавыченная речь
+  if (/Чащина\s*[:\u2014\u2013-]/.test(text)) score += 3;      // «Чащина: …» — прямая реплика
+  if (/(рассказал|поясня|объясня|уверен|отмеча|добавля|соглас)\w*[^.]{0,60}Чащин/i.test(text)) score += 2;
+  if (/Чащин\w*[^.]{0,60}(рассказал|поясня|объясня|уверен|отмеча|добавля)/i.test(text)) score += 2;
+  if (EDITORIAL.test(text.trim())) score -= 5;              // это говорит редакция, не она
+  if (/^[^.!?]{0,120}$/.test(text) && !/[«"]/.test(text)) score -= 1; // огрызок без речи
+  if (text.length > 160) score += 1;
+  return score;
+}
+
+// Режем по границе предложения, а не по счётчику символов: обрубок
+// на полуслове в карточке выглядит как недосмотр.
+function trimQuote(text, limit = 260) {
+  if (text.length <= limit) return text;
+  const cut = text.slice(0, limit);
+  const stop = Math.max(cut.lastIndexOf('. '), cut.lastIndexOf('! '), cut.lastIndexOf('? '));
+  if (stop > 90) return cut.slice(0, stop + 1);
+  const space = cut.lastIndexOf(' ');
+  return (space > 90 ? cut.slice(0, space) : cut).replace(/[,;:\s]+$/, '') + '…';
+}
+
 function quotes(html) {
-  const out = [];
+  const seen = new Set();
+  const found = [];
   for (const m of html.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/gi)) {
     const text = decode(m[1].replace(/<[^>]+>/g, ' '));
     if (text.length < 80 || text.length > 900) continue;
-    if (/Чащин/i.test(text)) out.push(text);
+    if (!/Чащин/i.test(text)) continue;
+    if (seen.has(text)) continue;
+    seen.add(text);
+    found.push({ text, score: scoreQuote(text) });
   }
-  return out.slice(0, 4);
+  return found
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 3)
+    .map((q) => ({ text: trimQuote(q.text), score: q.score, direct: q.score >= 3 }));
+}
+
+// Кодировка: часть площадок (ВКонтакте) отдаёт windows-1251, и если
+// читать их как UTF-8, заголовок превращается в ромбики с вопросами.
+function decodeBody(buf, contentType) {
+  const head = buf.subarray(0, 4096).toString('latin1');
+  const charset =
+    /charset=["']?([\w-]+)/i.exec(contentType ?? '')?.[1] ??
+    /<meta[^>]+charset=["']?([\w-]+)/i.exec(head)?.[1] ??
+    'utf-8';
+  const label = charset.toLowerCase().replace('cp1251', 'windows-1251');
+  try {
+    return new TextDecoder(label).decode(buf);
+  } catch {
+    return buf.toString('utf8');
+  }
 }
 
 async function grab(url) {
@@ -124,18 +209,21 @@ async function grab(url) {
   const file = path.join(CACHE, `${key}.html`);
   if (!FORCE) {
     try {
-      const cached = await fs.readFile(file, 'utf8');
-      return { html: cached, status: 200, finalUrl: url, fromCache: true };
+      const buf = await fs.readFile(file);
+      const html = buf.toString('utf8');
+      // Ромбик-заменитель в кэше означает, что страницу сохранили
+      // с испорченной кодировкой ещё в старой версии скрипта. Качаем заново.
+      if (!html.includes('\uFFFD')) return { html, status: 200, finalUrl: url, fromCache: true };
     } catch {}
   }
-  const ctl = AbortSignal.timeout(TIMEOUT_MS);
   const res = await fetch(url, {
     redirect: 'follow',
-    signal: ctl,
+    signal: AbortSignal.timeout(TIMEOUT_MS),
     headers: { 'user-agent': UA, 'accept-language': 'ru-RU,ru;q=0.9' },
   });
-  const html = await res.text();
-  if (res.ok) await fs.writeFile(file, html);
+  const buf = Buffer.from(await res.arrayBuffer());
+  const html = decodeBody(buf, res.headers.get('content-type'));
+  if (res.ok) await fs.writeFile(file, html, 'utf8');
   return { html, status: res.status, finalUrl: res.url, fromCache: false };
 }
 
@@ -151,8 +239,10 @@ async function inspect(entry) {
   try {
     const { html, status, finalUrl, fromCache } = await grab(url);
     if (status >= 400) return { ...base, alive: false, status };
-    const title =
+    const rawTitle =
       pick(html, meta('og:title'), metaRev('og:title'), /<title[^>]*>([\s\S]*?)<\/title>/i);
+    const broken = titleLooksBroken(rawTitle, base.outlet);
+    const title = broken ? note : stripOutletTail(rawTitle, base.outlet);
     const published =
       pick(html, meta('article:published_time'), metaRev('article:published_time'),
            meta('publish-date'), /<time[^>]+datetime=["']([^"']+)["']/i);
@@ -163,6 +253,8 @@ async function inspect(entry) {
       fromCache,
       redirected: finalUrl !== url ? finalUrl : null,
       title,
+      titleFrom: broken ? 'документ' : 'страница',
+      rawTitle,
       description: pick(html, meta('og:description'), metaRev('og:description'), meta('description')),
       image: pick(html, meta('og:image'), metaRev('og:image')),
       published,
@@ -223,14 +315,35 @@ const brief = results.map((r) => [
   r.year ?? '',
   r.alive ? (r.title ?? r.note) : 'НЕ ОТКРЫЛАСЬ',
   r.image ? 'обложка' : '',
-  (r.quotes?.[0] ?? '').slice(0, 220),
+  r.titleFrom ?? '',
+  r.quotes?.[0]?.direct ? r.quotes[0].text : '',
   r.url,
 ].join('\t'));
 await fs.writeFile(BRIEF, brief.join('\n'));
 
+// Один и тот же заголовок у нескольких публикаций одного издания — это
+// не совпадение, а название сайта: страница собирается скриптом, и в
+// исходном HTML заголовка статьи нет. Для таких берём описание из документа.
+const titleCount = {};
+for (const r of results) {
+  if (r.alive && r.titleFrom === 'страница' && r.rawTitle) {
+    const k = `${r.outlet}\u0000${r.rawTitle}`;
+    titleCount[k] = (titleCount[k] ?? 0) + 1;
+  }
+}
+for (const r of results) {
+  if (!r.alive || r.titleFrom !== 'страница') continue;
+  if (titleCount[`${r.outlet}\u0000${r.rawTitle}`] >= 2) {
+    r.title = r.note;
+    r.titleFrom = 'документ';
+  }
+}
+
 const alive = results.filter((r) => r.alive);
 const dead = results.filter((r) => !r.alive);
-const withQuote = alive.filter((r) => r.quotes?.length);
+const withQuote = alive.filter((r) => r.quotes?.some((q) => q.direct));
+const mentionOnly = alive.filter((r) => r.quotes?.length && !r.quotes.some((q) => q.direct));
+const titleFromDoc = alive.filter((r) => r.titleFrom === 'документ');
 const withImage = alive.filter((r) => r.image);
 const withYear = alive.filter((r) => r.year);
 
@@ -238,6 +351,8 @@ console.log(`\n
 Открылось:            ${alive.length} из ${results.length}
 Не открылось:         ${dead.length}
 С прямой речью:       ${withQuote.length}
+Только упоминание:    ${mentionOnly.length}
+Заголовок из документа: ${titleFromDoc.length}  (страница не отдала свой)
 С обложкой:           ${withImage.length}
 С датой:              ${withYear.length}
 `);
