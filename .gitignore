@@ -24,3 +24,4 @@ npm-debug.log*
 # аудит публикаций: кэш скачанных страниц и результат прогона
 .cache/
 data/press-audit.json
+public/press/
