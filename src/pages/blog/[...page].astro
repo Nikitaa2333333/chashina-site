@@ -1,21 +1,33 @@
 ---
 // ================= БЛОГ: ПОСТЫ ТЕЛЕГРАМ-КАНАЛА =================
 // Отдельная вкладка (решение заказчика: пока держим отдельно от будущих
-// «Статей», объединить успеем). Данные кладёт scripts/import-telegram.mjs,
-// пока выгрузки нет — в src/data/telegram-posts.json лежит рыба
-// (placeholder: true, помечается плашкой под лидом).
+// «Статей», объединить успеем). Данные кладёт scripts/import-telegram.mjs.
+// Список пагинирован: /blog/ — первая страница, дальше /blog/2/ … /blog/N/.
+// Rest-параметр [...page] отдаёт первую страницу без номера в адресе;
+// с /blog/<slug>/ не конфликтует: у постов слуги текстовые, а ниже по
+// приоритету маршрут получает только числовые страницы из paginate().
 import Base from '../../layouts/Base.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import data from '../../data/telegram-posts.json';
 
-const posts = data.posts;
+export async function getStaticPaths({ paginate }) {
+  return paginate(data.posts, { pageSize: 24 });
+}
+const { page } = Astro.props;
+const posts = page.data;
+
 const fmt = new Intl.DateTimeFormat('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
 const human = (iso: string) => fmt.format(new Date(iso)).replace(/\s*г\.$/, '');
+
+const title =
+  page.currentPage > 1
+    ? `Блог, страница ${page.currentPage} — Оксана Чащина, врач-косметолог`
+    : 'Блог — Оксана Чащина, врач-косметолог';
 ---
 
 <Base
-  title="Блог — Оксана Чащина, врач-косметолог"
+  title={title}
   description="Посты из телеграм-канала Оксаны Чащиной: ингредиенты, процедуры, питание и мифы вокруг них — простым языком, без запугивания."
 >
   <Header />
@@ -61,6 +73,38 @@ const human = (iso: string) => fmt.format(new Date(iso)).replace(/\s*г\.$/, '')
           </a>
         ))}
       </div>
+
+      {page.lastPage > 1 && (
+        <nav class="pager" aria-label="Страницы блога">
+          {page.url.prev ? (
+            <a class="pager__btn" href={page.url.prev} rel="prev" aria-label="Предыдущая страница">
+              <svg width="15" height="15" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+                <path d="M6.8 1.6 3.2 5l3.6 3.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          ) : (
+            <span class="pager__btn pager__btn--off" aria-hidden="true">
+              <svg width="15" height="15" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+                <path d="M6.8 1.6 3.2 5l3.6 3.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          )}
+          <span class="pager__count mono">Страница {page.currentPage} из {page.lastPage}</span>
+          {page.url.next ? (
+            <a class="pager__btn" href={page.url.next} rel="next" aria-label="Следующая страница">
+              <svg width="15" height="15" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+                <path d="M3.2 1.6 6.8 5 3.2 8.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          ) : (
+            <span class="pager__btn pager__btn--off" aria-hidden="true">
+              <svg width="15" height="15" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+                <path d="M3.2 1.6 6.8 5 3.2 8.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          )}
+        </nav>
+      )}
     </div>
   </main>
 
@@ -192,6 +236,35 @@ const human = (iso: string) => fmt.format(new Date(iso)).replace(/\s*г\.$/, '')
   }
   .card--dark:hover .card__title {
     color: var(--lime);
+  }
+
+  /* ---------- Пагинатор — те же чипы, что у карусели поста ---------- */
+  .pager {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: var(--block-gap);
+  }
+  .pager__btn {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 40px;
+    background: var(--lime);
+    color: var(--ink);
+    border-radius: var(--radius-btn);
+    transition: background 0.25s var(--ease);
+  }
+  .pager__btn:hover {
+    background: var(--lime-2);
+  }
+  /* Край списка: чип остаётся, чтобы блок не прыгал, но гаснет до рамки */
+  .pager__btn--off {
+    background: transparent;
+    border: 1px solid var(--sage);
+  }
+  .pager__count {
+    text-align: center;
   }
 
   @media (max-width: 1000px) {
