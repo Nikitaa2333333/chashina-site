@@ -1,0 +1,116 @@
+---
+// Футер вынесен в компонент: он общий для главной и страниц блога.
+// Все якоря — через «/#…», чтобы работали и с подстраниц.
+import BtnPair from './BtnPair.astro';
+---
+
+<footer class="footer">
+  <div class="footer__bg" aria-hidden="true"></div>
+  <div class="container footer__content">
+    <div class="footer__top">
+      <div class="footer__statement-wrap">
+        <h2 class="footer__statement">Красивая кожа — это система, а не случайность. Начнём с консультации.</h2>
+        <BtnPair label="Записаться на консультацию" href="/#contact" />
+      </div>
+      <nav class="footer__nav" aria-label="Навигация по сайту">
+        <div class="footer__col">
+          <span class="footer__col-head mono">Навигация</span>
+          <a href="/#halves">Подход</a>
+          <a href="/#work">Как строится работа</a>
+          <a href="/#methods">Аппаратные методы</a>
+          <a href="/#inject">Инъекционные методы</a>
+          <a href="/#care">Домашний уход</a>
+          <a href="/#press">Пресса</a>
+          <a href="/#about">Обо мне</a>
+          <a href="/blog/">Блог</a>
+          <a href="/#contact">Где я принимаю</a>
+        </div>
+        <div class="footer__col">
+          <span class="footer__col-head mono">Где я ещё пишу</span>
+          <a href="https://t.me/krasotanasspaset" target="_blank" rel="noopener">Telegram</a>
+          <a href="https://vk.com/krasotanasspaset" target="_blank" rel="noopener">ВКонтакте</a>
+          <a href="https://dzen.ru/id/6237172c60d2e66b912c755f" target="_blank" rel="noopener">Дзен</a>
+        </div>
+      </nav>
+    </div>
+    <div class="footer__wordmark" aria-hidden="true">Чащина</div>
+    <div class="footer__legal">
+      <p class="footer__copy mono">© 2026 Оксана Чащина. Имеются противопоказания. Необходима консультация специалиста.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    position: relative;
+    overflow: hidden;
+    background: #131b1b;
+    color: var(--paper);
+    margin-top: var(--section-gap);
+  }
+  .footer__bg {
+    position: absolute;
+    inset: -25%;
+    background:
+      radial-gradient(45% 40% at 75% 20%, rgba(120, 96, 60, 0.5), transparent 70%),
+      radial-gradient(55% 45% at 20% 60%, rgba(68, 94, 95, 0.75), transparent 72%),
+      #131b1b;
+    filter: blur(50px);
+  }
+  .footer__content {
+    position: relative;
+    z-index: 1;
+    padding-top: clamp(56px, 8vw, 110px);
+  }
+  .footer__top {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: clamp(28px, 4vw, 64px);
+    align-items: start;
+  }
+  .footer__statement {
+    font-size: var(--text-heading);
+    letter-spacing: var(--track-heading);
+    line-height: 1.15;
+    max-width: 26ch;
+    margin-bottom: 36px;
+  }
+  .footer__nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .footer__col {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+  }
+  .footer__col a {
+    font-size: var(--text-body);
+    transition: color 0.25s var(--ease);
+  }
+  .footer__col a:hover {
+    color: var(--lime);
+  }
+  .footer__col-head {
+    margin-bottom: 10px;
+  }
+  .footer__wordmark {
+    font-size: clamp(5rem, 22vw, 21rem);
+    letter-spacing: var(--track-hero);
+    line-height: 0.95;
+    text-align: center;
+    margin-top: clamp(40px, 6vw, 80px);
+    margin-bottom: -0.12em;
+    white-space: nowrap;
+  }
+  .footer__legal {
+    padding-block: 20px;
+  }
+
+  @media (max-width: 900px) {
+    .footer__top {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

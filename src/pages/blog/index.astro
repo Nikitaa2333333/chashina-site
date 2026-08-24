@@ -1,0 +1,207 @@
+---
+// ================= БЛОГ: ПОСТЫ ТЕЛЕГРАМ-КАНАЛА =================
+// Отдельная вкладка (решение заказчика: пока держим отдельно от будущих
+// «Статей», объединить успеем). Данные кладёт scripts/import-telegram.mjs,
+// пока выгрузки нет — в src/data/telegram-posts.json лежит рыба
+// (placeholder: true, помечается плашкой под лидом).
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import data from '../../data/telegram-posts.json';
+
+const posts = data.posts;
+const fmt = new Intl.DateTimeFormat('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+const human = (iso: string) => fmt.format(new Date(iso)).replace(/\s*г\.$/, '');
+---
+
+<Base
+  title="Блог — Оксана Чащина, врач-косметолог"
+  description="Посты из телеграм-канала Оксаны Чащиной: ингредиенты, процедуры, питание и мифы вокруг них — простым языком, без запугивания."
+>
+  <Header />
+
+  <main class="section blog">
+    <div class="container">
+      <span class="tag mono">Телеграм-канал</span>
+      <h1 class="blog__title">Блог.</h1>
+      <p class="blog__lead">
+        Здесь собраны посты из моего канала «{data.channel.name}»: разбираю то,
+        о чём чаще всего спрашивают на приёме, — ингредиенты, процедуры,
+        питание и мифы вокруг них.
+      </p>
+      <a class="blog__tg mono" href={data.channel.url} target="_blank" rel="noopener">
+        Читать канал в Telegram
+      </a>
+      {data.placeholder && (
+        <p class="blog__stub mono">Тексты ниже — рыба до импорта настоящих постов канала</p>
+      )}
+
+      <div class="blog__grid">
+        {posts.map((p) => (
+          <a class={`card ${p.photos.length ? '' : 'card--dark'}`} href={`/blog/${p.slug}/`}>
+            {p.photos.length > 0 && (
+              <span class="card__media">
+                <img
+                  src={p.photos[0].src}
+                  alt=""
+                  loading="lazy"
+                  width={p.photos[0].w}
+                  height={p.photos[0].h}
+                />
+                {p.photos.length > 1 && (
+                  <span class="card__count mono">{p.photos.length} фото</span>
+                )}
+              </span>
+            )}
+            <span class="card__body">
+              <span class="card__date mono">{human(p.date)}</span>
+              <span class="card__title">{p.title}</span>
+              <span class="card__excerpt">{p.excerpt}</span>
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  /* Отступ сверху — под фиксированную шапку */
+  .blog {
+    padding-top: clamp(110px, 14vh, 150px);
+  }
+  .blog__title {
+    font-size: var(--text-display);
+    letter-spacing: var(--track-display);
+    line-height: 1;
+    margin-top: 18px;
+  }
+  .blog__lead {
+    font-size: var(--text-lead);
+    max-width: var(--measure-lead);
+    margin-top: 16px;
+  }
+  /* Ссылка на канал — пилюля в духе тега, но кликабельная */
+  .blog__tg {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    padding: 12px 16px;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: var(--radius-btn);
+    transition: background 0.25s var(--ease), color 0.25s var(--ease);
+  }
+  .blog__tg::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    background: var(--lime);
+  }
+  .blog__tg:hover {
+    background: var(--lime);
+    color: var(--ink);
+  }
+  .blog__stub {
+    margin-top: 14px;
+    color: var(--ink);
+  }
+  .blog__stub::before {
+    content: '⚠ ';
+  }
+
+  .blog__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: var(--block-gap);
+  }
+
+  /* Карточка поста: белая плашка; пост без фото — тёмная (ритм сайта) */
+  .card {
+    display: flex;
+    flex-direction: column;
+    background: var(--paper);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+  }
+  .card--dark {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .card__media {
+    position: relative;
+    display: block;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+  .card__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: scale 0.6s var(--ease);
+  }
+  .card:hover .card__media img {
+    scale: 1.04;
+  }
+  /* Счётчик карусели — стеклянная пилюля, как глассморфизм шапки */
+  .card__count {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.45);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    border-radius: var(--radius-pill);
+    color: var(--ink);
+  }
+  .card__body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: clamp(18px, 2vw, 26px);
+  }
+  .card__date {
+    margin-bottom: 14px;
+  }
+  .card--dark .card__date {
+    color: var(--lime);
+  }
+  .card__title {
+    font-size: var(--text-card-title);
+    letter-spacing: var(--track-heading);
+    line-height: 1.15;
+    transition: color 0.25s var(--ease);
+  }
+  .card__excerpt {
+    margin-top: 12px;
+    line-height: 1.35;
+  }
+  /* У тёмной карточки без фото воздух побольше — она держит высоту ряда */
+  .card--dark .card__body {
+    padding-block: clamp(26px, 3vw, 38px);
+  }
+  .card--dark .card__title {
+    font-size: var(--text-heading);
+  }
+  .card--dark:hover .card__title {
+    color: var(--lime);
+  }
+
+  @media (max-width: 1000px) {
+    .blog__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 640px) {
+    .blog__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

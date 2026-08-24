@@ -20,3 +20,6 @@ npm-debug.log*
 
 # служебное от playwright-mcp
 .playwright-mcp/
+
+# Выгрузка Telegram Desktop для импорта в блог (кладётся руками, в git не идёт)
+telegram-src/

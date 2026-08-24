@@ -7,7 +7,8 @@
     "dev": "astro dev --host 127.0.0.1 --port 4331",
     "build": "astro build",
     "texts": "astro build && node scripts/extract-texts.mjs",
-    "preview": "astro preview --host 127.0.0.1 --port 4332"
+    "preview": "astro preview --host 127.0.0.1 --port 4332",
+    "tg": "node scripts/import-telegram.mjs"
   },
   "dependencies": {
     "astro": "^5.7.0"
