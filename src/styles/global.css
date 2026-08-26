@@ -232,3 +232,18 @@ mark {
   border: 1px solid var(--sea);
   color: var(--paper);
 }
+
+/* Возврат на главную со служебных страниц (блог, публикации, пост).
+   Стоит ПЕРЕД тегом секции, поэтому это отдельная строка, а не пилюля
+   в один ряд с ним: иначе два одинаковых прямоугольника подряд. */
+.crumb {
+  display: inline-block;
+  margin-bottom: 14px;
+  padding: 10px 14px;
+  margin-left: -14px;
+  border-radius: var(--radius-btn);
+  transition: background 0.25s var(--ease);
+}
+.crumb:hover {
+  background: var(--lime);
+}

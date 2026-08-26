@@ -58,6 +58,7 @@ const SECTION_NAMES = {
   care: 'Домашний уход',
   social: 'Соцсети',
   press: 'Публикации в СМИ',
+  reviews: 'Отзывы',
   about: 'Обо мне',
   gallery: 'Галерея',
   contact: 'Где я принимаю',
