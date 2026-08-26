@@ -2151,9 +2151,9 @@ const gallery = [
       grid-template-columns: 1fr;
     }
     .press__all {
-    margin-top: 24px;
-  }
-  .press__grid {
+      margin-top: 24px;
+    }
+    .press__grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
     /* Карточки со статистикой в две колонки не влезают — столбиком */
@@ -2258,6 +2258,24 @@ const gallery = [
     }
     .lbox__nav--next {
       right: 12px;
+    }
+  }
+
+  /* На телефоне две колонки карточек не живут: колонка ~150px, и заголовок
+     публикации рассыпается по два слова в строку. Одна колонка, карточка
+     по своему тексту — высоту в 180px тут держать не за чем. */
+  @media (max-width: 640px) {
+    .press__grid {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    .press__item {
+      min-height: 0;
+      gap: 20px;
+      padding: 20px 20px 24px;
+    }
+    .zones__list {
+      gap: clamp(20px, 5vw, 32px);
     }
   }
 </style>

@@ -166,7 +166,11 @@ const label = (r: Item) => [r.outlet, r.year].filter(Boolean).join(' · ');
   @media (max-width: 1000px) {
     .parchive { columns: 2; }
   }
-  @media (max-width: 620px) {
+  /* Один брейкпоинт с сеткой прессы на главной и со списком блога:
+     на телефоне все три раскладки становятся одной колонкой */
+  @media (max-width: 640px) {
     .parchive { columns: 1; }
+    .pcard { padding: 18px 18px 22px; }
+    .pcard__cover { width: calc(100% + 36px); margin: -18px -18px 14px; }
   }
 </style>
