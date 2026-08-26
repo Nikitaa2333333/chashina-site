@@ -9,7 +9,10 @@
     <a class="header__link mono" href="/#work">Как я работаю</a>
     <a class="header__link mono" href="/#methods">Методы</a>
     <a class="header__link mono" href="/#care">Уход</a>
+    <!-- Две разные двери, их нельзя путать: «Блог» — свои тексты из
+         телеграм-канала, «Публикации» — то, что обо мне пишут в СМИ -->
     <a class="header__link mono" href="/blog/">Блог</a>
+    <a class="header__link mono" href="/press/">Публикации</a>
     <!-- Ведёт в блок «Где я принимаю»: формы нет, там телефон клиники -->
     <a class="header__cta mono" href="/#contact">Записаться</a>
   </nav>
@@ -62,6 +65,18 @@
   .header__cta:hover {
     background: var(--lime);
     color: var(--ink);
+  }
+
+  /* Семь пилюль в ряд: у нижней границы десктопа (шапка живёт от 761px)
+     поджимаем поля, иначе строка упирается в край — «Как я работаю»
+     и «Публикации» вместе съедают ширину */
+  @media (max-width: 900px) {
+    .header__link {
+      padding: 0 12px;
+    }
+    .header__cta {
+      padding: 0 15px;
+    }
   }
 
   /* На мобиле шапку прячем целиком: одинокая кнопка «Записаться»

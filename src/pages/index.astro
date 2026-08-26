@@ -484,10 +484,10 @@ const gallery = [
         </p>
         <p>
           В телеграм-канале я разбираю это в живом формате: коротко и по делу —
-          состав средства, свежее исследование, вопрос с приёма. Здесь собран
-          весь архив канала.
+          состав средства, свежее исследование, вопрос с приёма. На сайте
+          собран весь архив канала.
         </p>
-        <BtnPair label="Читать статьи" href="/blog/" />
+        <BtnPair label="Читать блог" href="/blog/" />
       </div>
     </div>
   </section>
@@ -571,12 +571,13 @@ const gallery = [
   <!-- ================= 13. ПУБЛИКАЦИИ В СМИ ================= -->
   <section class="section press" id="press">
     <div class="container">
-      <span class="tag mono">Меня спрашивают</span>
+      <span class="tag mono">Обо мне пишут</span>
       <h2 class="press__title">Пресса.</h2>
       <p class="press__intro">
         За годы практики меня приглашали комментировать РБК, ТАСС, АиФ,
         Cosmopolitan, Harper's Bazaar, The Blueprint и другие издания —
         всего {pressAll.length} материалов в {pressOutlets} изданиях.
+        Каждая карточка открывает оригинал на сайте издания.
       </p>
       <div class="press__grid">
         {pressFeatured.map((p) => (
@@ -586,7 +587,7 @@ const gallery = [
           </a>
         ))}
       </div>
-      <BtnPair class="press__all" label="Все публикации" href={asset('press')} />
+      <BtnPair class="press__all" label="Все публикации в СМИ" href={asset('press')} />
     </div>
   </section>
 
