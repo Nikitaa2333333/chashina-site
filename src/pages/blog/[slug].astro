@@ -25,7 +25,7 @@ const many = post.photos.length > 1;
   <main class="section post">
     <article class="container post__col">
       <nav class="post__crumbs mono" aria-label="Хлебные крошки">
-        <a class="post__back" href="/blog/">← Блог</a>
+        <a class="post__back" href="/">← На главную</a>
         <span class="post__date">{human}</span>
       </nav>
       <h1 class="post__title">{post.title}</h1>
@@ -65,6 +65,10 @@ const many = post.photos.length > 1;
         </a>
         <BtnPair label="Записаться на консультацию" href="/#contact" />
       </div>
+
+      <!-- Возврат к списку — внизу: наверху страницы это «на главную»,
+           к остальным постам читатель уходит, дочитав этот -->
+      <a class="post__all mono" href="/blog/">← Все статьи блога</a>
     </article>
   </main>
 
@@ -211,6 +215,17 @@ const many = post.photos.length > 1;
     background: var(--lime-2);
   }
   .post__tg:hover {
+    background: var(--lime);
+  }
+  .post__all {
+    display: inline-block;
+    margin-top: clamp(30px, 5vw, 56px);
+    padding: 12px 16px;
+    margin-left: -16px;
+    border-radius: var(--radius-btn);
+    transition: background 0.25s var(--ease);
+  }
+  .post__all:hover {
     background: var(--lime);
   }
 </style>

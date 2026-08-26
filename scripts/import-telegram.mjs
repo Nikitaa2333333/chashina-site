@@ -15,6 +15,12 @@
  * - только информационные посты: текст короче --min-chars знаков не берём
  *   (анонсы-однострочники, «с праздником», подводки к опросам);
  * - опросы и сервисные сообщения не берём;
+ * - «движ-посты», которые живут только внутри телеграма (квизы, розыгрыши,
+ *   рубрики с «присылайте фото», анонсы эфиров, поздравления, «голосуйте»),
+ *   отсеиваются по стоп-словам — см. ENGAGEMENT_*. Скрипт печатает список
+ *   отсеянного для ручной проверки;
+ * - ручной чёрный список: scripts/tg-exclude.json — массив id постов,
+ *   которые надо убрать поштучно (когда стоп-слова пост не поймали);
  * - посты, где главное медиа — видео/кружок/гифка, НЕ берём целиком
  *   (видео на сайт не тянем);
  * - фото-альбом (карусель) собирается обратно: в выгрузке это несколько
@@ -143,6 +149,34 @@ const slugify = (title, id) => {
 
 // ---------- фильтры ----------
 
+/** Ручной чёрный список: id постов, которые фильтры не поймали. */
+const EXCLUDE_FILE = path.join(ROOT, 'scripts/tg-exclude.json');
+const EXCLUDE_IDS = new Set(
+  fs.existsSync(EXCLUDE_FILE) ? JSON.parse(fs.readFileSync(EXCLUDE_FILE, 'utf-8')).exclude : []
+);
+
+/**
+ * «Движ-посты» — интерактив, который имеет смысл только внутри телеграма:
+ * квизы, розыгрыши, рубрики «присылайте фото», анонсы эфиров, поздравления.
+ * Только однозначные маркеры: «мягкие» пары (приветствие + «напоминаю» и т. п.)
+ * пробовали — режут нормальные информационные посты. Что маркеры не поймали,
+ * добирается руками через tg-exclude.json.
+ */
+const ENGAGEMENT_STRONG = [
+  /квиз|quiz|викторин/i,
+  /розыгрыш|конкурс|giveaway/i,
+  /прямо[йм] эфир|запись эфира|эфир (сегодня|завтра|начн)/i,
+  /присылайте|пришлите (мне )?фото/i,
+  /любим(ая|ой|ую) рубрик|жду на разбор|разбор косметичк/i,
+  /навигаци[яюи] по (тг-)?канал/i,
+  /публиковать истории/i,
+  /голосуйте|голосовани/i,
+  /проверить себя|проверь себя/i,
+  /оставляю ссылк|подписывайтесь на|переходите по ссылк/i,
+  /поздравляю|с новым годом|с наступающим|с 8 марта|с праздником|с днём/i,
+];
+const isEngagement = (plain) => ENGAGEMENT_STRONG.some((re) => re.test(plain));
+
 const VIDEO_TYPES = new Set(['video_file', 'video_message', 'animation']);
 const isVideo = (m) =>
   VIDEO_TYPES.has(m.media_type) || (m.file && /\.(mp4|mov|webm|gif)$/i.test(m.file_name ?? m.file ?? ''));
@@ -153,7 +187,9 @@ const isAlbumTail = (m) => (m.photo || m.file) && plainText(m.text).trim() === '
 // ---------- проход по сообщениям ----------
 
 const kept = [];
-const skipped = { service: 0, poll: 0, video: 0, short: 0, empty: 0, albumTail: 0 };
+const skipped = { service: 0, poll: 0, video: 0, short: 0, empty: 0, albumTail: 0, engagement: 0, excluded: 0 };
+/** Что отсеяли стоп-словами — печатаем для ручной проверки. */
+const engagementLog = [];
 /** Последний корневой пост (для приклейки альбомных хвостов); null = корень пропущен. */
 let lastRoot = null;
 let lastRootDate = 0;
@@ -196,6 +232,15 @@ for (const m of dump.messages ?? []) {
   }
   if (plain.length < MIN_CHARS) {
     skipped.short++;
+    continue;
+  }
+  if (EXCLUDE_IDS.has(m.id)) {
+    skipped.excluded++;
+    continue;
+  }
+  if (isEngagement(plain)) {
+    skipped.engagement++;
+    engagementLog.push(`  ${m.id}: ${stripEmoji(plain).slice(0, 80)}`);
     continue;
   }
   const title = makeTitle(plain);
@@ -279,6 +324,11 @@ console.log(`Канал: ${channelName}`);
 console.log(`Взято постов: ${kept.length} (фото: ${photosTotal})`);
 console.log(
   `Пропущено: сервисных ${skipped.service}, опросов ${skipped.poll}, с видео ${skipped.video}, ` +
-    `коротких (<${MIN_CHARS}) ${skipped.short}, без текста ${skipped.empty}, хвостов альбомов ${skipped.albumTail}`
+    `коротких (<${MIN_CHARS}) ${skipped.short}, без текста ${skipped.empty}, хвостов альбомов ${skipped.albumTail}, ` +
+    `движ-постов ${skipped.engagement}, по чёрному списку ${skipped.excluded}`
 );
+if (engagementLog.length) {
+  console.log(`Отсеяно стоп-словами (проверить глазами; вернуть пост — убрать стоп-слово или смягчить ENGAGEMENT_*):`);
+  console.log(engagementLog.join('\n'));
+}
 console.log(`→ ${path.relative(ROOT, OUT_JSON)}, ${path.relative(ROOT, OUT_PHOTOS)}/`);
