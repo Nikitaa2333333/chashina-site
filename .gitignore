@@ -23,3 +23,9 @@ npm-debug.log*
 
 # Выгрузка Telegram Desktop для импорта в блог (кладётся руками, в git не идёт)
 telegram-src/
+
+# аудит публикаций: кэш страниц и промежуточные выгрузки.
+# Обложки в public/press/ НЕ игнорируем — они уезжают в сборку сайта.
+.cache/
+data/press-audit.json
+data/press-brief.tsv

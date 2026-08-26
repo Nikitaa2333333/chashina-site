@@ -3,6 +3,8 @@ import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
 import BtnPair from '../components/BtnPair.astro';
 import Footer from '../components/Footer.astro';
+import pressAll from '../data/press.json';
+import { asset } from '../lib/asset';
 
 // 4. Как строится работа — три ступени
 const steps = [
@@ -83,44 +85,28 @@ const tasks = [
   },
 ];
 
-// 13. Публикации в СМИ.
-// href — ТОЛЬКО первоисточник на сайте издания. Подменять его постом блога
-// нельзя: под шапкой «ТАСС» обязан открываться ТАСС, иначе карточка врёт.
-// Полный список публикаций (84 материала, проверены на живость) —
-// src/data/press-audit.json; ссылки ниже взяты оттуда.
-// Блог живёт своей дверью — она в секции «Не с крема».
-const press = [
-  {
-    source: 'РБК',
-    title: 'Когда лучше принимать коллаген',
-    href: 'https://www.rbc.ru/life/news/6a1ee0c79a79471bbbc5f433',
-  },
-  {
-    source: 'ТАСС',
-    title: 'Утренние отёки и повышенный кортизол',
-    href: 'https://tass.ru/obschestvo/27249099',
-  },
-  {
-    source: 'Газета.ру',
-    title: 'Компоненты косметики, которых лучше избегать',
-    href: 'https://www.gazeta.ru/style/news/2023/04/11/20187565.shtml',
-  },
-  {
-    source: 'Flacon',
-    title: 'Как работает SMAS-лифтинг',
-    href: 'https://flacon-magazine.com/ukhod/kosmetologiya/3580194-chtoby-bylo-krasivo-i-ne-vybivalo-iz-grafika-kak-rabotayet-smas-lifting',
-  },
-  {
-    source: 'U Magazine',
-    title: 'Устаревшие процедуры и что пришло им на замену',
-    href: 'https://umagazine.ru/krasota/health/zolotye-niti-mekhanicheskaya-chistka-i-drugie-ustarevshie-protsedury-krasoty/',
-  },
-  {
-    source: 'Beautyhack',
-    title: 'Wellness-манифест 2026',
-    href: 'https://beautyhack.ru/krasota/uhod/wellness-manifest-2026-tochnost-neyronauka-i-estestvennost',
-  },
+// 13. Публикации в СМИ — данные собирает scripts/press-build.mjs.
+// На главной ровно шесть карточек из текстов копирайтера (блок 13): имена,
+// которые названы в лиде выше. Сортировка «свежие с цитатой» тут не годится —
+// она выдавала четыре Beauty Insider подряд, а РБК с ТАСС не показывала.
+// Материал ищем по url в press.json, чтобы заголовок и год были из прогона.
+const PRESS_PICKS = [
+  'rbc.ru/life/news/6a1ee0c7',
+  'tass.ru/obschestvo/27249099',
+  'gazeta.ru/style/news/2023/04/11',
+  'flacon-magazine.com/ukhod/kosmetologiya/3580194',
+  'umagazine.ru/krasota/health/zolotye-niti',
+  'beautyhack.ru/krasota/uhod/wellness',
 ];
+// Ссылка могла отвалиться на прогоне — тогда карточку добираем свежей.
+const pressPicked = PRESS_PICKS.map((u) => pressAll.find((p) => p.url.includes(u))).filter(Boolean);
+const pressFeatured = [
+  ...pressPicked,
+  ...pressAll
+    .filter((p) => !pressPicked.includes(p))
+    .sort((a, b) => (b.year ?? 0) - (a.year ?? 0)),
+].slice(0, 6);
+const pressOutlets = new Set(pressAll.map((p) => p.outlet)).size;
 
 // 14. Обо мне — таймлайн образования и практики.
 // Шкала одна на оба ряда: КОЛОНКА СЕТКИ = ОДИН ГОД из [CV_FROM, CV_TO].
@@ -589,25 +575,18 @@ const gallery = [
       <h2 class="press__title">Пресса.</h2>
       <p class="press__intro">
         За годы практики меня приглашали комментировать РБК, ТАСС, АиФ,
-        Cosmopolitan, Harper's Bazaar, Wonderzine, The Blueprint и другие
-        издания. Здесь собрано главное.
+        Cosmopolitan, Harper's Bazaar, The Blueprint и другие издания —
+        всего {pressAll.length} материалов в {pressOutlets} изданиях.
       </p>
       <div class="press__grid">
-        {press.map((p) =>
-          p.href ? (
-            <a class="press__item" href={p.href} target="_blank" rel="noopener">
-              <span class="press__source mono">{p.source}</span>
-              <p class="press__topic">{p.title}</p>
-              <span class="press__more mono">Читать в {p.source}</span>
-            </a>
-          ) : (
-            <article class="press__item">
-              <span class="press__source mono">{p.source}</span>
-              <p class="press__topic">{p.title}</p>
-            </article>
-          )
-        )}
+        {pressFeatured.map((p) => (
+          <a class="press__item" href={p.url} target="_blank" rel="noopener noreferrer">
+            <span class="press__source mono">{[p.outlet, p.year].filter(Boolean).join(' · ')}</span>
+            <p class="press__topic">{p.title}</p>
+          </a>
+        ))}
       </div>
+      <BtnPair class="press__all" label="Все публикации" href={asset('press')} />
     </div>
   </section>
 
@@ -1362,6 +1341,9 @@ const gallery = [
   }
 
   /* ================= 13. ПРЕССА ================= */
+  .press__all {
+    margin-top: 24px;
+  }
   .press__grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1384,29 +1366,6 @@ const gallery = [
     line-height: 1.3;
     max-width: 30ch;
   }
-  /* Кликабельность: пилюля «Читать» с лаймовым квадратиком (как blog__tg);
-     hover заливает пилюлю лаймом — сама плашка не меняется */
-  .press__more {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    align-self: flex-start;
-    padding: 10px 14px;
-    margin: -6px 0 -10px -14px;
-    border-radius: var(--radius-btn);
-    transition: background 0.25s var(--ease);
-  }
-  .press__more::before {
-    content: '';
-    width: 8px;
-    height: 8px;
-    border-radius: 2px;
-    background: var(--lime-2);
-  }
-  .press__item:hover .press__more {
-    background: var(--lime);
-  }
-
   /* ================= 8. ЗОНЫ ================= */
   .zones__title {
     font-size: var(--text-display);
@@ -2046,7 +2005,10 @@ const gallery = [
     .clinic__inner {
       grid-template-columns: 1fr;
     }
-    .press__grid {
+    .press__all {
+    margin-top: 24px;
+  }
+  .press__grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
     /* В одну колонку тянуть фото не по чему — возвращаем ему пропорцию */

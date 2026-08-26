@@ -1,0 +1,276 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ArrowChip from '../components/ArrowChip.astro';
+import { asset } from '../lib/asset';
+import press from '../data/press.json';
+
+// Данные собирает scripts/press-build.mjs из прогона по ссылкам.
+// Руками не править: следующий прогон перезапишет.
+type Item = {
+  title: string;
+  outlet: string;
+  kind: string;
+  year: number | null;
+  url: string;
+  cover: string | null;
+  quote: string | null;
+  tier: 'full' | 'card' | 'line';
+};
+
+const items = press as Item[];
+
+// Издания для фильтра: те, где больше одной публикации. Остальные
+// прячем в «Другие» — двадцать четыре пилюли в ряд читать невозможно.
+const counts = items.reduce<Record<string, number>>((a, r) => ((a[r.outlet] = (a[r.outlet] ?? 0) + 1), a), {});
+const major = Object.entries(counts)
+  .filter(([, n]) => n > 1)
+  .sort((a, b) => b[1] - a[1])
+  .map(([o]) => o);
+
+const kinds = [...new Set(items.map((r) => r.kind))];
+const years = items.map((r) => r.year).filter((y): y is number => Boolean(y));
+const outlets = new Set(items.map((r) => r.outlet)).size;
+
+const label = (r: Item) => [r.outlet, r.year].filter(Boolean).join(' · ');
+---
+
+<Base
+  title="Публикации в СМИ — Оксана Чащина"
+  description={`${items.length} материалов в ${outlets} изданиях: РБК, ТАСС, Buro 24/7, АиФ и другие. Комментарии и интервью врача-косметолога Оксаны Чащиной.`}
+>
+  <Header />
+
+  <main class="section press-page">
+    <div class="container">
+      <span class="tag mono">Публикации</span>
+      <h1 class="press-page__title">Где меня спрашивают.</h1>
+      <p class="press-page__intro">
+        {items.length} материалов в {outlets} изданиях с {Math.min(...years)} по {Math.max(...years)} год.
+        Комментарии, интервью и эфиры — каждая карточка ведёт на сайт издания,
+        к оригиналу.
+      </p>
+
+      <div class="press-page__filters" data-filters>
+        <div class="pills" role="group" aria-label="Тип материала">
+          <button class="pill mono is-on" data-filter="kind" data-value="">Все</button>
+          {kinds.map((k) => (
+            <button class="pill mono" data-filter="kind" data-value={k}>{k}</button>
+          ))}
+        </div>
+        <div class="pills" role="group" aria-label="Издание">
+          <button class="pill mono is-on" data-filter="outlet" data-value="">Все издания</button>
+          {major.map((o) => (
+            <button class="pill mono" data-filter="outlet" data-value={o}>{o}</button>
+          ))}
+        </div>
+      </div>
+
+      <p class="press-page__count mono" data-count aria-live="polite"></p>
+
+      <div class="parchive" data-grid>
+        {items.map((r) => (
+          <a
+            class={`pcard pcard--${r.tier}`}
+            href={r.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-outlet={r.outlet}
+            data-kind={r.kind}
+          >
+            {r.cover && (
+              <img class="pcard__cover" src={asset(r.cover)} alt="" loading="lazy" width="640" height="427" />
+            )}
+            <span class="pcard__meta mono">{label(r)}</span>
+            <span class="pcard__title">{r.title}</span>
+            {r.quote && <span class="pcard__quote">{r.quote}</span>}
+            <ArrowChip class="pcard__chip" />
+          </a>
+        ))}
+      </div>
+
+      <p class="press-page__empty mono" data-empty hidden>Ничего не нашлось — снимите фильтр.</p>
+    </div>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  .press-page {
+    padding-top: 108px; /* шапка fixed */
+  }
+  .press-page__title {
+    font-size: var(--text-display);
+    letter-spacing: var(--track-display);
+    line-height: 1.1;
+    max-width: var(--measure-head);
+    margin-top: 12px;
+  }
+  .press-page__intro {
+    font-size: var(--text-lead);
+    max-width: var(--measure-lead);
+    margin-top: 20px;
+  }
+
+  /* ---------- Фильтры ---------- */
+  .press-page__filters {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: var(--block-gap);
+  }
+  .pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .pill {
+    font-family: var(--font-mono);
+    font-size: var(--text-caption);
+    letter-spacing: var(--track-mono);
+    text-transform: uppercase;
+    line-height: 1;
+    color: var(--ink);
+    background: var(--paper);
+    border: 1px solid transparent;
+    border-radius: var(--radius-pill);
+    padding: 10px 14px;
+    cursor: pointer;
+    transition: background 0.25s var(--ease), color 0.25s var(--ease);
+  }
+  .pill:hover { border-color: var(--sage); }
+  .pill.is-on {
+    background: var(--ink);
+    color: var(--bone);
+  }
+
+  .press-page__count {
+    color: var(--sea);
+    margin-top: 18px;
+  }
+
+  /* ---------- Сетка ----------
+     Колонки, а не grid: карточки разной высоты (обложка, обложка с цитатой,
+     голая строка) в grid оставляют дыры, а при фильтрации дыры прыгают.
+     break-inside держит карточку целой. */
+  .parchive {
+    columns: 3;
+    column-gap: 20px;
+    margin-top: 14px;
+  }
+  .pcard {
+    display: block;
+    break-inside: avoid;
+    margin-bottom: 20px;
+    padding: 20px 20px 24px;
+    border-radius: var(--radius-card);
+    background: var(--paper);
+    position: relative;
+    transition: transform 0.35s var(--ease);
+  }
+  .pcard:hover { transform: translateY(-3px); }
+  .pcard[hidden] { display: none; }
+
+  /* Обложка в край карточки: вылезает из падингов отрицательными полями,
+     скругление повторяет верхние углы карточки. */
+  .pcard__cover {
+    width: calc(100% + 40px);
+    margin: -20px -20px 16px;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    border-radius: var(--radius-card) var(--radius-card) 0 0;
+  }
+  .pcard__meta {
+    display: block;
+    color: var(--sea);
+    margin-bottom: 8px;
+  }
+  .pcard__title {
+    display: block;
+    font-size: var(--text-card-title);
+    letter-spacing: var(--track-heading);
+    line-height: 1.2;
+  }
+  .pcard__quote {
+    display: block;
+    margin-top: 12px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    color: var(--sea);
+  }
+  /* :global — чип приходит из компонента ArrowChip, и scoped-стиль
+     страницы до его корневого элемента не достаёт. */
+  .pcard :global(.arrow-chip) {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    transform: scale(0.62);
+    transform-origin: bottom right;
+    opacity: 0;
+    transition: opacity 0.3s var(--ease);
+  }
+  .pcard:hover :global(.arrow-chip) { opacity: 1; }
+
+  /* Без обложки — тёмная плашка. Отсутствие картинки становится приёмом:
+     тёмные карточки задают ритм в светлой сетке, а не читаются как дырка. */
+  .pcard--line {
+    background: var(--ink);
+    color: var(--bone);
+    padding-block: 26px 30px;
+  }
+  .pcard--line .pcard__meta { color: var(--lime); }
+  /* На тёмной плашке приглушённый --sea проваливается в фон:
+     цитата становится нечитаемой. Осветляем. */
+  .pcard--line .pcard__quote { color: var(--sage); }
+
+  .press-page__empty {
+    color: var(--sea);
+    margin-top: 20px;
+  }
+
+  @media (max-width: 1000px) {
+    .parchive { columns: 2; }
+  }
+  @media (max-width: 620px) {
+    .parchive { columns: 1; }
+  }
+</style>
+
+<script>
+  // Фильтры: прячем карточки, не перестраивая DOM — колонки сами перетекут.
+  const grid = document.querySelector<HTMLElement>('[data-grid]');
+  const countEl = document.querySelector<HTMLElement>('[data-count]');
+  const emptyEl = document.querySelector<HTMLElement>('[data-empty]');
+  const cards = [...document.querySelectorAll<HTMLElement>('.pcard')];
+  const state: Record<string, string> = { kind: '', outlet: '' };
+
+  function apply() {
+    let shown = 0;
+    for (const card of cards) {
+      const ok =
+        (!state.kind || card.dataset.kind === state.kind) &&
+        (!state.outlet || card.dataset.outlet === state.outlet);
+      card.hidden = !ok;
+      if (ok) shown++;
+    }
+    if (countEl) countEl.textContent = `Показано: ${shown}`;
+    if (emptyEl) emptyEl.hidden = shown > 0;
+    if (grid) grid.hidden = shown === 0;
+  }
+
+  for (const btn of document.querySelectorAll<HTMLButtonElement>('.pill')) {
+    btn.addEventListener('click', () => {
+      const key = btn.dataset.filter!;
+      state[key] = btn.dataset.value ?? '';
+      for (const sib of document.querySelectorAll<HTMLElement>(`.pill[data-filter="${key}"]`)) {
+        sib.classList.toggle('is-on', sib === btn);
+      }
+      apply();
+    });
+  }
+
+  apply();
+</script>
