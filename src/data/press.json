@@ -575,9 +575,9 @@
     "kind": "видео",
     "year": null,
     "url": "https://www.ntv.ru/peredacha/Jivaya_eda/m81761/o618376/video/",
-    "cover": null,
+    "cover": "press/art/karotin-molekula.webp",
     "quote": null,
-    "tier": "line"
+    "tier": "card"
   },
   {
     "title": "Безопасны ли средства для автозагара? На что нужно обратить внимание при выборе таких средств.",
@@ -585,9 +585,9 @@
     "kind": "видео",
     "year": null,
     "url": "https://www.ntv.ru/peredacha/chudo_tehniki/m24780/o632520/video/",
-    "cover": null,
+    "cover": "press/art/dga-avtozagar.webp",
     "quote": null,
-    "tier": "line"
+    "tier": "card"
   },
   {
     "title": "Анализ состава ночного пилинга Elemis Peptide4.",
@@ -635,9 +635,9 @@
     "kind": "статья",
     "year": null,
     "url": "https://www.wday.ru/krasota-zdorovie/dietyi-i-sport/racion-dolgozhitelei-7-produktov-kotorye-ne-dadut-vam-staret/",
-    "cover": null,
+    "cover": "press/art/antioksidant-radikal.webp",
     "quote": null,
-    "tier": "line"
+    "tier": "card"
   },
   {
     "title": "Лучшие омолаживающие процедуры для тех, кому за 30",
