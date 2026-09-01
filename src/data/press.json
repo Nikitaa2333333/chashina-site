@@ -5,9 +5,9 @@
     "kind": "статья",
     "year": 2026,
     "url": "https://focusmoda.ru/beauty/health/dlya-pohudeniya-semena-na-uhe-v-chem-sut-metoda-i-kak-eto-delayut-zvezdy",
-    "cover": "press/focusmoda-dlya-pohudeniya-semena-na-uhe-v-ch-826105.webp",
+    "cover": null,
     "quote": null,
-    "tier": "card"
+    "tier": "line"
   },
   {
     "title": "Влияет ли материал наволочки на волосы?",
@@ -45,9 +45,9 @@
     "kind": "статья",
     "year": 2026,
     "url": "https://focusmoda.ru/beauty/skincare/beautysummer",
-    "cover": "press/focusmoda-beautysummer-0ecaba.webp",
+    "cover": null,
     "quote": null,
-    "tier": "card"
+    "tier": "line"
   },
   {
     "title": "Хватит считать овец: как наладить режим сна",
@@ -65,9 +65,9 @@
     "kind": "статья",
     "year": 2024,
     "url": "https://zdr.ru/chistyj-vzglyad/",
-    "cover": "press/zdr-chistyj-vzglyad-ebc13a.webp",
+    "cover": null,
     "quote": "Кроме этого, в зоне риска – те, кто близорук, но не жалует очки, контактные линзы или все еще не отважился на лазерную коррекцию зрения.",
-    "tier": "full"
+    "tier": "line"
   },
   {
     "title": "Врач-косметолог Оксана Чащина назвала компоненты косметики, которых лучше избегать",
@@ -115,9 +115,9 @@
     "kind": "статья",
     "year": 2022,
     "url": "https://www.beautyinsider.ru/2022/04/07/kak-uhazhivat-za-zhirnoj-vozrastnoj-kozhej/",
-    "cover": "press/beautyinsider-kak-uhazhivat-za-zhirnoj-vozrastno-2e3e71.webp",
+    "cover": null,
     "quote": "Основа основ для жирной возрастной кожи – уход с AHA-кислотами. Они отшелушивают, регулируют увлажненность, помогают бороться с воспалениями, мелкими морщинами, пигментацией.",
-    "tier": "full"
+    "tier": "line"
   },
   {
     "title": "Кольца венеры на шее: как убрать, избавиться, советы экспертов, отзывы",
@@ -145,9 +145,9 @@
     "kind": "статья",
     "year": 2021,
     "url": "https://www.beautyinsider.ru/2021/03/09/kak-uhazhivayut-za-soboj-kosmetologi-oksana-chashhina-ob-uhode-za-chyvstvitelnoi-kozhei/",
-    "cover": "press/beautyinsider-kak-uhazhivayut-za-soboj-kosmetolo-c80be2.webp",
+    "cover": null,
     "quote": null,
-    "tier": "card"
+    "tier": "line"
   },
   {
     "title": "Чем опасно весеннее солнце?",
@@ -185,9 +185,9 @@
     "kind": "статья",
     "year": 2020,
     "url": "https://perito-burrito.com/posts/safety-swimming",
-    "cover": "press/perito-burrito-safety-swimming-23bb56.webp",
+    "cover": null,
     "quote": null,
-    "tier": "card"
+    "tier": "line"
   },
   {
     "title": "Как справиться с гусиной кожей? Советуют эксперты",
@@ -195,9 +195,9 @@
     "kind": "статья",
     "year": 2020,
     "url": "https://www.beautyinsider.ru/2020/12/22/kak-spravitsya-s-gusinoj-kozhej-sovetuyut-eksperty/",
-    "cover": "press/beautyinsider-kak-spravitsya-s-gusinoj-kozhej-so-8d8b98.webp",
+    "cover": null,
     "quote": null,
-    "tier": "card"
+    "tier": "line"
   },
   {
     "title": "Отёчность лица по утрам: как избавиться",
@@ -225,9 +225,9 @@
     "kind": "статья",
     "year": 2019,
     "url": "https://aif.ru/health/secrets/nuzhna_li_volosam_shapka",
-    "cover": "press/aif-nuzhna-li-volosam-shapka-3db7d8.webp",
+    "cover": null,
     "quote": null,
-    "tier": "card"
+    "tier": "line"
   },
   {
     "title": "Чем опасны приклеенные ресницы?",
@@ -235,9 +235,9 @@
     "kind": "статья",
     "year": 2019,
     "url": "https://aif.ru/health/secrets/chem_opasny_prikleennye_resnicy",
-    "cover": "press/aif-chem-opasny-prikleennye-resnicy-a94e9b.webp",
+    "cover": null,
     "quote": null,
-    "tier": "card"
+    "tier": "line"
   },
   {
     "title": "Что нужно знать об омоложении собственными фибробластами",
@@ -275,9 +275,9 @@
     "kind": "статья",
     "year": 2018,
     "url": "http://www.aif.ru/health/secrets/kozha_volosy_nogti_kak_vosstanovitsya_posle_leta",
-    "cover": "press/aif-kozha-volosy-nogti-kak-vosstanovit-0d947e.webp",
+    "cover": null,
     "quote": null,
-    "tier": "card"
+    "tier": "line"
   },
   {
     "title": "Отзывы на омолаживающие процедуры для шеи и зоны декольте",
@@ -285,9 +285,9 @@
     "kind": "статья",
     "year": 2018,
     "url": "https://www.beautyinsider.ru/2018/09/25/omolozhenie-shei-i-zonyi-dekolte-posle-40-let-protseduryi-i-tsenyi/",
-    "cover": "press/beautyinsider-omolozhenie-shei-i-zonyi-dekolte-p-7af9b3.webp",
+    "cover": null,
     "quote": null,
-    "tier": "card"
+    "tier": "line"
   },
   {
     "title": "Как убрать второй подбородок? Использование липолитиков, отзывы",
@@ -305,9 +305,9 @@
     "kind": "статья",
     "year": 2015,
     "url": "https://www.beautyinsider.ru/2015/10/24/mentoplasty/",
-    "cover": "press/beautyinsider-mentoplasty-b640fc.webp",
+    "cover": null,
     "quote": "Все, что мы делаем на этом этапе, мы делаем с одной целью: ускорить обмен веществ, который с возрастом тормозится. Лет до 20-25 мы растем.",
-    "tier": "full"
+    "tier": "line"
   },
   {
     "title": "Дело молодое: что сделать для своей красоты сегодня, чтобы хорошо выглядеть через 20 лет",
@@ -325,9 +325,9 @@
     "kind": "статья",
     "year": null,
     "url": "https://saltmag.ru/beauty/face/98-sohranit-litso-chto-takoe-gravitatsionnyj-ptoz-i-kak-ego-ostanovit",
-    "cover": "press/saltmag-98-sohranit-litso-chto-takoe-gravi-43fc96.webp",
+    "cover": null,
     "quote": null,
-    "tier": "card"
+    "tier": "line"
   },
   {
     "title": "Клетки красоты: кто такие фибробласты и почему от них зависит наша молодость",
@@ -335,9 +335,9 @@
     "kind": "статья",
     "year": null,
     "url": "https://saltmag.ru/beauty/face/83-kletki-krasoty-kto-takie-fibroblasty-i-pochemu-ot-nih-zavisit-nasha-molodost/",
-    "cover": "press/saltmag-83-kletki-krasoty-kto-takie-fibrob-731961.webp",
+    "cover": null,
     "quote": null,
-    "tier": "card"
+    "tier": "line"
   },
   {
     "title": "Косметика с гиалуроновой кислотой: панацея или маркетинговый ход",
@@ -515,9 +515,9 @@
     "kind": "статья",
     "year": null,
     "url": "https://www.cosmo.ru/sex-love/sex/lichnyy-vopros-intimnye-problemy-i-kak-s-nimi-borotsya-s-pomoshchyu-kosmetologii/",
-    "cover": "press/cosmo-lichnyy-vopros-intimnye-problemy-i-2871a6.webp",
+    "cover": null,
     "quote": null,
-    "tier": "card"
+    "tier": "line"
   },
   {
     "title": "Доброе утро: откуда берутся отеки и как предотвратить их появление",
@@ -525,9 +525,9 @@
     "kind": "статья",
     "year": null,
     "url": "https://saltmag.ru/beauty/face/95-dobroe-utro-otkuda-berutsja-oteki-i-kak-predotvratit-ih-pojavlenie/",
-    "cover": "press/saltmag-95-dobroe-utro-otkuda-berutsja-ote-3ba725.webp",
+    "cover": null,
     "quote": null,
-    "tier": "card"
+    "tier": "line"
   },
   {
     "title": "Стоит ли бояться лактозы? А от пастеризованного никакой пользы? Обезжиренное лучше цельного? Развеиваем главные мифы о молоке",
@@ -575,9 +575,9 @@
     "kind": "видео",
     "year": null,
     "url": "https://www.ntv.ru/peredacha/Jivaya_eda/m81761/o618376/video/",
-    "cover": "press/ntv-video-d1c480.webp",
+    "cover": null,
     "quote": null,
-    "tier": "card"
+    "tier": "line"
   },
   {
     "title": "Безопасны ли средства для автозагара? На что нужно обратить внимание при выборе таких средств.",
@@ -585,9 +585,9 @@
     "kind": "видео",
     "year": null,
     "url": "https://www.ntv.ru/peredacha/chudo_tehniki/m24780/o632520/video/",
-    "cover": "press/ntv-video-404e36.webp",
+    "cover": null,
     "quote": null,
-    "tier": "card"
+    "tier": "line"
   },
   {
     "title": "Анализ состава ночного пилинга Elemis Peptide4.",
@@ -635,9 +635,9 @@
     "kind": "статья",
     "year": null,
     "url": "https://www.wday.ru/krasota-zdorovie/dietyi-i-sport/racion-dolgozhitelei-7-produktov-kotorye-ne-dadut-vam-staret/",
-    "cover": "press/wday-racion-dolgozhitelei-7-produktov-k-467f3b.webp",
+    "cover": null,
     "quote": null,
-    "tier": "card"
+    "tier": "line"
   },
   {
     "title": "Лучшие омолаживающие процедуры для тех, кому за 30",

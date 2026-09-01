@@ -101,7 +101,10 @@ const yearOf = (r) => {
 
 const built = live.map((r) => {
   const quote = quoteOf(r);
-  const cover = art.get(r.url) ?? r.cover ?? null;
+  // Только своя иллюстрация. Обложки, скачанные со страниц изданий, больше
+  // не берём: чужие кадры выбиваются из стиля сайта. Нет своей картинки —
+  // карточка выходит строкой (тёмная плашка).
+  const cover = art.get(r.url) ?? null;
   return {
     title: titleOf(r),
     outlet: r.outlet,
