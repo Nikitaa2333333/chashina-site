@@ -39,11 +39,13 @@ const label = (r: Item) => [r.outlet, r.year].filter(Boolean).join(' · ');
     <div class="container">
       <a class="crumb mono" href="/">← На главную</a>
       <span class="tag mono">Публикации</span>
-      <h1 class="press-page__title">Где меня спрашивают.</h1>
+      <h1 class="press-page__title">Мои статьи в СМИ.</h1>
       <p class="press-page__intro">
+        Издания обращаются ко мне за комментарием — и через их вопросы
+        я объясняю то, что важно знать о коже и уходе: чем точнее пациент
+        понимает, как всё устроено, тем осмысленнее его решения.
         {items.length} материалов в {outlets} изданиях с {Math.min(...years)} по {Math.max(...years)} год,
-        свежие сверху. Комментарии, интервью и эфиры — каждая карточка ведёт
-        на сайт издания, к оригиналу.
+        свежие сверху. Каждая карточка ведёт к оригиналу на сайте издания.
       </p>
 
       <div class="parchive">
@@ -114,6 +116,9 @@ const label = (r: Item) => [r.outlet, r.year].filter(Boolean).join(' · ');
      скругление повторяет верхние углы карточки. */
   .pcard__cover {
     width: calc(100% + 40px);
+    /* глобальное img { max-width: 100% } иначе срезает эти +40px обратно
+       до ширины контента, и обложка не дотягивается до края плашки */
+    max-width: none;
     margin: -20px -20px 16px;
     height: auto;
     aspect-ratio: 3 / 2;
