@@ -23,6 +23,27 @@ const DEAD = path.join(ROOT, 'data/press-dead.tsv');
 
 const items = JSON.parse(await fs.readFile(AUDIT, 'utf8'));
 
+// Свои иллюстрации вместо чужих обложек изданий. Карту (slug → url) пишет
+// конвейер генерации, файлы кладёт scripts/press-art.mjs в public/press/art/.
+// Строка карты без готового webp игнорируется — обложка останется прежней.
+const ART = path.join(ROOT, 'data/press-art.tsv');
+const art = new Map();
+try {
+  for (const line of (await fs.readFile(ART, 'utf8')).split('\n')) {
+    const [slug, url] = line.split('\t');
+    if (!slug || !url) continue;
+    const rel = `press/art/${slug.trim()}.webp`;
+    try {
+      await fs.access(path.join(ROOT, 'public', rel));
+      art.set(url.trim(), rel);
+    } catch {
+      console.warn(`нет файла public/${rel} — обложку не подменяю`);
+    }
+  }
+} catch {
+  /* карты нет — остаются обложки изданий */
+}
+
 // Ссылка ведёт не на публикацию, а на карточку врача — на сайте ей не место.
 const NOT_PRESS = [/nbcdevelopment\.ru/i];
 
@@ -80,7 +101,7 @@ const yearOf = (r) => {
 
 const built = live.map((r) => {
   const quote = quoteOf(r);
-  const cover = r.cover ?? null;
+  const cover = art.get(r.url) ?? r.cover ?? null;
   return {
     title: titleOf(r),
     outlet: r.outlet,

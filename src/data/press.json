@@ -35,7 +35,7 @@
     "kind": "статья",
     "year": 2026,
     "url": "https://www.rbc.ru/life/news/6a1ee0c79a79471bbbc5f433",
-    "cover": "press/rbc-6a1ee0c79a79471bbbc5f433-cd88d3.webp",
+    "cover": "press/art/kollagen-tripleks.webp",
     "quote": null,
     "tier": "card"
   },
@@ -55,7 +55,7 @@
     "kind": "статья",
     "year": 2025,
     "url": "https://focusmoda.ru/beauty/health/son-i-zdorove-kak-naladit-rezhim-i-chto-proishodit-s-organizmom-cheloveka-nochyu",
-    "cover": "press/focusmoda-son-i-zdorove-kak-naladit-rezhim-i-999b04.webp",
+    "cover": "press/art/melatonin-ritm.webp",
     "quote": null,
     "tier": "card"
   },
@@ -75,9 +75,9 @@
     "kind": "статья",
     "year": 2023,
     "url": "https://www.gazeta.ru/style/news/2023/04/11/20187565.shtml",
-    "cover": null,
+    "cover": "press/art/molekuly-ryad.webp",
     "quote": null,
-    "tier": "line"
+    "tier": "card"
   },
   {
     "title": "«Чтобы было красиво и не выбивало из графика». Как работает SMAS-лифтинг",
@@ -85,7 +85,7 @@
     "kind": "статья",
     "year": 2023,
     "url": "https://flacon-magazine.com/ukhod/kosmetologiya/3580194-chtoby-bylo-krasivo-i-ne-vybivalo-iz-grafika-kak-rabotayet-smas-lifting",
-    "cover": "press/flacon-magazine-3580194-chtoby-bylo-krasivo-i-ne-v-3ca14e.webp",
+    "cover": "press/art/smas-fokus.webp",
     "quote": "В косметологии широко используется ультразвуковой SMAS-лифтинг. Это работает так: ультразвуковая волна соединяется в одной точке в глубине кожи, происходит нагрев, который приводит к сокращению кожи и подкожных структур.",
     "tier": "full"
   },
@@ -105,7 +105,7 @@
     "kind": "статья",
     "year": 2022,
     "url": "https://aif.ru/health/secrets/po_volosam_plachut_pochemu_osenyu_oni_vypadayut_i_sekutsya",
-    "cover": "press/aif-po-volosam-plachut-pochemu-osenyu-b530bb.webp",
+    "cover": "press/art/volos-kutikula.webp",
     "quote": null,
     "tier": "card"
   },
@@ -125,7 +125,7 @@
     "kind": "статья",
     "year": 2021,
     "url": "https://www.beautyinsider.ru/2021/06/21/kolcza-venery-kak-ubrat-sovetuyut-eksperty/",
-    "cover": "press/beautyinsider-kolcza-venery-kak-ubrat-sovetuyut-e447ed.webp",
+    "cover": "press/art/elastin-razryv.webp",
     "quote": "Правда. В этой области очень небольшое количество подкожно-жировой клетчатки. С возрастом ее становится еще меньше. Там также мало и сальных желез, которые отвечают за образование защитной жировой пленки на коже.",
     "tier": "full"
   },
@@ -155,7 +155,7 @@
     "kind": "статья",
     "year": 2021,
     "url": "https://aif.ru/health/life/chem_opasno_vesennee_solnce",
-    "cover": "press/aif-chem-opasno-vesennee-solnce-a20fd2.webp",
+    "cover": "press/art/timinovyy-dimer.webp",
     "quote": null,
     "tier": "card"
   },
@@ -165,7 +165,7 @@
     "kind": "статья",
     "year": 2021,
     "url": "https://www.beautyinsider.ru/2021/04/21/chto-takoe-led-terapiya-i-nuzhna-li-ona-lichno-vam/",
-    "cover": "press/beautyinsider-chto-takoe-led-terapiya-i-nuzhna-l-5af970.webp",
+    "cover": "press/art/led-massiv.webp",
     "quote": "Световая терапия стимулирует восстановительные процессы и выработку коллагена, выравнивает тон кожи, делает ее более эластичной, способствует снижению количества воспалений и регулирует работу сальных желез.",
     "tier": "full"
   },
@@ -175,7 +175,7 @@
     "kind": "статья",
     "year": 2020,
     "url": "https://aif.ru/health/life/chem_pahnet_starost",
-    "cover": "press/aif-chem-pahnet-starost-71ed84.webp",
+    "cover": "press/art/nonenal.webp",
     "quote": null,
     "tier": "card"
   },
@@ -205,7 +205,7 @@
     "kind": "статья",
     "year": 2020,
     "url": "https://www.buro247.ru/beauty/cosmetic/12-feb-2019-facial-swelling.html",
-    "cover": "press/buro247-12-feb-2019-facial-swelling-4782e4.webp",
+    "cover": "press/art/osmos-membrana.webp",
     "quote": "Основной причиной отеков лица является определённый тип старения, то есть определённый тип строения мягких тканей. Не каждый тип старения имеет тенденцию к отечности.",
     "tier": "full"
   },
@@ -215,7 +215,7 @@
     "kind": "статья",
     "year": 2019,
     "url": "https://m.buro247.ru/beauty/health/27-mar-2019-inflammaging-skin.html",
-    "cover": "press/buro247-27-mar-2019-inflammaging-skin-02831b.webp",
+    "cover": "press/art/inflammeyging-ochagi.webp",
     "quote": "Инфламэйджинг затрагивает весь организм: от кожи до иммунной системы и ЖКТ. «Главное отличие от острого воспаления: долгое время может протекать бессимптомно. Первые видимые признаки — сухая тонкая кожа и её пигментация, большое количество тонких морщин.",
     "tier": "full"
   },
@@ -245,7 +245,7 @@
     "kind": "статья",
     "year": 2019,
     "url": "https://www.buro247.ru/beauty/health/29-jan-2019-rejuvenation-with-your-own-fibroblasts.html",
-    "cover": "press/buro247-29-jan-2019-rejuvenation-with-your-e22dc2.webp",
+    "cover": "press/art/fibroblasty-matriks.webp",
     "quote": "Почему образец берётся за ухом? Потому что эта зона наименее подвержена травматическому воздействию солнца",
     "tier": "full"
   },
@@ -255,7 +255,7 @@
     "kind": "статья",
     "year": 2019,
     "url": "https://www.beautyinsider.ru/2019/06/30/na-chto-sposobna-kosmetologiya-podborka-samyih-effektivnyih-protsedur/",
-    "cover": "press/beautyinsider-na-chto-sposobna-kosmetologiya-pod-c4c143.webp",
+    "cover": "press/art/sinaps-vezikuly.webp",
     "quote": null,
     "tier": "card"
   },
@@ -265,7 +265,7 @@
     "kind": "статья",
     "year": 2018,
     "url": "https://www.buro247.ru/beauty/health/17-jul-2018-how-to-get-rid-of-fillers.html",
-    "cover": "press/buro247-17-jul-2018-how-to-get-rid-of-fill-6420e2.webp",
+    "cover": "press/art/gialuronidaza.webp",
     "quote": "Во время инъекции ферментного препарата возникает пощипывание. Скорость расщепления, в зависимости от введенного объема, составляет от 30 минут до 5–7 дней, она зависит от точности введения и распределения ферментного препарата, в каждом случае реакция…",
     "tier": "full"
   },
@@ -295,7 +295,7 @@
     "kind": "статья",
     "year": 2015,
     "url": "https://www.beautyinsider.ru/2015/06/08/double-chin-reduction-fifth-element/",
-    "cover": "press/beautyinsider-double-chin-reduction-fifth-elemen-1a4e73.webp",
+    "cover": "press/art/micelly-lipoliz.webp",
     "quote": null,
     "tier": "card"
   },
@@ -315,7 +315,7 @@
     "kind": "статья",
     "year": null,
     "url": "https://bazaar.ru/beauty/reviews/delo-molodoe-chto-sdelat-dlya-svoey-krasoty-segodnya-chtoby-horosho-vyglyadet-cherez-20-let/",
-    "cover": "press/bazaar-delo-molodoe-chto-sdelat-dlya-svoe-736c98.webp",
+    "cover": "press/art/telomery.webp",
     "quote": null,
     "tier": "card"
   },
@@ -345,7 +345,7 @@
     "kind": "статья",
     "year": null,
     "url": "https://saltmag.ru/beauty/face/71-kosmetika-s-gialuronovoj-kislotoj-panatseja-ili-marketingovyj-hod/",
-    "cover": "press/saltmag-71-kosmetika-s-gialuronovoj-kislot-182a84.webp",
+    "cover": "press/art/gialuronka-set.webp",
     "quote": null,
     "tier": "card"
   },
@@ -355,9 +355,9 @@
     "kind": "статья",
     "year": null,
     "url": "https://umagazine.ru/krasota/practice/kakie-tipy-stareniya-kozhi-byvayut-i-kak-s-nimi-borotsya-na-primere-zvezd/",
-    "cover": null,
+    "cover": "press/art/dnk-spiral.webp",
     "quote": null,
-    "tier": "line"
+    "tier": "card"
   },
   {
     "title": "Клеточные технологии в косметологии — 2 эффективные методики омоложения.",
@@ -375,7 +375,7 @@
     "kind": "статья",
     "year": null,
     "url": "https://www.cosmo.ru/beauty/face/vrag-ili-net-kak-vliyaet-solnce-na-organizm-i-stoit-li-ego-boyatsya/",
-    "cover": "press/cosmo-vrag-ili-net-kak-vliyaet-solnce-na-6f53d6.webp",
+    "cover": "press/art/prizma-uf.webp",
     "quote": null,
     "tier": "card"
   },
@@ -385,9 +385,9 @@
     "kind": "статья",
     "year": null,
     "url": "https://umagazine.ru/krasota/health/peptidy-gialuronka-kisloty-chto-takoe-antieydzhing-ili-chto-dolzhno-byt-v-vashem-kreme-chtoby-ne-sta/",
-    "cover": null,
+    "cover": "press/art/peptidnaya-cep.webp",
     "quote": null,
-    "tier": "line"
+    "tier": "card"
   },
   {
     "title": "Холодный прием: 5 косметологических процедур, которые стоит сделать зимой",
@@ -395,7 +395,7 @@
     "kind": "статья",
     "year": null,
     "url": "https://www.cosmo.ru/beauty/face/holodnyy-priem-5-kosmetologicheskih-procedur-kotorye-stoit-sdelat-zimoy/",
-    "cover": "press/cosmo-holodnyy-priem-5-kosmetologicheski-c55c09.webp",
+    "cover": "press/art/lazer-optika.webp",
     "quote": null,
     "tier": "card"
   },
@@ -405,9 +405,9 @@
     "kind": "статья",
     "year": null,
     "url": "https://theblueprint.ru/beauty/voda-faq",
-    "cover": null,
+    "cover": "press/art/voda-vodorodnye-svyazi.webp",
     "quote": "Например, в самолете, где организм испытывает дополнительную нагрузку. «За счет изменения давления происходит перераспределение жидкости из сосудов в ткани, но эта жидкость не эффективна в плане увлажнения, поскольку создает межклеточный отек, — говорит…",
-    "tier": "line"
+    "tier": "full"
   },
   {
     "title": "Можно ли стать моложе, лежа на диване: 4 основных способа.",
@@ -425,9 +425,9 @@
     "kind": "статья",
     "year": null,
     "url": "https://umagazine.ru/krasota/health/vzyali-bronzu-bezopasny-li-avtozagary-dlya-kozhi/",
-    "cover": null,
+    "cover": "press/art/glikaciya-sshivki.webp",
     "quote": null,
-    "tier": "line"
+    "tier": "card"
   },
   {
     "title": "Усталый вид лица: как с этим бороться",
@@ -455,9 +455,9 @@
     "kind": "статья",
     "year": null,
     "url": "https://umagazine.ru/krasota/health/effekt-pandy-kak-borotsya-s-temnymi-krugami-pod-glazami-sovety-ekspertov/",
-    "cover": null,
+    "cover": "press/art/kapillyary-set.webp",
     "quote": null,
-    "tier": "line"
+    "tier": "card"
   },
   {
     "title": "Как вернуть молодость шее, кистям рук, локтям, коленям и ушам",
@@ -495,9 +495,9 @@
     "kind": "статья",
     "year": null,
     "url": "https://somanyhorses.ru/pigmentnye-pyatna-i-sredstva-borby-s-nimi-kremy-i-sovety-kosmetologa/",
-    "cover": null,
+    "cover": "press/art/melanin-granuly.webp",
     "quote": null,
-    "tier": "line"
+    "tier": "card"
   },
   {
     "title": "Самые эффективные процедуры, которые за неделю или максимум десять дней помогут скорректировать черты лица, не прибегая к «тяжелой артиллерии»",
@@ -535,7 +535,7 @@
     "kind": "статья",
     "year": null,
     "url": "https://theblueprint.ru/beauty/mify-o-moloke",
-    "cover": "press/theblueprint-mify-o-moloke-fcabb3.webp",
+    "cover": "press/art/kazein-laktoza.webp",
     "quote": "Молочные ванны могут дать лишь легкий отшелушивающий и питательный эффект, но не более того",
     "tier": "full"
   },
@@ -545,7 +545,7 @@
     "kind": "видео",
     "year": null,
     "url": "https://youtu.be/0hWcytIfFjw",
-    "cover": "press/youtu-0hwcytiffjw-03994c.webp",
+    "cover": "press/art/spektr-glubina.webp",
     "quote": null,
     "tier": "card"
   },
@@ -595,9 +595,9 @@
     "kind": "статья",
     "year": null,
     "url": "https://umagazine.ru/krasota/reviews/obekt-zhelaniya-nochnoy-piling-dlya-litsa-peptide4-ot-elemis/",
-    "cover": null,
+    "cover": "press/art/kristally-pilinga.webp",
     "quote": null,
-    "tier": "line"
+    "tier": "card"
   },
   {
     "title": "Купить лучший коллаген: отзывы о коллагене",
@@ -645,7 +645,7 @@
     "kind": "статья",
     "year": null,
     "url": "https://www.wday.ru/krasota-zdorovie/beauty-gid/luchshie-omolazhivayushie-procedury-dlya-tekh-komu-za-30/",
-    "cover": "press/wday-luchshie-omolazhivayushie-procedur-4f2ee7.webp",
+    "cover": "press/art/frakcionnyy-lazer.webp",
     "quote": null,
     "tier": "card"
   },
@@ -655,7 +655,7 @@
     "kind": "статья",
     "year": null,
     "url": "https://beautyhack.ru/krasota/uhod/wellness-manifest-2026-tochnost-neyronauka-i-estestvennost",
-    "cover": "press/beautyhack-wellness-manifest-2026-tochnost-ne-00b12a.webp",
+    "cover": "press/art/neyroset-signal.webp",
     "quote": null,
     "tier": "card"
   },
@@ -665,9 +665,9 @@
     "kind": "статья",
     "year": null,
     "url": "https://tass.ru/obschestvo/27249099",
-    "cover": null,
+    "cover": "press/art/kortizol-molekula.webp",
     "quote": null,
-    "tier": "line"
+    "tier": "card"
   },
   {
     "title": "Почему все в восторге от фильтров для душа, и действительно ли они полезны: мнение экспертов",
@@ -685,8 +685,8 @@
     "kind": "статья",
     "year": null,
     "url": "https://www.grazia.ru/beauty/pochemu-vse-pomeshalis-na-kollagenovom-jele-i-est-li-polza-ot-nego/",
-    "cover": null,
+    "cover": "press/art/denaturaciya.webp",
     "quote": null,
-    "tier": "line"
+    "tier": "card"
   }
 ]
