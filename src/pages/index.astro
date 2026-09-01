@@ -1452,8 +1452,11 @@ const gallery = [
     margin-top: clamp(24px, 3vw, 36px);
   }
 
-  /* ================= 13. ПРЕССА ================= */
-  .press__all {
+  /* ================= 13. ПРЕССА =================
+     :global() обязателен: класс висит на корневом <a> компонента BtnPair,
+     у которого свой astro-scope — без него отступ молча не применяется
+     (кнопка прилипает к сетке публикаций). */
+  :global(.press__all) {
     margin-top: clamp(28px, 3.4vw, 44px);
   }
   .press__grid {
@@ -2200,7 +2203,7 @@ const gallery = [
     .clinic__inner {
       grid-template-columns: 1fr;
     }
-    .press__all {
+    :global(.press__all) {
       margin-top: 24px;
     }
     .press__grid {
