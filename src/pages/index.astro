@@ -606,10 +606,9 @@ const gallery = [
     <div class="container social__inner">
       <div class="social__text">
         <span class="tag tag--on-dark mono">Где я ещё пишу</span>
-        <h2 class="social__title">Если пока не готовы записываться — подписывайтесь.</h2>
+        <h2 class="social__title">Подписывайтесь на мои соцсети.</h2>
         <p class="social__lead">
-          Разбираю то, о чём чаще всего спрашивают на приёме: ингредиенты,
-          процедуры, питание и мифы вокруг них.
+          Разбираю темы, о которых чаще всего спрашивают на приёме.
         </p>
       </div>
       <div class="social__links">
@@ -643,6 +642,16 @@ const gallery = [
       <div class="press__grid">
         {pressFeatured.map((p) => (
           <a class="press__item" href={p.url} target="_blank" rel="noopener noreferrer">
+            {p.cover && (
+              <img
+                class="press__cover"
+                src={asset(p.cover)}
+                alt=""
+                loading="lazy"
+                width="640"
+                height="427"
+              />
+            )}
             <span class="press__source mono">{[p.outlet, p.year].filter(Boolean).join(' · ')}</span>
             <p class="press__topic">{p.title}</p>
           </a>
@@ -660,9 +669,8 @@ const gallery = [
       <span class="tag mono">Что говорят пациенты</span>
       <h2 class="reviews__title">Отзывы.</h2>
       <p class="reviews__intro">
-        Отзывы обо мне живут на независимых медицинских площадках: их пишут
-        реальные пациенты, и повлиять на них я не могу. Поэтому здесь только
-        цифры и ссылки — читать лучше <mark>в первоисточнике</mark>.
+        Отзывы обо мне можно прочитать на <mark>независимых медицинских
+        площадках</mark>.
       </p>
       <div class="reviews__grid">
         {reviewCards.map((r) => (
@@ -1467,7 +1475,24 @@ const gallery = [
     flex-direction: column;
     justify-content: space-between;
     gap: 32px;
+    overflow: hidden;
     transition: border-color 0.25s var(--ease), background 0.25s var(--ease);
+  }
+  /* Иллюстрация в край карточки: вылезает из падингов отрицательными полями,
+     скругление повторяет верхние углы (тот же приём, что на /press) */
+  .press__cover {
+    width: calc(100% + 48px);
+    max-width: none;
+    margin: -24px -24px 0;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    border-radius: var(--radius-card) var(--radius-card) 0 0;
+  }
+  /* С картинкой карточку держит она сама — распорка снизу больше не нужна */
+  .press__item:has(.press__cover) {
+    gap: 20px;
+    justify-content: flex-start;
   }
   .press__item:hover {
     border-color: var(--lime-2);
