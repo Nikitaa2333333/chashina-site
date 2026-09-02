@@ -247,3 +247,88 @@ mark {
 .crumb:hover {
   background: var(--lime);
 }
+
+/* ============================================================
+   КАРТОЧКА ПУБЛИКАЦИИ В СМИ
+   Общая для ленты на главной (.press__row) и архива на /press
+   (.parchive) — одно оформление в одном месте, чтобы страницы
+   не разъезжались. Плашка везде тёмная: белые вперемешку
+   с тёмными читались как две разные сущности.
+   Своё у страниц только размещение: ширина и snap в ленте,
+   break-inside в колонках архива.
+   ============================================================ */
+.pcard {
+  display: block;
+  padding: 20px 20px 24px;
+  border-radius: var(--radius-card);
+  background: var(--ink);
+  color: var(--bone);
+  border: 1px solid var(--ink);
+  position: relative;
+  transition: transform 0.35s var(--ease), border-color 0.25s var(--ease);
+}
+.pcard:hover {
+  transform: translateY(-3px);
+  border-color: var(--lime);
+}
+
+/* Обложка в край карточки: вылезает из падингов отрицательными полями,
+   скругление повторяет верхние углы карточки. */
+.pcard__cover {
+  width: calc(100% + 40px);
+  /* глобальное img { max-width: 100% } иначе срезает эти +40px обратно
+     до ширины контента, и обложка не дотягивается до края плашки */
+  max-width: none;
+  margin: -20px -20px 16px;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-radius: var(--radius-card) var(--radius-card) 0 0;
+}
+.pcard__meta {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--lime);
+}
+.pcard__title {
+  display: block;
+  font-size: var(--text-card-title);
+  letter-spacing: var(--track-heading);
+  line-height: 1.2;
+}
+.pcard__quote {
+  display: block;
+  margin-top: 12px;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+/* Чип-стрелка проявляется на ховере */
+.pcard .arrow-chip {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  transform: scale(0.62);
+  transform-origin: bottom right;
+  opacity: 0;
+  transition: opacity 0.3s var(--ease);
+}
+.pcard:hover .arrow-chip {
+  opacity: 1;
+}
+
+/* Без картинки плашке нужно больше воздуха: её высоту держит только
+   текст, иначе рядом с карточками с обложкой она выглядит обрезанной. */
+.pcard:not(:has(.pcard__cover)) {
+  padding-block: 26px 30px;
+}
+
+@media (max-width: 640px) {
+  .pcard {
+    padding: 18px 18px 22px;
+  }
+  .pcard__cover {
+    width: calc(100% + 36px);
+    margin: -18px -18px 14px;
+  }
+}

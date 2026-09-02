@@ -92,82 +92,20 @@ const label = (r: Item) => [r.outlet, r.year].filter(Boolean).join(' · ');
     column-gap: 20px;
     margin-top: var(--block-gap);
   }
-  /* Все карточки одинаковые — тёмные плашки, и с иллюстрацией, и без.
-     Белые вперемешку с тёмными читались как две разные сущности. */
-  .pcard {
-    display: block;
+  /* Оформление карточки — .pcard в global.css, общее с лентой прессы
+     на главной. Здесь только размещение в колонках: break-inside держит
+     карточку целой, отступ снизу разводит соседей по колонке. */
+  .parchive :global(.pcard) {
     break-inside: avoid;
     margin-bottom: 20px;
-    padding: 20px 20px 24px;
-    border-radius: var(--radius-card);
-    background: var(--ink);
-    color: var(--bone);
-    border: 1px solid var(--ink);
-    position: relative;
-    transition: transform 0.35s var(--ease), border-color 0.25s var(--ease);
-  }
-  .pcard:hover {
-    transform: translateY(-3px);
-    border-color: var(--lime);
-  }
-
-  /* Обложка в край карточки: вылезает из падингов отрицательными полями,
-     скругление повторяет верхние углы карточки. */
-  .pcard__cover {
-    width: calc(100% + 40px);
-    /* глобальное img { max-width: 100% } иначе срезает эти +40px обратно
-       до ширины контента, и обложка не дотягивается до края плашки */
-    max-width: none;
-    margin: -20px -20px 16px;
-    height: auto;
-    aspect-ratio: 3 / 2;
-    object-fit: cover;
-    border-radius: var(--radius-card) var(--radius-card) 0 0;
-  }
-  .pcard__meta {
-    display: block;
-    margin-bottom: 8px;
-    color: var(--lime);
-  }
-  .pcard__title {
-    display: block;
-    font-size: var(--text-card-title);
-    letter-spacing: var(--track-heading);
-    line-height: 1.2;
-  }
-  .pcard__quote {
-    display: block;
-    margin-top: 12px;
-    font-size: 0.95rem;
-    line-height: 1.4;
-  }
-  /* :global — чип приходит из компонента ArrowChip, и scoped-стиль
-     страницы до его корневого элемента не достаёт. */
-  .pcard :global(.arrow-chip) {
-    position: absolute;
-    right: 16px;
-    bottom: 16px;
-    transform: scale(0.62);
-    transform-origin: bottom right;
-    opacity: 0;
-    transition: opacity 0.3s var(--ease);
-  }
-  .pcard:hover :global(.arrow-chip) { opacity: 1; }
-
-  /* Без картинки плашке нужно чуть больше воздуха: её высоту держит
-     только текст, иначе в ленте она выглядит обрезанной. */
-  .pcard--line {
-    padding-block: 26px 30px;
   }
 
   @media (max-width: 1000px) {
     .parchive { columns: 2; }
   }
-  /* Один брейкпоинт с сеткой прессы на главной и со списком блога:
+  /* Один брейкпоинт с лентой прессы на главной и со списком блога:
      на телефоне все три раскладки становятся одной колонкой */
   @media (max-width: 640px) {
     .parchive { columns: 1; }
-    .pcard { padding: 18px 18px 22px; }
-    .pcard__cover { width: calc(100% + 36px); margin: -18px -18px 14px; }
   }
 </style>

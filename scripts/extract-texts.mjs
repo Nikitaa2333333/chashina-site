@@ -187,12 +187,18 @@ function blocks(node) {
     return t ? [t] : [];
   }
 
-  // Пресса: «издание + тема» шестью карточками — в документе это таблица,
+  // Пресса: «издание + тема» карточками ленты — в документе это таблица,
   // так видно и перечень изданий, и темы, и куда дописать новую строку.
-  if (hasClass(node, 'press__grid')) {
+  // Карточка (.pcard) — ссылка на материал; внутри мета «издание · год»
+  // и заголовок, остальное (обложка, чип-стрелка) в текст не идёт.
+  if (hasClass(node, 'press__row')) {
+    const pick = (card, cls) => {
+      const el = (card.childNodes ?? []).find((x) => hasClass(x, cls));
+      return el ? phrase(el) : '';
+    };
     const rows = (node.childNodes ?? [])
-      .filter((c) => c.nodeName === 'article' && !skip(c))
-      .map((c) => (c.childNodes ?? []).filter((x) => x.nodeName !== '#text' && !skip(x)).map(phrase));
+      .filter((c) => c.nodeName === 'a' && !skip(c))
+      .map((c) => [pick(c, 'pcard__meta'), pick(c, 'pcard__title')]);
     if (!rows.length) return [];
     const line = (r) => `| ${r[0] ?? ''} | ${r[1] ?? ''} |`;
     return [[line(['Издание', 'Тема']), '| --- | --- |', ...rows.map(line)].join('\n')];

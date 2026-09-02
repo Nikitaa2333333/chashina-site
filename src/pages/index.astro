@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
 import BtnPair from '../components/BtnPair.astro';
+import ArrowChip from '../components/ArrowChip.astro';
 import Footer from '../components/Footer.astro';
 import pressAll from '../data/press.json';
 import { asset } from '../lib/asset';
@@ -98,10 +99,12 @@ const tasks = [
 ];
 
 // 13. Публикации в СМИ — данные собирает scripts/press-build.mjs.
-// На главной ровно шесть карточек из текстов копирайтера (блок 13): имена,
+// Первыми идут шесть карточек из текстов копирайтера (блок 13): имена,
 // которые названы в лиде выше. Сортировка «свежие с цитатой» тут не годится —
 // она выдавала четыре Beauty Insider подряд, а РБК с ТАСС не показывала.
 // Материал ищем по url в press.json, чтобы заголовок и год были из прогона.
+// Дальше лента добирается свежими: карточек в ней 12, а не 6 — в горизонтальной
+// ленте на экран попадает 3–4, и с шестью тянуть было бы почти нечего.
 const PRESS_PICKS = [
   'rbc.ru/life/news/6a1ee0c7',
   'tass.ru/obschestvo/27249099',
@@ -117,7 +120,7 @@ const pressFeatured = [
   ...pressAll
     .filter((p) => !pressPicked.includes(p))
     .sort((a, b) => (b.year ?? 0) - (a.year ?? 0)),
-].slice(0, 6);
+].slice(0, 12);
 const pressOutlets = new Set(pressAll.map((p) => p.outlet)).size;
 
 // 16. Отзывы — независимые агрегаторы. Тексты отзывов с площадок НЕ копируем:
@@ -629,7 +632,7 @@ const gallery = [
   </section>
 
   <!-- ================= 13. ПУБЛИКАЦИИ В СМИ ================= -->
-  <section class="section press" id="press">
+  <section class="section press" id="press" data-press>
     <div class="container">
       <span class="tag mono">Обо мне пишут</span>
       <h2 class="press__title">Пресса.</h2>
@@ -639,24 +642,45 @@ const gallery = [
         всего {pressAll.length} материалов в {pressOutlets} изданиях.
         Каждая карточка открывает оригинал на сайте издания.
       </p>
-      <div class="press__grid">
-        {pressFeatured.map((p) => (
-          <a class="press__item" href={p.url} target="_blank" rel="noopener noreferrer">
-            {p.cover && (
-              <img
-                class="press__cover"
-                src={asset(p.cover)}
-                alt=""
-                loading="lazy"
-                width="640"
-                height="427"
-              />
-            )}
-            <span class="press__source mono">{[p.outlet, p.year].filter(Boolean).join(' · ')}</span>
-            <p class="press__topic">{p.title}</p>
-          </a>
-        ))}
+      <span class="press__hint mono" aria-hidden="true">Тяните вбок →</span>
+    </div>
+
+    <!-- Лента ВНЕ .container: слева встаёт по сетке, справа уходит в край
+         экрана — обрез и есть приглашение тянуть (тот же приём, что у CV).
+         Карточка — та же .pcard, что на /press: тёмная плашка, обложка
+         в край, лаймовая мета, чип-стрелка на ховере. -->
+    <div class="press__stage">
+      <div
+        class="press__scroll"
+        data-press-scroll
+        tabindex="0"
+        role="group"
+        aria-label="Публикации в СМИ"
+      >
+        <div class="press__row">
+          {pressFeatured.map((p) => (
+            <a class="pcard" href={p.url} target="_blank" rel="noopener noreferrer">
+              {p.cover && (
+                <img
+                  class="pcard__cover"
+                  src={asset(p.cover)}
+                  alt=""
+                  loading="lazy"
+                  width="640"
+                  height="427"
+                />
+              )}
+              <span class="pcard__meta mono">{[p.outlet, p.year].filter(Boolean).join(' · ')}</span>
+              <span class="pcard__title">{p.title}</span>
+              <ArrowChip class="pcard__chip" />
+            </a>
+          ))}
+        </div>
       </div>
+      <div class="press__fade" aria-hidden="true"></div>
+    </div>
+
+    <div class="container">
       <BtnPair class="press__all" label="Все публикации в СМИ" href={asset('press')} />
     </div>
   </section>
@@ -1459,53 +1483,71 @@ const gallery = [
   :global(.press__all) {
     margin-top: clamp(28px, 3.4vw, 44px);
   }
-  .press__grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 20px;
-    margin-top: var(--block-gap);
+  /* Подсказка гаснет, когда лента домотана до конца. Класс висит на корне
+     секции: подсказка живёт в .container, а не внутри .press__stage. */
+  .press__hint {
+    display: block;
+    margin-top: clamp(20px, 2.4vw, 32px);
+    transition: opacity 0.3s var(--ease);
   }
-  .press__item {
-    background: var(--paper);
-    border-radius: var(--radius-card);
-    /* Белое на бежевом почти не отличается от канваса — держим hairline'ом,
-       он же подсвечивается лаймом на ховере: без этого карточка не читается
-       как кликабельная */
-    border: 1px solid var(--sage);
-    padding: 24px 24px 32px;
-    min-height: 180px;
+  .press.is-end .press__hint {
+    opacity: 0;
+  }
+
+  .press__stage {
+    position: relative;
+    margin-top: 16px;
+  }
+  .press__scroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+    cursor: grab;
+    scroll-snap-type: x proximity;
+    /* Левый край ленты встаёт по сетке .container, правый уходит в край экрана.
+       Считаем от 100% блока, а не от 100vw: вьюпортные единицы включают
+       полосу прокрутки и лента разъезжается с контентом на пару пикселей. */
+    padding-left: max(var(--gutter), calc((100% - var(--page-max)) / 2 + var(--gutter)));
+    padding-right: var(--gutter);
+    padding-block: 4px;
+  }
+  .press__scroll.is-dragging {
+    cursor: grabbing;
+    scroll-behavior: auto;
+  }
+  .press__scroll:focus-visible {
+    outline: 2px solid var(--lime-2);
+    outline-offset: 4px;
+  }
+  .press__row {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 32px;
-    overflow: hidden;
-    transition: border-color 0.25s var(--ease), background 0.25s var(--ease);
-  }
-  /* Иллюстрация в край карточки: вылезает из падингов отрицательными полями,
-     скругление повторяет верхние углы (тот же приём, что на /press) */
-  .press__cover {
-    width: calc(100% + 48px);
-    max-width: none;
-    margin: -24px -24px 0;
-    height: auto;
-    aspect-ratio: 3 / 2;
-    object-fit: cover;
-    border-radius: var(--radius-card) var(--radius-card) 0 0;
-  }
-  /* С картинкой карточку держит она сама — распорка снизу больше не нужна */
-  .press__item:has(.press__cover) {
     gap: 20px;
-    justify-content: flex-start;
+    width: max-content;
   }
-  .press__item:hover {
-    border-color: var(--lime-2);
-    background: rgba(206, 247, 158, 0.14);
+  /* Карточка ленты — .pcard из global.css (общая с /press). :global нужен,
+     потому что элемент приходит из данных и компонента ArrowChip, а не из
+     разметки этой страницы: без него scoped-правило молча не применится.
+     Здесь задаём только размещение — ширину и snap: в ленте карточка
+     не может тянуться по колонке, как в masonry архива. */
+  .press__row :global(.pcard) {
+    flex: 0 0 clamp(260px, 24vw, 340px);
+    scroll-snap-align: start;
   }
-  .press__topic {
-    font-size: var(--text-body-lg, 1.25rem);
-    letter-spacing: var(--track-heading);
-    line-height: 1.3;
-    max-width: 30ch;
+
+  /* Затухание у правого обреза — «лента продолжается» */
+  .press__fade {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: clamp(60px, 8vw, 140px);
+    background: linear-gradient(to left, var(--bone) 20%, transparent);
+    pointer-events: none;
+    opacity: 1;
+    transition: opacity 0.3s var(--ease);
+  }
+  .press.is-end .press__fade {
+    opacity: 0;
   }
 
   /* ================= 16. ОТЗЫВЫ ================= */
@@ -2206,9 +2248,6 @@ const gallery = [
     :global(.press__all) {
       margin-top: 24px;
     }
-    .press__grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
     /* Карточки со статистикой в две колонки не влезают — столбиком */
     .reviews__grid {
       grid-template-columns: 1fr;
@@ -2314,18 +2353,17 @@ const gallery = [
     }
   }
 
-  /* На телефоне две колонки карточек не живут: колонка ~150px, и заголовок
-     публикации рассыпается по два слова в строку. Одна колонка, карточка
-     по своему тексту — высоту в 180px тут держать не за чем. */
+  /* На телефоне лента остаётся лентой — её листают пальцем, это привычнее
+     длинного столбца. Карточка почти во всю ширину: узкая колонка рассыпает
+     заголовок публикации по два слова в строку. */
   @media (max-width: 640px) {
-    .press__grid {
-      grid-template-columns: 1fr;
+    .press__row {
       gap: 12px;
     }
-    .press__item {
-      min-height: 0;
-      gap: 20px;
-      padding: 20px 20px 24px;
+    /* Паддинги карточки на телефоне поджимает сам global.css — здесь
+       только ширина: карточка почти во всю ширину экрана. */
+    .press__row :global(.pcard) {
+      flex-basis: min(78vw, 320px);
     }
     .zones__list {
       gap: clamp(20px, 5vw, 32px);
@@ -2576,34 +2614,35 @@ const gallery = [
     });
   }
 
-  // 6. Обо мне — таймлайн: тянем мышью, крутим колесиком, гасим подсказку в конце
-  const cvScroll = document.querySelector<HTMLElement>('[data-cv-scroll]');
-  const cvRoot = document.querySelector<HTMLElement>('[data-cv]');
+  // Горизонтальные ленты: таймлайн «Обо мне» и карточки прессы. Механика одна —
+  // колесо двигает вбок, мышь тянет, в конце гаснут подсказка и градиент
+  // (класс is-end на корне блока), поэтому живёт одной функцией на обе.
+  const hookRail = (rail: HTMLElement | null, root: HTMLElement | null) => {
+    if (!rail) return;
 
-  if (cvScroll) {
     const atEnd = () => {
-      const max = cvScroll.scrollWidth - cvScroll.clientWidth;
+      const max = rail.scrollWidth - rail.clientWidth;
       // max <= 1 — лента целиком влезла в экран, тянуть нечего
-      return max <= 1 || cvScroll.scrollLeft >= max - 8;
+      return max <= 1 || rail.scrollLeft >= max - 8;
     };
-    const updateEnd = () => cvRoot?.classList.toggle('is-end', atEnd());
+    const updateEnd = () => root?.classList.toggle('is-end', atEnd());
 
-    cvScroll.addEventListener('scroll', updateEnd, { passive: true });
+    rail.addEventListener('scroll', updateEnd, { passive: true });
     window.addEventListener('resize', updateEnd);
     updateEnd();
 
     // Вертикальное колесо мыши двигает ленту вбок, но только пока внутри есть
     // куда ехать: на краях отдаём событие странице, иначе скролл «залипает».
-    cvScroll.addEventListener(
+    rail.addEventListener(
       'wheel',
       (e) => {
         if (Math.abs(e.deltaX) >= Math.abs(e.deltaY)) return;
-        const max = cvScroll.scrollWidth - cvScroll.clientWidth;
-        const canLeft = cvScroll.scrollLeft > 0 && e.deltaY < 0;
-        const canRight = cvScroll.scrollLeft < max - 5 && e.deltaY > 0;
+        const max = rail.scrollWidth - rail.clientWidth;
+        const canLeft = rail.scrollLeft > 0 && e.deltaY < 0;
+        const canRight = rail.scrollLeft < max - 5 && e.deltaY > 0;
         if (canLeft || canRight) {
           e.preventDefault();
-          cvScroll.scrollLeft += e.deltaY;
+          rail.scrollLeft += e.deltaY;
         }
       },
       { passive: false }
@@ -2615,36 +2654,60 @@ const gallery = [
     let startScroll = 0;
     let moved = false;
 
-    cvScroll.addEventListener('pointerdown', (e) => {
+    rail.addEventListener('pointerdown', (e) => {
       if (e.pointerType !== 'mouse') return; // палец и так скроллит нативно
       down = true;
       moved = false;
       startX = e.clientX;
-      startScroll = cvScroll.scrollLeft;
+      startScroll = rail.scrollLeft;
     });
 
-    cvScroll.addEventListener('pointermove', (e) => {
+    rail.addEventListener('pointermove', (e) => {
       if (!down) return;
       const dx = e.clientX - startX;
       if (!moved && Math.abs(dx) < 4) return;
       if (!moved) {
         moved = true;
-        cvScroll.classList.add('is-dragging');
-        cvScroll.setPointerCapture(e.pointerId);
+        rail.classList.add('is-dragging');
+        rail.setPointerCapture(e.pointerId);
       }
       e.preventDefault();
-      cvScroll.scrollLeft = startScroll - dx;
+      rail.scrollLeft = startScroll - dx;
     });
 
     const endDrag = (e: PointerEvent) => {
       if (!down) return;
       down = false;
-      cvScroll.classList.remove('is-dragging');
-      if (cvScroll.hasPointerCapture(e.pointerId)) cvScroll.releasePointerCapture(e.pointerId);
+      rail.classList.remove('is-dragging');
+      if (rail.hasPointerCapture(e.pointerId)) rail.releasePointerCapture(e.pointerId);
     };
-    cvScroll.addEventListener('pointerup', endDrag);
-    cvScroll.addEventListener('pointercancel', endDrag);
-  }
+    rail.addEventListener('pointerup', endDrag);
+    rail.addEventListener('pointercancel', endDrag);
+
+    // Карточка ленты — ссылка: после перетаскивания гасим клик, иначе любая
+    // протяжка мышью уводит на сайт издания.
+    rail.addEventListener(
+      'click',
+      (e) => {
+        if (moved) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      },
+      true
+    );
+  };
+
+  // 6. Обо мне — таймлайн образования и практики
+  hookRail(
+    document.querySelector<HTMLElement>('[data-cv-scroll]'),
+    document.querySelector<HTMLElement>('[data-cv]')
+  );
+  // 13. Пресса — лента публикаций
+  hookRail(
+    document.querySelector<HTMLElement>('[data-press-scroll]'),
+    document.querySelector<HTMLElement>('[data-press]')
+  );
 
   // ================= ЛЕНТА ГАЛЕРЕИ (телефон) =================
   // На узких экранах мозаика превращается в горизонтальную ленту. Градиент
