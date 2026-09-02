@@ -272,8 +272,48 @@ const gallery = [
 
 <Base
   title="Оксана Чащина — врач-косметолог, специалист превентивной медицины"
-  description="Врач-косметолог с опытом 22 года. Аппаратные и инъекционные методы, работа с кожей и с внутренними причинами её состояния. Запись на консультацию."
+  description="Врач-косметолог, дерматолог, физиотерапевт. Практика с 2003 года: аппаратные и инъекционные методы, работа с кожей и с внутренними причинами её состояния. Приём в клинике «Атлас», Москва."
 >
+  <!-- Разметка для поисковиков: кто принимает, по какому профилю и где.
+       Только то, что есть на самой странице, — выдумывать поля нельзя,
+       расхождение с видимым текстом поисковики считают за обман. -->
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Physician',
+    name: 'Оксана Чащина',
+    jobTitle: 'Врач-косметолог, дерматолог, физиотерапевт',
+    url: 'https://chashchina.com/',
+    image: 'https://chashchina.com/og-cover.jpg',
+    medicalSpecialty: ['Dermatology', 'PreventiveMedicine'],
+    telephone: '+7 495 212-08-88',
+    areaServed: 'Москва',
+    sameAs: [
+      'https://t.me/krasotanasspaset',
+      'https://vk.com/krasotanasspaset',
+      'https://dzen.ru/id/6237172c60d2e66b912c755f',
+    ],
+    worksFor: {
+      '@type': 'MedicalClinic',
+      name: 'Клиника «Атлас»',
+      url: 'https://atlasesthetics.ru/',
+      telephone: '+7 495 212-08-88',
+    },
+    address: [
+      {
+        '@type': 'PostalAddress',
+        streetAddress: 'Кременчугская улица, 3',
+        addressLocality: 'Москва',
+        addressCountry: 'RU',
+      },
+      {
+        '@type': 'PostalAddress',
+        streetAddress: 'Серпуховский Вал, 21к4',
+        addressLocality: 'Москва',
+        addressCountry: 'RU',
+      },
+    ],
+  })} />
+
   <Header />
 
   <!-- ================= 1. ПЕРВЫЙ ЭКРАН =================

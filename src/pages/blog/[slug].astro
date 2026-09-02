@@ -19,7 +19,11 @@ const human = fmt.format(new Date(post.date)).replace(/\s*г\.$/, '');
 const many = post.photos.length > 1;
 ---
 
-<Base title={`${post.title} — блог Оксаны Чащиной`} description={post.excerpt}>
+<Base
+  title={`${post.title} — блог Оксаны Чащиной`}
+  description={post.excerpt}
+  type="article"
+>
   <Header />
 
   <main class="section post">

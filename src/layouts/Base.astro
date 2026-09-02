@@ -4,8 +4,25 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description?: string;
+  /** Картинка для соцсетей: путь от корня сайта. По умолчанию общая обложка. */
+  image?: string;
+  /** 'article' для постов блога — остальное website. */
+  type?: 'website' | 'article';
+  /** Служебная страница, которой нечего делать в поиске. */
+  noindex?: boolean;
 }
-const { title, description = 'Врач-косметолог, дерматолог. Инъекционные и аппаратные методики с доказанной эффективностью.' } = Astro.props;
+const {
+  title,
+  description = 'Врач-косметолог, дерматолог. Инъекционные и аппаратные методики с доказанной эффективностью.',
+  image = '/og-cover.jpg',
+  type = 'website',
+  noindex = false,
+} = Astro.props;
+
+// Канонический адрес страницы. Astro.site — это `site` из astro.config.mjs;
+// без него new URL() падает, поэтому домен там обязателен.
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(image, Astro.site);
 ---
 
 <!doctype html>
@@ -14,11 +31,31 @@ const { title, description = 'Врач-косметолог, дерматоло�
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+
+    <!-- Соцсети и мессенджеры: без og:* ссылка на сайт приезжает голой строкой -->
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="Оксана Чащина" />
+    <meta property="og:locale" content="ru_RU" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preload" href="/fonts/InterTight-400-cyr.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/InterTight-400-lat.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/RobotoMono-400-cyr.woff2" as="font" type="font/woff2" crossorigin />
     <title>{title}</title>
+    <!-- Сюда страницы кладут своё: разметку schema.org, коды подтверждения -->
+    <slot name="head" />
   </head>
   <body>
     <slot />
