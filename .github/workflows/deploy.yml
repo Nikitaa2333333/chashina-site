@@ -1,0 +1,50 @@
+name: Deploy
+
+# Любой пуш в main пересобирает сайт и заливает его на SprintHost.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  # Если два пуша прилетели подряд — выигрывает последний: иначе два
+  # недокатанных rsync гонятся друг с другом и портят живой сайт.
+  group: deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build site
+        run: npx astro build
+
+      - name: Load SSH key
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Deploy to SprintHost
+        env:
+          HOST: ${{ secrets.SSH_HOST }}
+          USER: ${{ secrets.SSH_USER }}
+          PORT: ${{ secrets.SSH_PORT || '22' }}
+          TARGET: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          ssh-keyscan -p "$PORT" "$HOST" >> ~/.ssh/known_hosts
+          # Слеш в конце локального пути обязателен: копируется содержимое
+          # dist, а не сама папка. --delete убирает на хостинге то, чего
+          # больше нет в сборке.
+          rsync -az --delete \
+            -e "ssh -p $PORT" \
+            dist/ "$USER@$HOST:$TARGET"
