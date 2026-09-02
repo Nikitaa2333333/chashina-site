@@ -1,0 +1,33 @@
+name: SSH check
+
+# Диагностика хостинга руками (Actions -> SSH check -> Run workflow).
+# Нужна, когда локальный SSH не пускает: Спринтхост временно режет IP,
+# с которого часто подключаются, а раннер GitHub ходит со своего адреса
+# и по деплой-ключу.
+on:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Load SSH key
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Look around the account
+        env:
+          HOST: ${{ secrets.SSH_HOST }}
+          USER: ${{ secrets.SSH_USER }}
+          PORT: ${{ secrets.SSH_PORT || '22' }}
+        run: |
+          ssh-keyscan -p "$PORT" "$HOST" >> ~/.ssh/known_hosts
+          ssh -p "$PORT" "$USER@$HOST" '
+            echo "=== ~/domains ==="; ls -la ~/domains/
+            for d in ~/domains/*/; do
+              echo "=== $d public_html (первые 15) ==="
+              ls -la "$d/public_html/" 2>&1 | head -17
+              echo "--- размер: $(du -sh "$d/public_html/" 2>/dev/null | cut -f1) ---"
+            done
+          '
