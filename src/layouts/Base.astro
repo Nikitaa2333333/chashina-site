@@ -49,15 +49,39 @@ const ogImage = new URL(image, Astro.site);
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
+    <!-- SVG для современных браузеров, .ico — для тех, кто по привычке
+         тянет /favicon.ico, и для выдачи Яндекса с Google: они рисуют
+         иконку рядом со ссылкой и SVG понимают не везде. -->
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="preload" href="/fonts/InterTight-400-cyr.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/InterTight-400-lat.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/RobotoMono-400-cyr.woff2" as="font" type="font/woff2" crossorigin />
     <title>{title}</title>
+
+    <!-- Яндекс.Метрика, счётчик 112190429. Код из панели, как есть.
+         is:inline обязателен: иначе Astro утащит скрипт в свой бандл,
+         отложит выполнение, и часть просмотров потеряется. Клиентского
+         роутера на сайте нет — переходы перезагружают страницу, и хит
+         на смену маршрута докидывать не нужно. -->
+    <script is:inline type="text/javascript">
+      (function(m,e,t,r,i,k,a){
+          m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+          m[i].l=1*new Date();
+          for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+          k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+      })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=112190429', 'ym');
+
+      ym(112190429, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+    </script>
+
     <!-- Сюда страницы кладут своё: разметку schema.org, коды подтверждения -->
     <slot name="head" />
   </head>
   <body>
+    <noscript><div><img src="https://mc.yandex.ru/watch/112190429" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
     <slot />
 
     <script>

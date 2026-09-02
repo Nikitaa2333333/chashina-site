@@ -1,5 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Скруглённая плашка канваса — тот же приём, что у тёмных секций сайта -->
   <rect width="32" height="32" rx="8" fill="#222f30"/>
-  <circle cx="13" cy="16" r="7" fill="none" stroke="#cef79e" stroke-width="1.8"/>
-  <circle cx="19" cy="16" r="7" fill="none" stroke="#cef79e" stroke-width="1.8"/>
+  <!-- Шесть лепестков: на 16px больше уже слипается в пятно.
+       Лепесток вытянут от центра, поэтому цветок читается силуэтом. -->
+  <g fill="#cef79e" transform="translate(16 16)">
+    <ellipse cx="0" cy="-6" rx="3.1" ry="6"/>
+    <ellipse cx="0" cy="-6" rx="3.1" ry="6" transform="rotate(60)"/>
+    <ellipse cx="0" cy="-6" rx="3.1" ry="6" transform="rotate(120)"/>
+    <ellipse cx="0" cy="-6" rx="3.1" ry="6" transform="rotate(180)"/>
+    <ellipse cx="0" cy="-6" rx="3.1" ry="6" transform="rotate(240)"/>
+    <ellipse cx="0" cy="-6" rx="3.1" ry="6" transform="rotate(300)"/>
+  </g>
+  <!-- Сердцевина цветом плашки: даёт цветку центр и не вводит третий цвет -->
+  <circle cx="16" cy="16" r="2.4" fill="#222f30"/>
 </svg>
