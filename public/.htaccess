@@ -1,0 +1,16 @@
+# Весь трафик — на https. Без этого браузер, открывший сайт по http
+# (набрали домен руками, перешли по старой ссылке), показывает
+# «Не защищено», хотя сертификат на домене есть.
+#
+# Лежит в public/, поэтому Astro кладёт его в dist/ и rsync заливает
+# на хостинг вместе со сборкой. В корне репозитория держать бесполезно —
+# деплоится только содержимое dist/.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # HTTPS=on — прямой запрос по https; X-Forwarded-Proto — когда https
+  # терминирует фронтовый nginx хостинга и до Apache доезжает уже http.
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+</IfModule>
