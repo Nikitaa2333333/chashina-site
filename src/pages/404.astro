@@ -1,0 +1,94 @@
+---
+// ================= СТРАНИЦА 404 =================
+// Показывается на несуществующем адресе. Нужна не только для вида: домен
+// переехал со старого сайта, и на старые адреса (/shop/, /uslugi/ …) ещё
+// какое-то время будут приходить из поиска и по чужим ссылкам. Пусть
+// вместо голой ошибки хостинга человек попадает на страницу, с которой
+// видно, куда идти дальше.
+//
+// Чтобы Apache отдавал именно её, в public/.htaccess прописан
+// ErrorDocument 404 /404.html.
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import BtnPair from '../components/BtnPair.astro';
+
+// Ссылки на живые разделы: человек пришёл за чем-то конкретным,
+// и список — самый короткий путь угадать, за чем именно.
+const routes = [
+  { href: '/#about', label: 'Обо мне' },
+  { href: '/#methods', label: 'Методы' },
+  { href: '/blog/', label: 'Блог' },
+  { href: '/press/', label: 'Публикации в СМИ' },
+  { href: '/#contact', label: 'Где я принимаю' },
+];
+---
+
+<Base
+  title="Страница не найдена — Оксана Чащина"
+  description="Такой страницы на сайте нет. Вернитесь на главную или выберите раздел."
+  noindex
+>
+  <Header />
+
+  <main class="section nf">
+    <div class="container nf__inner">
+      <span class="tag mono">Ошибка 404</span>
+      <h1 class="nf__title">Такой страницы нет.</h1>
+      <p class="nf__lead">
+        Возможно, адрес устарел: сайт недавно переехал, и часть старых
+        ссылок больше не работает. Вот куда можно перейти.
+      </p>
+
+      <nav class="nf__routes" aria-label="Разделы сайта">
+        {routes.map((r) => (
+          <a class="nf__route" href={r.href}>{r.label}</a>
+        ))}
+      </nav>
+
+      <BtnPair class="nf__cta" label="На главную" href="/" />
+    </div>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  .nf {
+    padding-top: 108px; /* шапка fixed */
+  }
+  .nf__title {
+    font-size: var(--text-display);
+    letter-spacing: var(--track-display);
+    line-height: 1.1;
+    max-width: var(--measure-head);
+    margin-top: 12px;
+  }
+  .nf__lead {
+    font-size: var(--text-lead);
+    max-width: var(--measure-lead);
+    margin-top: 20px;
+  }
+
+  /* Разделы — строками, без линий между ними: перечисление держит ритм
+     отступом, как и остальные списки сайта. */
+  .nf__routes {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: clamp(28px, 3.4vw, 44px);
+  }
+  .nf__route {
+    font-size: var(--text-body-lg, 1.25rem);
+    letter-spacing: var(--track-heading);
+    width: fit-content;
+    transition: color 0.25s var(--ease);
+  }
+  .nf__route:hover {
+    color: var(--sea);
+  }
+
+  :global(.nf__cta) {
+    margin-top: clamp(28px, 3.4vw, 44px);
+  }
+</style>
