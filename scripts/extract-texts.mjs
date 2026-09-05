@@ -194,8 +194,19 @@ function blocks(node) {
   // Карточка (.pcard) — ссылка на материал; внутри мета «издание · год»
   // и заголовок, остальное (обложка, чип-стрелка) в текст не идёт.
   if (hasClass(node, 'press__row')) {
+    // Ищем вглубь: с 05.09 пресса на главной живёт в сцене [data-mscroll],
+    // и мета с заголовком лежат не прямыми детьми ссылки, а внутри
+    // .mscroll__body. Плоский поиск по childNodes возвращал пустые строки.
     const pick = (card, cls) => {
-      const el = (card.childNodes ?? []).find((x) => hasClass(x, cls));
+      const find = (n) => {
+        if (hasClass(n, cls)) return n;
+        for (const child of n.childNodes ?? []) {
+          const hit = find(child);
+          if (hit) return hit;
+        }
+        return null;
+      };
+      const el = find(card);
       return el ? phrase(el) : '';
     };
     const rows = (node.childNodes ?? [])

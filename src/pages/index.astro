@@ -148,15 +148,22 @@ const PRESS_PICKS = [
   'tass.ru/obschestvo/27249099',
   'gazeta.ru/style/news/2023/04/11',
   'flacon-magazine.com/ukhod/kosmetologiya/3580194',
-  'umagazine.ru/krasota/health/zolotye-niti',
+  // У материала про устаревшие процедуры нет своей иллюстрации, а карточка
+  // без обложки в сцене выглядит дырой — берём у того же издания текст
+  // с обложкой (про тёмные круги).
+  'umagazine.ru/krasota/health/effekt-pandy',
   'beautyhack.ru/krasota/uhod/wellness',
 ];
 // Ссылка могла отвалиться на прогоне — тогда карточку добираем свежей.
-const pressPicked = PRESS_PICKS.map((u) => pressAll.find((p) => p.url.includes(u))).filter(Boolean);
+// В ленту идут ТОЛЬКО материалы с обложкой: их 35 из 69, на 12 карточек
+// хватает с запасом, а текстовая плашка среди фото-плашек читается пропуском.
+const pressPicked = PRESS_PICKS.map((u) => pressAll.find((p) => p.url.includes(u))).filter(
+  (p) => p && p.cover
+);
 const pressFeatured = [
   ...pressPicked,
   ...pressAll
-    .filter((p) => !pressPicked.includes(p))
+    .filter((p) => p.cover && !pressPicked.includes(p))
     .sort((a, b) => (b.year ?? 0) - (a.year ?? 0)),
 ].slice(0, 12);
 const pressOutlets = new Set(pressAll.map((p) => p.outlet)).size;
@@ -833,42 +840,46 @@ const gallery = [
         всего {pressAll.length} материалов в {pressOutlets} изданиях.
         Каждая карточка открывает оригинал на сайте издания.
       </p>
-      <span class="press__hint mono" aria-hidden="true">Тяните вбок →</span>
     </div>
 
-    <!-- Лента ВНЕ .container: слева встаёт по сетке, справа уходит в край
-         экрана — обрез и есть приглашение тянуть (тот же приём, что у CV).
-         Карточка — та же .pcard, что на /press: тёмная плашка, обложка
-         в край, лаймовая мета, чип-стрелка на ховере. -->
-    <div class="press__stage">
-      <div
-        class="press__scroll"
-        data-press-scroll
-        tabindex="0"
-        role="group"
-        aria-label="Публикации в СМИ"
-      >
-        <div class="press__row">
-          {pressFeatured.map((p) => (
-            <a class="pcard" href={p.url} target="_blank" rel="noopener noreferrer">
-              {p.cover && (
-                <img
-                  class="pcard__cover"
-                  src={asset(p.cover)}
-                  alt=""
-                  loading="lazy"
-                  width="640"
-                  height="427"
-                />
-              )}
-              <span class="pcard__meta mono">{[p.outlet, p.year].filter(Boolean).join(' · ')}</span>
-              <span class="pcard__title">{p.title}</span>
-              <ArrowChip class="pcard__chip" />
-            </a>
-          ))}
+    <!-- Сцена как у аппаратных методов: sticky-кадр, плашки едут вбок
+         от вертикального скролла. Классы .mscroll__* переиспользуются
+         намеренно — вид и механика должны быть теми же, а не похожими.
+         Карточка здесь ссылка, поэтому <a>, а не <article>. -->
+    <div class="mscroll press__scene" data-mscroll data-mscroll-speed="0.5">
+      <div class="mscroll__track" data-mscroll-track>
+        <div class="mscroll__sticky">
+          <div class="mscroll__viewport" data-mscroll-viewport>
+            <div class="mscroll__row press__row" data-mscroll-row>
+              {pressFeatured.map((p) => (
+                <a
+                  class="mscroll__card mscroll__card--dark pcard--scene"
+                  href={p.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img class="mscroll__img" src={asset(p.cover)} alt="" loading="lazy" />
+                  <img
+                    class="mscroll__img mscroll__img--blur"
+                    src={asset(p.cover)}
+                    alt=""
+                    loading="lazy"
+                    aria-hidden="true"
+                  />
+                  <div class="mscroll__body">
+                    <span class="pcard__meta mono">
+                      {[p.outlet, p.year].filter(Boolean).join(' · ')}
+                    </span>
+                    <span class="pcard__title mscroll__name">{p.title}</span>
+                    <ArrowChip class="pcard__chip" />
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+          <div class="mscroll__fade" data-mscroll-fade aria-hidden="true"></div>
         </div>
       </div>
-      <div class="press__fade" aria-hidden="true"></div>
     </div>
 
     <div class="container">
@@ -1717,71 +1728,41 @@ const gallery = [
   :global(.press__all) {
     margin-top: clamp(28px, 3.4vw, 44px);
   }
-  /* Подсказка гаснет, когда лента домотана до конца. Класс висит на корне
-     секции: подсказка живёт в .container, а не внутри .press__stage. */
-  .press__hint {
+  /* Сцена прессы: механика и плашки — общие с аппаратными методами
+     (.mscroll__*), здесь только то, чем карточка-ссылка отличается от
+     карточки метода. Плашки уже, чем у методов: заголовок публикации
+     короче текста метода, и в кадр помещается на одну больше. */
+  .press__scene :global(.mscroll__card) {
+    width: clamp(280px, 26vw, 380px);
+    height: min(72svh, 640px);
+    text-decoration: none;
+    color: var(--paper);
+  }
+  /* Мета и заголовок приходят из данных, чип — из компонента ArrowChip:
+     до них scoped-правило достаёт только через :global */
+  .press__scene :global(.pcard__meta) {
     display: block;
-    margin-top: clamp(20px, 2.4vw, 32px);
-    transition: opacity 0.3s var(--ease);
+    color: var(--lime);
+    margin-bottom: 10px;
   }
-  .press.is-end .press__hint {
+  .press__scene :global(.pcard__title) {
+    display: block;
+    font-size: var(--text-card-title);
+    letter-spacing: var(--track-heading);
+    line-height: 1.15;
+  }
+  .press__scene :global(.pcard__chip) {
+    margin-top: 18px;
     opacity: 0;
+    transition: opacity 0.25s var(--ease);
   }
-
-  .press__stage {
-    position: relative;
-    margin-top: 16px;
+  .press__scene :global(.mscroll__card:hover) :global(.pcard__chip),
+  .press__scene :global(.mscroll__card:focus-visible) :global(.pcard__chip) {
+    opacity: 1;
   }
-  .press__scroll {
-    overflow-x: auto;
-    overflow-y: hidden;
-    scrollbar-width: thin;
-    cursor: grab;
-    scroll-snap-type: x proximity;
-    /* Левый край ленты встаёт по сетке .container, правый уходит в край экрана.
-       Считаем от 100% блока, а не от 100vw: вьюпортные единицы включают
-       полосу прокрутки и лента разъезжается с контентом на пару пикселей. */
-    padding-left: max(var(--gutter), calc((100% - var(--page-max)) / 2 + var(--gutter)));
-    padding-right: var(--gutter);
-    padding-block: 4px;
-  }
-  .press__scroll.is-dragging {
-    cursor: grabbing;
-    scroll-behavior: auto;
-  }
-  .press__scroll:focus-visible {
+  .press__scene :global(.mscroll__card:focus-visible) {
     outline: 2px solid var(--lime-2);
     outline-offset: 4px;
-  }
-  .press__row {
-    display: flex;
-    gap: 20px;
-    width: max-content;
-  }
-  /* Карточка ленты — .pcard из global.css (общая с /press). :global нужен,
-     потому что элемент приходит из данных и компонента ArrowChip, а не из
-     разметки этой страницы: без него scoped-правило молча не применится.
-     Здесь задаём только размещение — ширину и snap: в ленте карточка
-     не может тянуться по колонке, как в masonry архива. */
-  .press__row :global(.pcard) {
-    flex: 0 0 clamp(260px, 24vw, 340px);
-    scroll-snap-align: start;
-  }
-
-  /* Затухание у правого обреза — «лента продолжается» */
-  .press__fade {
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    width: clamp(60px, 8vw, 140px);
-    background: linear-gradient(to left, var(--bone) 20%, transparent);
-    pointer-events: none;
-    opacity: 1;
-    transition: opacity 0.3s var(--ease);
-  }
-  .press.is-end .press__fade {
-    opacity: 0;
   }
 
   /* ================= 16. ОТЗЫВЫ ================= */
@@ -2760,17 +2741,13 @@ const gallery = [
     }
   }
 
-  /* На телефоне лента остаётся лентой — её листают пальцем, это привычнее
-     длинного столбца. Карточка почти во всю ширину: узкая колонка рассыпает
+  /* На телефоне сцены нет (её отключает общий медиазапрос .mscroll), плашки
+     листаются пальцем. Карточка почти во всю ширину: узкая колонка рассыпает
      заголовок публикации по два слова в строку. */
   @media (max-width: 640px) {
-    .press__row {
-      gap: 12px;
-    }
-    /* Паддинги карточки на телефоне поджимает сам global.css — здесь
-       только ширина: карточка почти во всю ширину экрана. */
-    .press__row :global(.pcard) {
-      flex-basis: min(78vw, 320px);
+    .press__scene :global(.mscroll__card) {
+      width: min(78vw, 320px);
+      height: min(64svh, 480px);
     }
     .zones__list {
       gap: clamp(20px, 5vw, 32px);
@@ -2833,8 +2810,10 @@ const gallery = [
 
   // Горизонтальный скролл-слайдер «Аппаратные методы»:
   // вертикальная прокрутка страницы двигает ряд плашек по горизонтали.
-  const ms = document.querySelector('[data-mscroll]');
-  if (ms && !reduced && window.matchMedia('(min-width: 901px)').matches) {
+  // Сцен на странице две — аппаратные методы и пресса, механика одна
+  const scenes = document.querySelectorAll('[data-mscroll]');
+  scenes.forEach((ms) => {
+    if (reduced || !window.matchMedia('(min-width: 901px)').matches) return;
     const msTrack = ms.querySelector('[data-mscroll-track]') as HTMLElement;
     const msVp = ms.querySelector('[data-mscroll-viewport]') as HTMLElement;
     const msRow = ms.querySelector('[data-mscroll-row]') as HTMLElement;
@@ -2853,8 +2832,12 @@ const gallery = [
       const vpStyles = getComputedStyle(msVp);
       const pads = parseFloat(vpStyles.paddingLeft) + parseFloat(vpStyles.paddingRight);
       maxShift = Math.max(0, msRow.scrollWidth - (msVp.clientWidth - pads));
-      // высота трека = экран + путь, чтобы скорость листания совпадала со скроллом
-      msTrack.style.height = `calc(100svh + ${Math.round(maxShift)}px)`;
+      // Высота трека = экран + путь: по умолчанию плашки едут пиксель в пиксель
+      // со скроллом. У прессы плашек 12 против четырёх у методов, и при 1:1
+      // блок съедал бы почти три экрана прокрутки — ей задан множитель,
+      // и лента листается быстрее скролла.
+      const speed = parseFloat((ms as HTMLElement).dataset.mscrollSpeed ?? '1');
+      msTrack.style.height = `calc(100svh + ${Math.round(maxShift * speed)}px)`;
       msUpdate();
     };
 
@@ -2871,7 +2854,7 @@ const gallery = [
     document.addEventListener('scroll', msOnScroll, { passive: true });
     window.addEventListener('resize', msMeasure, { passive: true });
     msMeasure();
-  }
+  });
 
   // «Молекулы»: дрейфующие узлы со связями — научный слой за фото.
   const canvas = document.querySelector('[data-hero-mol]') as HTMLCanvasElement | null;
@@ -3244,11 +3227,7 @@ const gallery = [
     document.querySelector<HTMLElement>('[data-cv-scroll]'),
     document.querySelector<HTMLElement>('[data-cv]')
   );
-  // 13. Пресса — лента публикаций
-  hookRail(
-    document.querySelector<HTMLElement>('[data-press-scroll]'),
-    document.querySelector<HTMLElement>('[data-press]')
-  );
+  // Пресса на главной ленту больше не использует — там сцена [data-mscroll]
 
   // ================= ЛЕНТА ГАЛЕРЕИ (телефон) =================
   // На узких экранах мозаика превращается в горизонтальную ленту. Градиент
