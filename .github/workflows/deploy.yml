@@ -41,10 +41,24 @@ jobs:
           PORT: ${{ secrets.SSH_PORT || '22' }}
           TARGET: ${{ secrets.DEPLOY_PATH }}
         run: |
-          ssh-keyscan -p "$PORT" "$HOST" >> ~/.ssh/known_hosts
+          # Только ed25519: без -t keyscan опрашивает сервер пять раз подряд,
+          # и хостинг считает это флудом — следом идущий rsync получает
+          # «Connection closed by host» ещё до передачи данных.
+          ssh-keyscan -t ed25519 -p "$PORT" "$HOST" >> ~/.ssh/known_hosts
           # Слеш в конце локального пути обязателен: копируется содержимое
           # dist, а не сама папка. --delete убирает на хостинге то, чего
           # больше нет в сборке.
-          rsync -az --delete \
-            -e "ssh -p $PORT" \
-            dist/ "$USER@$HOST:$TARGET"
+          # Три попытки с паузой: если сервер всё же придержал IP раннера,
+          # блокировка снимается через минуту-другую сама.
+          for attempt in 1 2 3; do
+            if rsync -az --delete \
+                 -e "ssh -p $PORT -o StrictHostKeyChecking=accept-new" \
+                 dist/ "$USER@$HOST:$TARGET"; then
+              echo "rsync прошёл с попытки $attempt"
+              exit 0
+            fi
+            echo "Попытка $attempt не удалась, ждём 60 секунд"
+            sleep 60
+          done
+          echo "Все три попытки rsync провалились"
+          exit 1
