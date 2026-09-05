@@ -2,7 +2,6 @@
 import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import ArrowChip from '../components/ArrowChip.astro';
 import { asset } from '../lib/asset';
 import press from '../data/press.json';
 
@@ -57,7 +56,6 @@ const label = (r: Item) => [r.outlet, r.year].filter(Boolean).join(' · ');
             <span class="pcard__meta mono">{label(r)}</span>
             <span class="pcard__title">{r.title}</span>
             {r.quote && <span class="pcard__quote">{r.quote}</span>}
-            <ArrowChip class="pcard__chip" />
           </a>
         ))}
       </div>

@@ -2,7 +2,6 @@
 import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
 import BtnPair from '../components/BtnPair.astro';
-import ArrowChip from '../components/ArrowChip.astro';
 import Footer from '../components/Footer.astro';
 import pressAll from '../data/press.json';
 import { asset } from '../lib/asset';
@@ -868,7 +867,6 @@ const gallery = [
                       {[p.outlet, p.year].filter(Boolean).join(' · ')}
                     </span>
                     <span class="pcard__title mscroll__name">{p.title}</span>
-                    <ArrowChip class="pcard__chip" />
                   </div>
                 </a>
               ))}
@@ -1449,8 +1447,12 @@ const gallery = [
     letter-spacing: var(--track-heading);
     margin-bottom: 12px;
   }
+  /* Подпись плашки, а не наборный текст: на узкой колонке телефона 18px
+     ломают абзац первого метода на полтора десятка строк, и текст
+     закрывает иллюстрацию целиком. На широком экране размер прежний. */
   .mscroll__card p {
     max-width: 40ch;
+    font-size: clamp(1rem, 1.25vw, 1.125rem);
   }
   /* Служебная метка механизма под абзацем: mono, лаймом — как подпись,
      а не как продолжение текста */
@@ -1496,9 +1498,15 @@ const gallery = [
     .mscroll__row {
       transform: none !important;
     }
+    /* На телефоне плашка растёт под свой текст: у первого метода абзац
+       вчетверо длиннее остальных и в фиксированную высоту не влезал —
+       текст лез за край и накрывал иллюстрацию целиком. Высоту ряда
+       задаёт самая длинная карточка (flex тянет соседей), поэтому
+       min-height держит нижнюю границу, а не сам размер. */
     .mscroll__card {
-      width: min(78vw, 420px);
-      height: min(64svh, 560px);
+      width: min(84vw, 420px);
+      height: auto;
+      min-height: min(68svh, 600px);
     }
     .mscroll__fade {
       display: none;
@@ -1735,8 +1743,8 @@ const gallery = [
     text-decoration: none;
     color: var(--paper);
   }
-  /* Мета и заголовок приходят из данных, чип — из компонента ArrowChip:
-     до них scoped-правило достаёт только через :global */
+  /* Мета и заголовок приходят из данных: до них scoped-правило
+     достаёт только через :global */
   .press__scene :global(.pcard__meta) {
     display: block;
     color: var(--lime);
@@ -1747,15 +1755,6 @@ const gallery = [
     font-size: var(--text-card-title);
     letter-spacing: var(--track-heading);
     line-height: 1.15;
-  }
-  .press__scene :global(.pcard__chip) {
-    margin-top: 18px;
-    opacity: 0;
-    transition: opacity 0.25s var(--ease);
-  }
-  .press__scene :global(.mscroll__card:hover) :global(.pcard__chip),
-  .press__scene :global(.mscroll__card:focus-visible) :global(.pcard__chip) {
-    opacity: 1;
   }
   .press__scene :global(.mscroll__card:focus-visible) {
     outline: 2px solid var(--lime-2);
@@ -2739,7 +2738,8 @@ const gallery = [
   @media (max-width: 640px) {
     .press__scene :global(.mscroll__card) {
       width: min(78vw, 320px);
-      height: min(64svh, 480px);
+      height: auto;
+      min-height: min(64svh, 480px);
     }
     .zones__list {
       gap: clamp(20px, 5vw, 32px);
