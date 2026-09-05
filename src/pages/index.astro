@@ -41,13 +41,51 @@ const steps = [
   },
 ];
 
+// 11. Видео — вертикальные ролики из инстаграма Оксаны.
+// Порядок пока произвольный (файлы пришли без тем), подписей нет —
+// карточка это сам ролик.
+const reels = ['01', '02', '03', '04'].map((n) => ({
+  src: `/video/reels/reel-${n}.mp4`,
+  poster: `/video/reels/reel-${n}.webp`,
+}));
+
+// Принципы. Секцию убирали 07.08 (были три фразы копирайтера), но Оксана
+// переписала блок в Google-документе — по два абзаца на принцип, — поэтому
+// вернули с её текстом. Абзацы массивом, как у ступеней.
+const principles = [
+  {
+    title: 'Безопасность технологии',
+    text: [
+      'И для пациента и для врача — это база. Важно понимать, что выбирая врача и его опыт, воздействия не могут быть за рамками физиологичности. Лечение должно быть эффективным и безопасным.',
+      'Мои терапевтические планы базируются на глубоких знаниях анатомии, физиологии, биохимии, превентивной медицины и физиотерапии в рамках эстетической медицины.',
+    ],
+  },
+  {
+    title: 'Предсказуемость результата',
+    text: [
+      'Вся разработанная мною терапия всегда длительная и аккуратно дозированная, она распределена по году индивидуально и строится на необходимости и видимых структурных изменениях мягких тканей. Сезонность для моих лечебных планов никогда не является препятствием для омоложения кожи и организма в целом.',
+      'Всегда моя терапия эффективна и безопасна. Мои пациенты со мной годы и десятилетия. Они всегда выглядят очень естественно и молодо. Их кожа здоровая и красивая.',
+    ],
+  },
+  {
+    title: 'Ваше участие',
+    text: [
+      'Косметология не работает в отрыве от чекапов, сна, физической нагрузки и управления стрессом.',
+      'Вся превентивная косметология базируется на принципе вовлечённости, участия пациента в процесс лечения, омоложения.',
+    ],
+  },
+];
+
 // 5. Аппаратные методы — четыре направления
 // theme задаёт цвет текста и скрим под ним: dark-фото → светлый текст
 const methods = [
   {
     n: '01.',
     title: 'Световые и лазерные методики',
-    text: 'Пигмент, сосуды, качество поверхности кожи. Свет работает адресно: разрушает то, что мешает, не задевая остальное.',
+    text: 'Пигмент, сосуды, поры, морщины, качество поверхности кожи — всё это является точкой приложения световых методов, и работают они со «старыми» клетками, корректируя не только поверхностные изменения, но и метаболизм тканей. Удаляясь, «дефектные» клетки дают стимул для выработки новых качественных молодых белковых структур.',
+    // Название механизма, которое Оксана дописала к абзацу в документе:
+    // идёт служебной меткой под текстом, а не частью наборного текста
+    note: 'Клеточная сенесценция',
     img: '/photos/art/method-01.webp',
     theme: 'dark',
   },
@@ -353,7 +391,7 @@ const gallery = [
               <p class="hero__lead">
                 Определённая методика в косметологии (аппараты или инъекции)
                 не может решить проблему и проявление старения организма.
-                Только индивидуальный longevity-подход даёт своевременный
+                Только индивидуальный longevity-подход может дать своевременный
                 и высокоэффективный результат. Для этого нужен опытный врач
                 с превентивным методом и глубокими знаниями метаболизма.
               </p>
@@ -378,8 +416,9 @@ const gallery = [
           <p>
             Аппаратные и инъекционные методы, подбираемые индивидуально
             на консультации и в процессе многолетнего ведения пациента.
-            Все методы воздействия на кожу и мягкие ткани — с прогнозируемой
-            физиологичной глубиной воздействия и предсказуемым результатом.
+            Все методы воздействия на кожу и мягкие ткани, непосредственно,
+            с прогнозируемой физиологичной глубиной воздействия
+            и предсказуемым результатом.
           </p>
         </div>
         <div class="halves__col">
@@ -421,6 +460,26 @@ const gallery = [
       </article>
     ))}
   </section>
+  <!-- ================= ПРИНЦИПЫ ================= -->
+  <section class="section principles">
+    <div class="container">
+      <span class="tag mono">Принципы</span>
+      <h2 class="principles__title">Что для меня важно.</h2>
+      <div class="principles__grid">
+        {principles.map((p) => (
+          <div class="principles__item">
+            <h3>{p.title}</h3>
+            <div class="principles__body">
+              {p.text.map((t) => (
+                <p>{t}</p>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
   <!-- ================= МАНИФЕСТ =================
        Крупная фраза с круглыми фото-вставками между словами.
        Без бирки: фраза сама себе заголовок, пилюля над ней только мешала. -->
@@ -444,9 +503,9 @@ const gallery = [
       <span class="tag mono">Аппаратные методы</span>
       <h2 class="methods__title">Что происходит с тканями.</h2>
       <p class="methods__intro">
-        Ниже — не перечень аппаратов, а объяснение того, что каждый метод
-        делает с кожей. Торговые названия имеет смысл обсуждать уже
-        на консультации, когда понятна задача.
+        Ниже — не перечень аппаратов, а объяснение того, что методы
+        физиотерапии производят с кожей. Торговые названия имеет смысл
+        обсуждать уже на консультации, когда понятна задача.
       </p>
     </div>
   </section>
@@ -462,6 +521,7 @@ const gallery = [
                 <div class="mscroll__body">
                   <h3 class="mscroll__name">{m.title}</h3>
                   <p>{m.text}</p>
+                  {m.note && <span class="mscroll__note mono">{m.note}</span>}
                 </div>
               </article>
             ))}
@@ -625,7 +685,7 @@ const gallery = [
             Чаще всего это марки с дерматологической школой и понятным составом —
             те, которыми пользуюсь сама и которые советую пациентам на приёме.
           </p>
-          <a class="care__link" href="https://naos.ru/" target="_blank" rel="noopener">
+          <div class="care__brand">
             <img
               class="care__logo"
               src="/photos/brands/naos.png"
@@ -638,8 +698,7 @@ const gallery = [
               Официальный дистрибьютор Bioderma, Institut Esthederm и État Pur
               в России.
             </span>
-            <span class="care__go mono">naos.ru</span>
-          </a>
+          </div>
         </div>
         <figure class="care__media">
           <img
@@ -651,6 +710,50 @@ const gallery = [
             decoding="async"
           />
         </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 11. ВИДЕО =================
+       Ролики из инстаграма Оксаны, лежат своими файлами (h264 + faststart).
+       Грузятся ТОЛЬКО по клику: автоплей четырёх вертикалок стоил бы
+       ~14 МБ на скролл, а так первый экран не дорожает вовсе — до клика
+       на странице лежит один постер весом ~40 КБ. -->
+  <section class="section reels" id="video">
+    <div class="container">
+      <span class="tag mono">Видео</span>
+      <h2 class="reels__title">Как я объясняю.</h2>
+      <p class="reels__lead">
+        Короткие ответы на вопросы, которые чаще всего задают на приёме.
+      </p>
+      <div class="reels__row">
+        {reels.map((r) => (
+          <article class="reels__card">
+            <!-- Постер отдельной картинкой, а не атрибутом poster:
+                 poster грузится вместе со страницей, loading="lazy" — только
+                 когда блок подъезжает к экрану -->
+            <img
+              class="reels__poster"
+              src={r.poster}
+              alt=""
+              width="540"
+              height="960"
+              loading="lazy"
+              decoding="async"
+            />
+            <video
+              class="reels__video"
+              data-reel={r.src}
+              playsinline
+              preload="none"
+            ></video>
+            <button class="reels__play" type="button" aria-label="Смотреть видео">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M8 5v14l11-7z" fill="currentColor" />
+              </svg>
+            </button>
+          </article>
+        ))}
       </div>
     </div>
   </section>
@@ -1165,6 +1268,42 @@ const gallery = [
     margin-top: 12px;
   }
 
+  /* ================= ПРИНЦИПЫ ================= */
+  .principles__title {
+    font-size: var(--text-display);
+    letter-spacing: var(--track-display);
+    line-height: 1.1;
+    max-width: var(--measure-head);
+    margin-top: 12px;
+  }
+  /* Редакционные строки: крупный заголовок слева, текст справа.
+     Держит вертикальный ритм, без карточек и линий */
+  .principles__grid {
+    display: flex;
+    flex-direction: column;
+    /* Просвет больше, чем был у однофразовых принципов: теперь у каждого
+       по два абзаца, и на прежних 22–32px строки слипались */
+    gap: clamp(32px, 4vw, 56px);
+    margin-top: var(--block-gap);
+  }
+  .principles__item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+    gap: clamp(20px, 3vw, 48px);
+    align-items: start;
+  }
+  .principles__item h3 {
+    font-size: clamp(1.6rem, 2.6vw, 2.4rem);
+    letter-spacing: var(--track-heading);
+    line-height: 1.15;
+  }
+  .principles__item p {
+    max-width: var(--measure-text);
+  }
+  .principles__item p + p {
+    margin-top: 12px;
+  }
+
   /* ================= 5. АППАРАТНЫЕ МЕТОДЫ ================= */
   .methods__title,
   .inject__title,
@@ -1267,6 +1406,13 @@ const gallery = [
   }
   .mscroll__card p {
     max-width: 40ch;
+  }
+  /* Служебная метка механизма под абзацем: mono, лаймом — как подпись,
+     а не как продолжение текста */
+  .mscroll__note {
+    display: block;
+    margin-top: 14px;
+    color: var(--lime);
   }
   /* Градиент, «закрывающий» плашки за правым краем */
   .mscroll__fade {
@@ -1723,8 +1869,8 @@ const gallery = [
     height: 100%;
     object-fit: cover;
   }
-  /* Ссылка на дистрибьютора: логотип и подпись, без плашки */
-  .care__link {
+  /* Дистрибьютор: логотип и подпись, без плашки и без ссылки */
+  .care__brand {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -1738,11 +1884,78 @@ const gallery = [
   .care__brands {
     max-width: 34ch;
   }
-  .care__go {
-    transition: color 0.25s var(--ease);
+
+  /* ================= 11. ВИДЕО ================= */
+  .reels__title {
+    font-size: var(--text-display);
+    letter-spacing: var(--track-display);
+    line-height: 1.1;
+    max-width: var(--measure-head);
+    margin-top: 12px;
   }
-  .care__link:hover .care__go {
-    color: var(--lime-2);
+  .reels__lead {
+    font-size: var(--text-lead);
+    max-width: var(--measure-lead);
+    margin-top: 16px;
+  }
+  /* Четыре вертикали влезают в ряд на десктопе; на узком экране ряд
+     превращается в ленту со свайпом (медиазапрос ниже) */
+  .reels__row {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(12px, 1.4vw, 20px);
+    margin-top: var(--block-gap);
+  }
+  .reels__card {
+    position: relative;
+    aspect-ratio: 9 / 16;
+    border-radius: 20px;
+    overflow: hidden;
+    background: var(--ink);
+  }
+  .reels__poster,
+  .reels__video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  /* Постер лежит поверх пустого video и уходит, когда ролик запущен */
+  .reels__poster {
+    position: absolute;
+    inset: 0;
+    max-width: none;
+  }
+  .reels__card.is-playing .reels__poster {
+    display: none;
+  }
+  /* Лаймовый чип со стрелкой воспроизведения — тот же приём, что у ArrowChip.
+     Пропадает, когда ролик запущен: дальше управление отдаём нативным controls */
+  .reels__play {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 56px;
+    height: 56px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 8px;
+    background: var(--lime);
+    color: var(--ink);
+    cursor: pointer;
+    transition: background 0.25s var(--ease);
+  }
+  .reels__play:hover {
+    background: var(--lime-2);
+  }
+  .reels__play svg {
+    width: 26px;
+    height: 26px;
+  }
+  .reels__card.is-playing .reels__play {
+    display: none;
   }
 
   /* ================= 12. СОЦСЕТИ ================= */
@@ -2329,6 +2542,28 @@ const gallery = [
     .steps__panel {
       min-height: 0;
     }
+    /* Заголовок принципа над текстом, а не колонкой слева */
+    .principles__item {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    /* Ролики — лентой со свайпом: вчетвером в ряд они превратились бы
+       в марки. Карточка занимает ~70% ширины, чтобы следующая выглядывала */
+    .reels__row {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      margin-inline: calc(var(--gutter) * -1);
+      padding-inline: var(--gutter);
+    }
+    .reels__row::-webkit-scrollbar {
+      display: none;
+    }
+    .reels__card {
+      flex: 0 0 min(70%, 300px);
+      scroll-snap-align: start;
+    }
     .cv__head {
       flex-direction: column;
       align-items: flex-start;
@@ -2779,6 +3014,31 @@ const gallery = [
       lazyVideos.forEach(load);
     }
   }
+
+  // ================= 11. ВИДЕО =================
+  // Ролик грузится только по клику: до этого в карточке лежит постер.
+  // Играющий всегда один — запуск соседа останавливает предыдущий.
+  const reelCards = document.querySelectorAll<HTMLElement>('.reels__card');
+  reelCards.forEach((card) => {
+    const video = card.querySelector<HTMLVideoElement>('.reels__video');
+    if (!video) return;
+    card.addEventListener('click', () => {
+      if (!video.src) {
+        const src = video.dataset.reel;
+        if (!src) return;
+        video.src = src;
+        video.controls = true;
+        card.classList.add('is-playing');
+      }
+      if (video.paused) {
+        reelCards.forEach((other) => {
+          if (other === card) return;
+          other.querySelector<HTMLVideoElement>('.reels__video')?.pause();
+        });
+        video.play().catch(() => {});
+      }
+    });
+  });
 
   // 6. Обо мне — таймлайн образования и практики
   hookRail(
