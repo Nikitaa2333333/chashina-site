@@ -752,6 +752,43 @@ const gallery = [
                 <path d="M8 5v14l11-7z" fill="currentColor" />
               </svg>
             </button>
+            <!-- Свой пульт вместо нативного: у браузерного своя палитра
+                 и свои иконки, на фирменной плашке он читается чужим.
+                 Появляется после запуска, прячется вместе с курсором. -->
+            <div class="reels__ui" hidden>
+              <button class="reels__toggle" type="button" aria-label="Пауза">
+                <svg class="reels__i-pause" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M7 5h3v14H7zM14 5h3v14h-3z" fill="currentColor" />
+                </svg>
+                <svg class="reels__i-play" viewBox="0 0 24 24" aria-hidden="true" focusable="false" hidden>
+                  <path d="M8 5v14l11-7z" fill="currentColor" />
+                </svg>
+              </button>
+              <div
+                class="reels__bar"
+                role="slider"
+                tabindex="0"
+                aria-label="Перемотка"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                aria-valuenow="0"
+              >
+                <div class="reels__fill"></div>
+              </div>
+              <button class="reels__sound" type="button" aria-label="Выключить звук">
+                <svg class="reels__i-on" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M4 9v6h4l5 4V5L8 9H4zm12 3a4 4 0 0 0-2-3.5v7A4 4 0 0 0 16 12z" fill="currentColor" />
+                </svg>
+                <svg class="reels__i-off" viewBox="0 0 24 24" aria-hidden="true" focusable="false" hidden>
+                  <path d="M4 9v6h4l5 4V5L8 9H4zm11 .5 1.4-1.4 5 5-1.4 1.4-5-5z" fill="currentColor" />
+                </svg>
+              </button>
+              <button class="reels__full" type="button" aria-label="На весь экран">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M4 9V4h5v2H6v3H4zm11-5h5v5h-2V6h-3V4zM4 15h2v3h3v2H4v-5zm14 0h2v5h-5v-2h3v-3z" fill="currentColor" />
+                </svg>
+              </button>
+            </div>
           </article>
         ))}
       </div>
@@ -1957,6 +1994,85 @@ const gallery = [
   .reels__card.is-playing .reels__play {
     display: none;
   }
+  /* Пульт: стеклянная плашка внизу карточки — тот же приём, что в шапке
+     и на фото-плашках слайдера. Лайм только в заливке полосы */
+  .reels__ui {
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 12px;
+    background: rgba(34, 47, 48, 0.55);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    opacity: 0;
+    transition: opacity 0.25s var(--ease);
+  }
+  /* Показываем по наведению и на паузе; на тач-экранах ховера нет,
+     поэтому там пульт видно всегда (медиазапрос ниже) */
+  .reels__card:hover .reels__ui,
+  .reels__card:focus-within .reels__ui,
+  .reels__card.is-paused .reels__ui {
+    opacity: 1;
+  }
+  .reels__ui button {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--paper);
+    cursor: pointer;
+    transition: color 0.25s var(--ease);
+  }
+  .reels__ui button:hover {
+    color: var(--lime);
+  }
+  .reels__ui svg {
+    width: 18px;
+    height: 18px;
+  }
+  /* Сама полоса 3px, но зона попадания — все 12px высоты элемента,
+     иначе в неё не прицелиться ни мышью, ни пальцем */
+  .reels__bar {
+    flex: 1;
+    height: 12px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    background: linear-gradient(rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.35))
+      center / 100% 3px no-repeat;
+  }
+  .reels__fill {
+    height: 3px;
+    width: 0;
+    background: var(--lime);
+  }
+  /* На тач-экранах ховера нет — пульт держим на виду */
+  @media (hover: none) {
+    .reels__card.is-playing .reels__ui {
+      opacity: 1;
+    }
+  }
+  /* В полноэкранном режиме карточка перестаёт быть вертикальной плашкой:
+     кадр вписываем целиком, чтобы не срезать края */
+  .reels__card:fullscreen {
+    aspect-ratio: auto;
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+  }
+  .reels__card:fullscreen .reels__video {
+    object-fit: contain;
+  }
 
   /* ================= 12. СОЦСЕТИ ================= */
   .social {
@@ -3021,22 +3137,100 @@ const gallery = [
   const reelCards = document.querySelectorAll<HTMLElement>('.reels__card');
   reelCards.forEach((card) => {
     const video = card.querySelector<HTMLVideoElement>('.reels__video');
-    if (!video) return;
-    card.addEventListener('click', () => {
-      if (!video.src) {
-        const src = video.dataset.reel;
-        if (!src) return;
-        video.src = src;
-        video.controls = true;
-        card.classList.add('is-playing');
-      }
-      if (video.paused) {
-        reelCards.forEach((other) => {
-          if (other === card) return;
-          other.querySelector<HTMLVideoElement>('.reels__video')?.pause();
-        });
-        video.play().catch(() => {});
-      }
+    const ui = card.querySelector<HTMLElement>('.reels__ui');
+    const toggle = card.querySelector<HTMLButtonElement>('.reels__toggle');
+    const bar = card.querySelector<HTMLElement>('.reels__bar');
+    const fill = card.querySelector<HTMLElement>('.reels__fill');
+    const sound = card.querySelector<HTMLButtonElement>('.reels__sound');
+    const full = card.querySelector<HTMLButtonElement>('.reels__full');
+    if (!video || !ui || !toggle || !bar || !fill || !sound || !full) return;
+
+    const icon = (btn: HTMLElement, show: string, hide: string) => {
+      btn.querySelector<HTMLElement>(show)?.removeAttribute('hidden');
+      btn.querySelector<HTMLElement>(hide)?.setAttribute('hidden', '');
+    };
+
+    const start = () => {
+      if (video.src) return;
+      const src = video.dataset.reel;
+      if (!src) return;
+      video.src = src;
+      ui.hidden = false;
+      card.classList.add('is-playing');
+    };
+
+    const play = () => {
+      // Играет всегда один ролик: соседей ставим на паузу
+      reelCards.forEach((other) => {
+        if (other === card) return;
+        other.querySelector<HTMLVideoElement>('.reels__video')?.pause();
+      });
+      video.play().catch(() => {});
+    };
+
+    // Клик по самой карточке (не по пульту) — пуск и пауза
+    card.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).closest('.reels__ui')) return;
+      start();
+      if (video.paused) play();
+      else video.pause();
+    });
+
+    toggle.addEventListener('click', () => {
+      if (video.paused) play();
+      else video.pause();
+    });
+
+    video.addEventListener('play', () => {
+      card.classList.remove('is-paused');
+      icon(toggle, '.reels__i-pause', '.reels__i-play');
+      toggle.setAttribute('aria-label', 'Пауза');
+    });
+    video.addEventListener('pause', () => {
+      card.classList.add('is-paused');
+      icon(toggle, '.reels__i-play', '.reels__i-pause');
+      toggle.setAttribute('aria-label', 'Продолжить');
+    });
+
+    video.addEventListener('timeupdate', () => {
+      const p = video.duration ? (video.currentTime / video.duration) * 100 : 0;
+      fill.style.width = `${p}%`;
+      bar.setAttribute('aria-valuenow', String(Math.round(p)));
+    });
+
+    // Перемотка: клик и протяжка по полосе
+    const seek = (clientX: number) => {
+      const r = bar.getBoundingClientRect();
+      const ratio = Math.min(Math.max((clientX - r.left) / r.width, 0), 1);
+      if (video.duration) video.currentTime = ratio * video.duration;
+    };
+    bar.addEventListener('pointerdown', (e) => {
+      start();
+      bar.setPointerCapture(e.pointerId);
+      seek(e.clientX);
+    });
+    bar.addEventListener('pointermove', (e) => {
+      if (bar.hasPointerCapture(e.pointerId)) seek(e.clientX);
+    });
+    bar.addEventListener('keydown', (e) => {
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+      e.preventDefault();
+      video.currentTime += e.key === 'ArrowRight' ? 5 : -5;
+    });
+
+    sound.addEventListener('click', () => {
+      video.muted = !video.muted;
+      icon(sound, video.muted ? '.reels__i-off' : '.reels__i-on', video.muted ? '.reels__i-on' : '.reels__i-off');
+      sound.setAttribute('aria-label', video.muted ? 'Включить звук' : 'Выключить звук');
+    });
+
+    full.addEventListener('click', () => {
+      // iOS не умеет фуллскрин на произвольном элементе — только на самом
+      // <video>, и через свой префиксный метод
+      const ios = (video as any).webkitEnterFullscreen;
+      if (document.fullscreenElement) document.exitFullscreen();
+      else if (card.requestFullscreen) card.requestFullscreen().catch(() => {});
+      else if (ios) ios.call(video);
     });
   });
 
