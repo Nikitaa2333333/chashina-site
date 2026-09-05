@@ -342,20 +342,12 @@ const gallery = [
       url: 'https://atlasesthetics.ru/',
       telephone: '+7 495 212-08-88',
     },
-    address: [
-      {
-        '@type': 'PostalAddress',
-        streetAddress: 'Кременчугская улица, 3',
-        addressLocality: 'Москва',
-        addressCountry: 'RU',
-      },
-      {
-        '@type': 'PostalAddress',
-        streetAddress: 'Серпуховский Вал, 21к4',
-        addressLocality: 'Москва',
-        addressCountry: 'RU',
-      },
-    ],
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Кременчугская улица, 3',
+      addressLocality: 'Москва',
+      addressCountry: 'RU',
+    },
   })} />
 
   <Header />
@@ -691,20 +683,6 @@ const gallery = [
             Чаще всего это марки с дерматологической школой и понятным составом —
             те, которыми пользуюсь сама и которые советую пациентам на приёме.
           </p>
-          <div class="care__brand">
-            <img
-              class="care__logo"
-              src="/photos/brands/naos.png"
-              alt="NAOS"
-              width="427"
-              height="85"
-              loading="lazy"
-            />
-            <span class="care__brands">
-              Официальный дистрибьютор Bioderma, Institut Esthederm и État Pur
-              в России.
-            </span>
-          </div>
         </div>
         <figure class="care__media">
           <img
@@ -1004,7 +982,7 @@ const gallery = [
 
       <div class="container cv__certs">
         <span class="cv__certs-head mono">Сообщества и сертификаты</span>
-        <p>Ассоциация косметологов и мезотерапевтов; Ассоциация специалистов эстетической медицины Центральной и Восточной Европы; PreventAge</p>
+        <p>Член Ассоциации косметологов и мезотерапевтов и Ассоциации специалистов эстетической медицины Центральной и Восточной Европы; PreventAge — Международный институт интегральной превентивной и антивозрастной медицины</p>
         <p>Действующие сертификаты: косметология, физиотерапия; аккредитация по организации здравоохранения</p>
       </div>
     </div>
@@ -1107,11 +1085,6 @@ const gallery = [
               <span class="clinic__place-name">Кременчугская улица, 3</span>
               <span class="clinic__place-meta mono">м. Славянский бульвар</span>
               <span class="clinic__place-meta mono">Пн–Пт 8:00–21:00, Сб–Вс 9:00–21:00</span>
-            </div>
-            <div class="clinic__place">
-              <span class="clinic__place-name">Серпуховский Вал, 21к4</span>
-              <span class="clinic__place-meta mono">м. Шаболовская, Тульская</span>
-              <span class="clinic__place-meta mono">Пн–Пт 8:00–21:00, Сб 9:00–20:00, Вс 10:00–16:00</span>
             </div>
           </div>
 
@@ -1883,22 +1856,6 @@ const gallery = [
     height: 100%;
     object-fit: cover;
   }
-  /* Дистрибьютор: логотип и подпись, без плашки и без ссылки */
-  .care__brand {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-    margin-top: clamp(28px, 3.4vw, 44px);
-  }
-  .care__logo {
-    width: min(100%, clamp(240px, 28vw, 380px));
-    height: auto;
-  }
-  .care__brands {
-    max-width: 34ch;
-  }
-
   /* ================= 11. ВИДЕО ================= */
   .reels__title {
     font-size: var(--text-display);
