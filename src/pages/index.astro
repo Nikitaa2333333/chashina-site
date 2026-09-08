@@ -674,6 +674,38 @@ const gallery = [
   </section>
 
   <!-- ================= 12. СОЦСЕТИ ================= -->
+  <!-- ================= 10. ДОМАШНИЙ УХОД ================= -->
+  <section class="section care" id="care">
+    <div class="container">
+      <span class="tag mono">Домашний уход</span>
+      <h2 class="care__title">Я рекомендую.</h2>
+      <div class="care__cols">
+        <div class="care__text">
+          <p>
+            Домашний уход всегда значимо поддерживает эффект от моих процедур:
+            он работает каждый день, а не 1–2 раза в месяц. Но вокруг него
+            столько маркетинга, что разобраться самостоятельно почти невозможно.
+          </p>
+          <p>
+            Я подбираю уход под задачу и тип кожи, а не под обещания
+            на упаковке. Это безопасные марки с дерматологическими
+            исследованиями и понятным составом — те, которыми пользуюсь сама
+            и которые советую пациентам на приёме.
+          </p>
+        </div>
+        <figure class="care__media">
+          <img
+            src="/photos/web/06.webp"
+            alt="Подбор домашнего ухода на приёме"
+            width="1000"
+            height="666"
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
+      </div>
+    </div>
+  </section>
 
   <!-- ================= 11. ВИДЕО =================
        Ролики из инстаграма Оксаны, лежат своими файлами (h264 + faststart).
@@ -1824,6 +1856,47 @@ const gallery = [
     margin-bottom: 14px;
   }
 
+  /* ================= 10. ДОМАШНИЙ УХОД ================= */
+  .care__title {
+    font-size: var(--text-display);
+    letter-spacing: var(--track-display);
+    line-height: 1.1;
+    max-width: var(--measure-head);
+    margin-top: 12px;
+  }
+  /* Слева текст и следом логотип дистрибьютора, справа — кадр
+     из лайфстайл-съёмки на всю высоту колонки. Тема бытовая, поэтому
+     и съёмка бытовая: клинические кадры работают в секциях про приём.
+     stretch, а не start: иначе правая колонка кончается выше левой
+     и под текстом остаётся пустая четверть блока. */
+  .care__cols {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    /* Ряд и колонка разведены нарочно. 88px хороши МЕЖДУ колонками, но на
+       телефоне колонки схлопываются в одну — и тот же зазор превращается
+       в дыру, из-за которой фото читается отдельным блоком, а не частью
+       секции. По вертикали внутри блока работает --block-gap. */
+    gap: var(--block-gap) clamp(28px, 5vw, 88px);
+    margin-top: var(--block-gap);
+    align-items: stretch;
+  }
+  .care__text p {
+    max-width: 52ch;
+  }
+  .care__text p + p {
+    margin-top: 16px;
+  }
+  .care__media {
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    /* Пол на случай, если текст слева окажется коротким */
+    min-height: clamp(300px, 26vw, 420px);
+  }
+  .care__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
   /* ================= 11. ВИДЕО ================= */
   .reels__title {
     font-size: var(--text-display);
@@ -2520,6 +2593,7 @@ const gallery = [
     .zones__list,
     .social__inner,
     .about__row,
+    .care__cols,
     .clinic__inner {
       grid-template-columns: 1fr;
     }
@@ -2532,6 +2606,15 @@ const gallery = [
     }
     .reviews__card {
       min-height: 0;
+    }
+    /* В одну колонку тянуть фото не по чему — возвращаем ему пропорцию */
+    .care__media {
+      min-height: 0;
+      margin-top: clamp(28px, 5vw, 40px);
+    }
+    .care__media img {
+      height: auto;
+      aspect-ratio: 3 / 2;
     }
     .methods__card {
       min-height: 0;
