@@ -516,9 +516,10 @@ const gallery = [
         <div class="mscroll__viewport" data-mscroll-viewport>
           <div class="mscroll__row" data-mscroll-row>
             {methods.map((m) => (
-              <article class={`mscroll__card mscroll__card--${m.theme}${m.extra ? ' mscroll__card--long' : ''}`}>
-                <img class="mscroll__img" src={m.img} alt="" loading="lazy" />
-                <img class="mscroll__img mscroll__img--blur" src={m.img} alt="" loading="lazy" aria-hidden="true" />
+              <article class={`mscroll__card mscroll__card--${m.theme}`}>
+                <div class="mscroll__media">
+                  <img class="mscroll__img" src={m.img} alt="" loading="lazy" />
+                </div>
                 <div class="mscroll__body">
                   <h3 class="mscroll__name">{m.title}</h3>
                   <p>{m.text}</p>
@@ -1341,17 +1342,27 @@ const gallery = [
     width: max-content;
     will-change: transform;
   }
-  /* Вертикальная плашка: фото во всю площадь, текст поверх скрима */
+  /* Плашка метода: сверху кадр, под ним текст на плашке цвета темы.
+     Раньше фото лежало во всю площадь, а текст — поверх матового стекла;
+     после правок Оксаны текста стало вдвое больше, и он закрывал
+     иллюстрацию целиком. Теперь части не спорят: сколько бы ни было
+     текста, он занимает низ, а кадр остаётся кадром.
+     Пресса эту сетку не наследует — там своя карточка-ссылка. */
   .mscroll__card {
     position: relative;
-    width: clamp(300px, 36vw, 480px);
+    width: clamp(300px, 34vw, 440px);
     height: min(80svh, 780px);
     border-radius: var(--radius-card);
-    padding: 28px 28px 36px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    gap: 40px;
+    overflow: hidden;
+  }
+  /* Кадр занимает всё, что осталось от текста: у коротких карточек
+     он крупнее, у длинных ужимается, но не меньше трети плашки */
+  .mscroll__media {
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 30%;
     overflow: hidden;
   }
   .mscroll__img {
@@ -1363,40 +1374,9 @@ const gallery = [
   }
   .mscroll__card--dark { background: var(--ink); color: var(--paper); }
   .mscroll__card--light { background: var(--tissue); color: var(--ink); }
-  /* Низ фото плавно «утопает» в матовом стекле: поверх лежит размытая
-     копия того же фото, маска растворяет её кверху. Без рамок.
-     filter считается один раз и кешируется — в отличие от backdrop-filter */
-  .mscroll__img--blur {
-    filter: blur(18px);
-    transform: scale(1.08);
-    -webkit-mask-image: linear-gradient(to bottom, transparent 46%, #000 72%);
-    mask-image: linear-gradient(to bottom, transparent 46%, #000 72%);
-  }
-  /* У плашек с двумя абзацами текст начинается выше — стекло поднимается
-     за ним, иначе первые строки лежат прямо на светлых местах кадра */
-  .mscroll__card--long .mscroll__img--blur {
-    -webkit-mask-image: linear-gradient(to bottom, transparent 20%, #000 50%);
-    mask-image: linear-gradient(to bottom, transparent 20%, #000 50%);
-  }
-  /* лёгкая тонировка снизу, чтобы текст дочитывался */
-  .mscroll__card::after {
-    content: '';
-    position: absolute;
-    inset: 50% 0 0;
-    z-index: 0;
-    pointer-events: none;
-  }
-  /* лёгкая тонировка в цвет темы, чтобы текст дочитывался */
-  .mscroll__card--dark::after {
-    background: linear-gradient(to bottom, transparent, rgba(20, 30, 30, 0.38));
-  }
-  .mscroll__card--light::after {
-    background: linear-gradient(to bottom, transparent, rgba(247, 247, 245, 0.5));
-  }
   .mscroll__body {
-    position: relative;
-    z-index: 1;
-    margin-top: auto;
+    flex: 0 0 auto;
+    padding: 24px 28px 32px;
   }
   .mscroll__name {
     font-size: var(--text-card-title);
@@ -1404,14 +1384,13 @@ const gallery = [
     margin-bottom: 12px;
   }
   /* Подпись плашки, а не наборный текст: на узкой колонке телефона 18px
-     ломают абзац первого метода на полтора десятка строк, и текст
-     закрывает иллюстрацию целиком. На широком экране размер прежний. */
+     ломают абзац первого метода на полтора десятка строк. */
   .mscroll__card p {
     max-width: 40ch;
     font-size: clamp(1rem, 1.25vw, 1.125rem);
   }
-  /* Второй абзац карточки: тот же текст, но на ступень мельче — иначе
-     плашка с двумя абзацами Оксаны закрывает иллюстрацию целиком */
+  /* Второй абзац Оксаны — на ступень мельче первого: так два абзаца
+     подряд читаются как текст и комментарий к нему, а не как стена */
   .mscroll__extra {
     margin-top: 12px;
     font-size: clamp(0.9375rem, 1.1vw, 1rem);
@@ -1453,20 +1432,24 @@ const gallery = [
     .mscroll__row {
       transform: none !important;
     }
-    /* На телефоне плашка растёт под свой текст: у первого метода абзац
-       вчетверо длиннее остальных и в фиксированную высоту не влезал —
-       текст лез за край и накрывал иллюстрацию целиком. Высоту ряда
-       задаёт самая длинная карточка (flex тянет соседей), поэтому
-       min-height держит нижнюю границу, а не сам размер. */
+    /* На телефоне плашка растёт под свой текст, а кадру задаётся
+       пропорция: в auto-высоте доля процентом не работает. Высоту ряда
+       держит самая длинная карточка — flex тянет соседей за ней. */
     .mscroll__card {
       width: min(84vw, 420px);
       height: auto;
-      min-height: min(68svh, 600px);
+      min-height: 0;
     }
-    /* Плашке с двумя абзацами нужен запас, иначе от иллюстрации
-       остаётся полоска в пару сантиметров */
-    .mscroll__card--long {
-      min-height: min(82svh, 720px);
+    /* Пропорция задаёт кадру минимум, flex-grow добирает остаток:
+       ряд тянется по самой длинной карточке, и у коротких без роста
+       под текстом зияла бы пустая треть плашки. */
+    .mscroll__media {
+      flex: 1 1 auto;
+      min-height: 0;
+      aspect-ratio: 4 / 3;
+    }
+    .mscroll__body {
+      padding: 20px 22px 26px;
     }
     .mscroll__fade {
       display: none;
@@ -1697,11 +1680,50 @@ const gallery = [
      (.mscroll__*), здесь только то, чем карточка-ссылка отличается от
      карточки метода. Плашки уже, чем у методов: заголовок публикации
      короче текста метода, и в кадр помещается на одну больше. */
+  /* Карточка прессы осталась прежней — кадр во всю площадь, заголовок
+     внизу на матовом стекле. Общие правила ушли вместе с переверсткой
+     карточек метода (там теперь кадр сверху, текст под ним), поэтому
+     то, что было общим, живёт здесь. */
   .press__scene :global(.mscroll__card) {
+    display: block;
     width: clamp(280px, 26vw, 380px);
     height: min(72svh, 640px);
+    padding: 28px 28px 36px;
     text-decoration: none;
     color: var(--paper);
+  }
+  .press__scene :global(.mscroll__img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  /* Низ кадра «утопает» в стекле: размытая копия того же фото под маской.
+     filter считается один раз — в отличие от backdrop-filter, который
+     на движущемся ряду лагает. */
+  .press__scene :global(.mscroll__img--blur) {
+    filter: blur(18px);
+    transform: scale(1.08);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 46%, #000 72%);
+    mask-image: linear-gradient(to bottom, transparent 46%, #000 72%);
+  }
+  /* Лёгкая тонировка снизу, чтобы заголовок дочитывался */
+  .press__scene :global(.mscroll__card)::after {
+    content: '';
+    position: absolute;
+    inset: 50% 0 0;
+    z-index: 0;
+    pointer-events: none;
+    background: linear-gradient(to bottom, transparent, rgba(20, 30, 30, 0.38));
+  }
+  .press__scene :global(.mscroll__body) {
+    position: absolute;
+    left: 28px;
+    right: 28px;
+    bottom: 36px;
+    z-index: 1;
+    padding: 0;
   }
   /* Мета и заголовок приходят из данных: до них scoped-правило
      достаёт только через :global */
