@@ -378,7 +378,7 @@ const gallery = [
             srcset="/photos/hero-780.webp 780w, /photos/hero-1200.webp 1200w"
             sizes="(max-width: 900px) 88vw, 590px"
             width="1200"
-            height="1706"
+            height="1285"
             alt="Оксана Чащина, врач-косметолог"
             fetchpriority="high"
             data-hero-photo
@@ -1142,13 +1142,15 @@ const gallery = [
     -webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent 96%);
     mask-image: linear-gradient(to bottom, #000 62%, transparent 96%);
   }
-  /* Фото — акцент, строго по центру, прижато к низу рамки */
+  /* Фото — акцент, строго по центру, прижато к низу рамки.
+     Высота держит и ширину: кадр портретный (0.93), а не ростовой,
+     и на прежних 92% закрывал собой оба слова имени. */
   .hero__photo {
     position: absolute;
     left: 50%;
     bottom: 0;
     translate: -50% 0;
-    height: min(92%, 840px);
+    height: min(80%, 700px);
     width: auto;
     object-fit: contain;
     object-position: bottom;
@@ -2563,14 +2565,14 @@ const gallery = [
     .hero__photo {
       position: static;
       translate: none;
-      width: min(88%, 420px);
+      width: min(96%, 460px);
       height: auto;
       max-height: 58svh;
       margin: -8px auto 0;
       scale: 1 !important;
       /* низ фото плавно растворяется — без резкой границы */
-      -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 98%);
-      mask-image: linear-gradient(to bottom, #000 72%, transparent 98%);
+      -webkit-mask-image: linear-gradient(to bottom, #000 66%, transparent 97%);
+      mask-image: linear-gradient(to bottom, #000 66%, transparent 97%);
     }
     .hero__bottom {
       position: relative;
@@ -2578,8 +2580,10 @@ const gallery = [
       flex-direction: column;
       align-items: flex-start;
       gap: 24px;
-      /* текст приподнят и заходит на растворённый низ фото */
-      margin-top: calc(-1 * clamp(56px, 12svh, 110px));
+      /* Нахлёста на фото больше нет: он был рассчитан на ростовой кадр,
+         у которого низ уходил в растворение задолго до текста. Портрет
+         кончается пиджаком, и текст ложился прямо на него. */
+      margin-top: 0;
       padding: 0 var(--gutter) 8px;
       opacity: 1 !important;
       transform: none !important;
