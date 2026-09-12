@@ -111,7 +111,7 @@ const methods = [
     title: 'Фокусированный ультразвук',
     text: 'Работа с глубоким каркасом связок — уплотнение и коррекция опущения кожи и подкожных структур.',
     img: '/photos/art/method-04.webp',
-    theme: 'dark',
+    theme: 'light',
   },
 ];
 // 7. Инъекционные методы — задачи
@@ -500,7 +500,7 @@ const gallery = [
        Горизонтальный скролл-слайдер: sticky-сцена, вертикальные
        цветные плашки листаются по скроллу, справа — градиентное
        затухание над невидимыми плашками -->
-  <section class="section section--flush-bottom methods" id="methods">
+  <section class="section methods" id="methods">
     <div class="container">
       <span class="tag mono">Аппаратные методы</span>
       <h2 class="methods__title">Что происходит с тканями.</h2>
@@ -509,28 +509,20 @@ const gallery = [
         физиотерапии производят с кожей. Торговые названия имеет смысл
         обсуждать уже на консультации, когда понятна задача.
       </p>
-    </div>
-  </section>
-  <section class="mscroll" data-mscroll>
-    <div class="mscroll__track" data-mscroll-track>
-      <div class="mscroll__sticky">
-        <div class="mscroll__viewport" data-mscroll-viewport>
-          <div class="mscroll__row" data-mscroll-row>
-            {methods.map((m) => (
-              <article class={`mscroll__card mscroll__card--${m.theme}`}>
-                <div class="mscroll__media">
-                  <img class="mscroll__img" src={m.img} alt="" loading="lazy" />
-                </div>
-                <div class="mscroll__body">
-                  <h3 class="mscroll__name">{m.title}</h3>
-                  <p>{m.text}</p>
-                  {m.extra && <p class="mscroll__extra">{m.extra}</p>}
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-        <div class="mscroll__fade" data-mscroll-fade aria-hidden="true"></div>
+
+      <div class="methods__list">
+        {methods.map((m) => (
+          <article class={`mcard mcard--${m.theme}`}>
+            <div class="mcard__media">
+              <img class="mcard__img" src={m.img} alt="" loading="lazy" />
+            </div>
+            <div class="mcard__body">
+              <h3 class="mcard__name">{m.title}</h3>
+              <p>{m.text}</p>
+              {m.extra && <p>{m.extra}</p>}
+            </div>
+          </article>
+        ))}
       </div>
     </div>
   </section>
@@ -1384,27 +1376,12 @@ const gallery = [
     width: max-content;
     will-change: transform;
   }
-  /* Плашка метода: сверху кадр, под ним текст на плашке цвета темы.
-     Раньше фото лежало во всю площадь, а текст — поверх матового стекла;
-     после правок Оксаны текста стало вдвое больше, и он закрывал
-     иллюстрацию целиком. Теперь части не спорят: сколько бы ни было
-     текста, он занимает низ, а кадр остаётся кадром.
-     Пресса эту сетку не наследует — там своя карточка-ссылка. */
+  /* Плашка-ссылка сцены. Методы эту сетку больше не используют — у них
+     свои горизонтальные карточки ниже; здесь остаётся только то, чем
+     живёт лента прессы (её вид дозадан в блоке .press__scene). */
   .mscroll__card {
     position: relative;
-    width: clamp(300px, 34vw, 440px);
-    height: min(80svh, 780px);
     border-radius: var(--radius-card);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-  /* Кадр занимает всё, что осталось от текста: у коротких карточек
-     он крупнее, у длинных ужимается, но не меньше трети плашки */
-  .mscroll__media {
-    position: relative;
-    flex: 1 1 auto;
-    min-height: 30%;
     overflow: hidden;
   }
   .mscroll__img {
@@ -1415,28 +1392,64 @@ const gallery = [
     object-fit: cover;
   }
   .mscroll__card--dark { background: var(--ink); color: var(--paper); }
-  .mscroll__card--light { background: var(--tissue); color: var(--ink); }
-  .mscroll__body {
-    flex: 0 0 auto;
-    padding: 24px 28px 32px;
+  /* ================= КАРТОЧКИ АППАРАТНЫХ МЕТОДОВ =================
+     Было: горизонтальная sticky-лента из четырёх вертикальных плашек.
+     Заказчик забраковал — у двух методов по два абзаца Оксаны, у двух
+     по одному, и в ряду одинаковой высоты это читалось как брак:
+     половина плашек забита текстом, половина пустая.
+     Стало: четыре широкие карточки друг под другом, кадр сбоку.
+     Высота у каждой своя, по её тексту, — разнобой исчезает сам,
+     а кадр тянется на всю высоту карточки: у длинных он выше,
+     у коротких ниже, и это читается как ритм, а не как ошибка. */
+  .methods__list {
+    display: grid;
+    gap: clamp(14px, 1.6vw, 22px);
+    margin-top: var(--block-gap);
   }
-  .mscroll__name {
+  .mcard {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    align-items: stretch;
+    min-height: clamp(220px, 19vw, 290px);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+  }
+  .mcard--dark { background: var(--ink); color: var(--paper); }
+  .mcard--light { background: var(--tissue); color: var(--ink); }
+  /* Кадры чередуют сторону — иначе четыре одинаковые строки читаются
+     таблицей. Порядком, а не direction: rtl, чтобы текст внутри
+     не переворачивался. */
+  .mcard:nth-child(even) .mcard__media { order: 2; }
+  .mcard__media {
+    position: relative;
+    min-height: clamp(200px, 18vw, 260px);
+    overflow: hidden;
+  }
+  .mcard__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .mcard__body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(26px, 3vw, 44px);
+  }
+  .mcard__name {
     font-size: var(--text-card-title);
     letter-spacing: var(--track-heading);
-    margin-bottom: 12px;
+    margin-bottom: 14px;
   }
-  /* Подпись плашки, а не наборный текст: на узкой колонке телефона 18px
-     ломают абзац первого метода на полтора десятка строк. */
-  .mscroll__card p {
-    max-width: 40ch;
-    font-size: clamp(1rem, 1.25vw, 1.125rem);
+  .mcard__body p {
+    max-width: 56ch;
   }
-  /* Второй абзац Оксаны — на ступень мельче первого: так два абзаца
-     подряд читаются как текст и комментарий к нему, а не как стена */
-  .mscroll__extra {
-    margin-top: 12px;
-    font-size: clamp(0.9375rem, 1.1vw, 1rem);
+  .mcard__body p + p {
+    margin-top: 14px;
   }
+
   /* Градиент, «закрывающий» плашки за правым краем */
   .mscroll__fade {
     position: absolute;
@@ -1473,25 +1486,6 @@ const gallery = [
     }
     .mscroll__row {
       transform: none !important;
-    }
-    /* На телефоне плашка растёт под свой текст, а кадру задаётся
-       пропорция: в auto-высоте доля процентом не работает. Высоту ряда
-       держит самая длинная карточка — flex тянет соседей за ней. */
-    .mscroll__card {
-      width: min(84vw, 420px);
-      height: auto;
-      min-height: 0;
-    }
-    /* Пропорция задаёт кадру минимум, flex-grow добирает остаток:
-       ряд тянется по самой длинной карточке, и у коротких без роста
-       под текстом зияла бы пустая треть плашки. */
-    .mscroll__media {
-      flex: 1 1 auto;
-      min-height: 0;
-      aspect-ratio: 4 / 3;
-    }
-    .mscroll__body {
-      padding: 20px 22px 26px;
     }
     .mscroll__fade {
       display: none;
@@ -2598,6 +2592,19 @@ const gallery = [
       padding: 0 var(--gutter) 8px;
       opacity: 1 !important;
       transform: none !important;
+    }
+    /* Карточка метода в одну колонку: кадр сверху пропорцией,
+       под ним текст. Чередование сторон на телефоне смысла не имеет. */
+    .mcard {
+      grid-template-columns: 1fr;
+      min-height: 0;
+    }
+    .mcard:nth-child(even) .mcard__media {
+      order: 0;
+    }
+    .mcard__media {
+      min-height: 0;
+      aspect-ratio: 4 / 3;
     }
     .halves__cols,
     .steps,
