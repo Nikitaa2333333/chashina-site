@@ -50,6 +50,7 @@ const SECTION_NAMES = {
   principles: 'Что для меня важно',
   statement: 'Манифест',
   methods: 'Аппаратные методы',
+  mstrips: 'Аппаратные методы — карточки',
   smas: 'Гравитационный птоз и SMAS',
   inject: 'Инъекционные методы',
   zones: 'Зоны, которые выдают возраст',
@@ -74,7 +75,7 @@ const SECTION_NAMES = {
  * Список явный: манифест тоже без тега и заголовка, но это самостоятельный
  * блок, и приклеивать его к ступеням нельзя.
  */
-const CONTINUATION = new Set(['steps']);
+const CONTINUATION = new Set(['steps', 'mstrips']);
 
 const attr = (node, name) => node.attrs?.find((a) => a.name === name)?.value ?? '';
 const classes = (node) => attr(node, 'class').split(/\s+/).filter(Boolean);
