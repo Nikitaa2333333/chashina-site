@@ -1877,11 +1877,12 @@ const gallery = [
     max-width: var(--measure-head);
     margin-top: 12px;
   }
-  /* Слева текст и следом логотип дистрибьютора, справа — кадр
-     из лайфстайл-съёмки на всю высоту колонки. Тема бытовая, поэтому
+  /* Слева текст, справа кадр из лайфстайл-съёмки. Тема бытовая, поэтому
      и съёмка бытовая: клинические кадры работают в секциях про приём.
-     stretch, а не start: иначе правая колонка кончается выше левой
-     и под текстом остаётся пустая четверть блока. */
+     Было `stretch` + пол в 420px у фото — под тем текстом, где ещё стоял
+     логотип дистрибьютора, колонки сходились. Сейчас текста два абзаца,
+     и растянутое фото оставляло под ним пустую треть блока: теперь
+     колонки выровнены по центру, а высоту кадра задаёт его пропорция. */
   .care__cols {
     display: grid;
     grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
@@ -1891,7 +1892,7 @@ const gallery = [
        секции. По вертикали внутри блока работает --block-gap. */
     gap: var(--block-gap) clamp(28px, 5vw, 88px);
     margin-top: var(--block-gap);
-    align-items: stretch;
+    align-items: start;
   }
   .care__text p {
     max-width: 52ch;
@@ -1902,8 +1903,7 @@ const gallery = [
   .care__media {
     border-radius: var(--radius-card);
     overflow: hidden;
-    /* Пол на случай, если текст слева окажется коротким */
-    min-height: clamp(300px, 26vw, 420px);
+    aspect-ratio: 16 / 10;
   }
   .care__media img {
     width: 100%;
@@ -2644,14 +2644,10 @@ const gallery = [
     .reviews__card {
       min-height: 0;
     }
-    /* В одну колонку тянуть фото не по чему — возвращаем ему пропорцию */
+    /* Пропорция кадра теперь задана самому блоку, здесь — только отбивка
+       от текста, когда колонки схлопнулись в одну */
     .care__media {
-      min-height: 0;
       margin-top: clamp(28px, 5vw, 40px);
-    }
-    .care__media img {
-      height: auto;
-      aspect-ratio: 3 / 2;
     }
     .methods__card {
       min-height: 0;
