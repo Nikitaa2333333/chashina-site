@@ -338,6 +338,7 @@ const gallery = [
       'https://t.me/krasotanasspaset',
       'https://vk.com/krasotanasspaset',
       'https://dzen.ru/id/6237172c60d2e66b912c755f',
+      'https://max.ru/join/9kvqhWm2_u6FIFrfRDLo5X-X9fDpg_051CfYLN3_Fiw',
     ],
     worksFor: {
       '@type': 'MedicalClinic',
@@ -807,6 +808,13 @@ const gallery = [
         <a class="social__link" href="https://dzen.ru/id/6237172c60d2e66b912c755f" target="_blank" rel="noopener">
           <span class="social__name">Дзен</span>
           <span class="social__handle mono">dzen.ru/krasotanasspaset</span>
+        </a>
+        <!-- У канала в MAX только ссылка-приглашение: длинный токен вместо
+             адреса. В подписи поэтому домен, а не путь — обрезок вида
+             «max.ru/join/9kvq…» читался бы как сломанная ссылка. -->
+        <a class="social__link" href="https://max.ru/join/9kvqhWm2_u6FIFrfRDLo5X-X9fDpg_051CfYLN3_Fiw" target="_blank" rel="noopener">
+          <span class="social__name">MAX</span>
+          <span class="social__handle mono">max.ru</span>
         </a>
       </div>
     </div>
@@ -2082,11 +2090,14 @@ const gallery = [
     gap: 12px;
   }
   /* Строка-ссылка: имя + адрес, ховер подсвечивает лаймом */
-  /* Компактный чип по содержимому: имя, под ним адрес */
+  /* Компактный чип по содержимому: имя, под ним адрес.
+     min-width держит короткие подписи (у MAX это просто «max.ru»):
+     без него четвёртый чип вдвое уже соседнего и читается обрубком. */
   .social__link {
     display: inline-flex;
     flex-direction: column;
     gap: 6px;
+    min-width: clamp(150px, 14vw, 200px);
     padding: 16px 20px;
     border: 1px solid var(--sea);
     border-radius: var(--radius-card);
