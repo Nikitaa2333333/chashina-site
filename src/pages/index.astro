@@ -2590,6 +2590,11 @@ const gallery = [
     }
     .hero__bottom {
       position: relative;
+      /* Базовое правило — position: absolute; left/right: var(--gutter) —
+         на relative эти left/right становятся смещением, а не границами
+         ширины: блок уезжал вправо на величину gutter и текст утыкался
+         в край экрана. Инсеты снимаем, отступы теперь только на padding. */
+      inset: auto;
       z-index: 2;
       flex-direction: column;
       align-items: flex-start;
