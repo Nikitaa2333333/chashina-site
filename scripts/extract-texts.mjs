@@ -132,27 +132,29 @@ const hasBlockChildren = (node) =>
       && !skip(c),
   );
 
-/** Таймлайн «Образование и практика»: сетка спанов → две читаемые таблицы. */
-function cvTables(grid) {
-  const rows = { edu: [], work: [] };
-  for (const item of grid.childNodes ?? []) {
-    if (!hasClass(item, 'cv__item')) continue;
-    const cells = (item.childNodes ?? [])
-      .filter((c) => c.nodeName === 'span')
-      .map((c) => inline(c).replace(/\s+/g, ' ').trim());
-    if (!cells.some(Boolean)) continue;
-    rows[hasClass(item, 'cv__item--edu') ? 'edu' : 'work'].push(cells);
-  }
-  const table = (head, list) => {
-    if (!list.length) return [];
-    const width = Math.max(3, ...list.map((r) => r.length));
+/** «Образование и практика»: два списка (.cv__col) → две читаемые таблицы. */
+function cvTables(cols) {
+  const out = [];
+  for (const col of cols.childNodes ?? []) {
+    if (!hasClass(col, 'cv__col')) continue;
+    const title = (col.childNodes ?? []).find((c) => hasClass(c, 'cv__col-title'));
+    const list = (col.childNodes ?? []).find((c) => hasClass(c, 'cv__list'));
+    const head = title ? inline(title).replace(/\s+/g, ' ').trim().toLowerCase() : '';
+    const rows = (list?.childNodes ?? [])
+      .filter((row) => hasClass(row, 'cv__row'))
+      .map((row) =>
+        (row.childNodes ?? [])
+          .filter((c) => c.nodeName === 'span')
+          .map((c) => inline(c).replace(/\s+/g, ' ').trim())
+      )
+      .filter((cells) => cells.some(Boolean));
+    if (!rows.length) continue;
+    const width = Math.max(3, ...rows.map((r) => r.length));
     const line = (r) => `| ${Array.from({ length: width }, (_, i) => r[i] ?? '').join(' | ')} |`;
-    return [
-      `*(${head})*`,
-      [line(['Годы', 'Место', 'Пояснение']), `|${' --- |'.repeat(width)}`, ...list.map(line)].join('\n'),
-    ];
-  };
-  return [...table('образование', rows.edu), ...table('практика', rows.work)];
+    out.push(`*(${head})*`);
+    out.push([line(['Годы', 'Место', 'Пояснение']), `|${' --- |'.repeat(width)}`, ...rows.map(line)].join('\n'));
+  }
+  return out;
 }
 
 /** Markdown-блоки узла (массив готовых блоков-строк). */
@@ -165,7 +167,7 @@ function blocks(node) {
 
   const tag = node.nodeName;
 
-  if (hasClass(node, 'cv__grid')) return cvTables(node);
+  if (hasClass(node, 'cv__cols')) return cvTables(node);
 
   // подзаголовки внутри «Обо мне» (сам таймлайн и блок сертификатов) — на сайте
   // это mono-подписи, в документе им честнее быть заголовками

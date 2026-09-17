@@ -209,47 +209,32 @@ const reviewMore = [
   },
 ];
 
-// 14. Обо мне — таймлайн образования и практики.
-// Шкала одна на оба ряда: КОЛОНКА СЕТКИ = ОДИН ГОД из [CV_FROM, CV_TO].
-// Поэтому учёба и работа стоят на своих годах и видно, что они шли параллельно.
-//
-// lane — «этаж». Год занимает ~70px, и когда события идут подряд (2010 → 2011,
-// 2021 → 2022), подпись в такую колонку не влезает: она шире своей ячейки и
-// наезжает на соседа. Соседей разводим по этажам — этаж 1 стоит вплотную к оси,
-// этаж 2 отодвинут от неё. Если добавляете запись — проверьте, не встала ли она
-// ближе трёх лет к соседу по этажу.
-const CV_FROM = 1997;
-const CV_TO = 2026;
-const CV_COLS = CV_TO - CV_FROM + 1;
-
+// 14. Обо мне — образование и практика, простой хронологический список.
+// Было: таймлайн по годам-колонкам с «этажами» для непересекающихся подписей —
+// на телефоне карточки стояли вразнобой (то выше оси, то ниже, даты обрезались
+// на сгибе экрана), Оксана попросила сделать последовательно. Теперь просто
+// два списка сверху вниз в хронологическом порядке — читать нечего разгадывать.
 const cvEdu = [
-  { from: 1997, to: 2002, lane: 1, place: 'Сибирский государственный медицинский университет', note: 'лечебный факультет' },
-  { from: 2002, to: 2004, lane: 2, place: 'МГМСУ', note: '«Лечебное дело»' },
-  { from: 2004, to: 2006, lane: 1, place: 'РМАПО', note: 'ординатура по дерматовенерологии' },
-  { from: 2010, to: 2011, lane: 1, place: 'МГМСУ', note: 'интернатура по хирургии' },
-  { from: 2011, to: 2012, lane: 2, place: 'МИУВ МГУПП', note: 'профессиональная переподготовка по косметологии' },
-  { from: 2013, to: 2013, lane: 1, place: 'ИППО ФМБЦ им. А. И. Бурназяна', note: 'подготовка по физиотерапии' },
-  { from: 2022, to: 2022, lane: 1, place: 'Организация здравоохранения', note: 'переподготовка по общественному здоровью' },
+  { from: 1997, to: 2002, place: 'Сибирский государственный медицинский университет', note: 'лечебный факультет' },
+  { from: 2002, to: 2004, place: 'МГМСУ', note: '«Лечебное дело»' },
+  { from: 2004, to: 2006, place: 'РМАПО', note: 'ординатура по дерматовенерологии' },
+  { from: 2010, to: 2011, place: 'МГМСУ', note: 'интернатура по хирургии' },
+  { from: 2011, to: 2012, place: 'МИУВ МГУПП', note: 'профессиональная переподготовка по косметологии' },
+  { from: 2013, to: 2013, place: 'ИППО ФМБЦ им. А. И. Бурназяна', note: 'подготовка по физиотерапии' },
+  { from: 2022, to: 2022, place: 'Организация здравоохранения', note: 'переподготовка по общественному здоровью' },
 ];
 
 const cvWork = [
-  { from: 2004, to: 2011, lane: 1, place: 'Врач-косметолог' },
-  { from: 2011, to: 2018, lane: 1, place: 'Клиника антиэйджинга', note: 'врач-косметолог, физиотерапевт, заведующая отделением эстетики тела' },
-  { from: 2018, to: 2021, lane: 1, place: 'Сеть клиник «Атлас»' },
-  { from: 2021, to: 2022, lane: 2, place: '«Олимп Клиник»' },
-  { from: 2022, to: CV_TO, lane: 1, place: 'Сеть клиник «Атлас»', now: true },
+  { from: 2004, to: 2011, place: 'Врач-косметолог' },
+  { from: 2011, to: 2018, place: 'Клиника антиэйджинга', note: 'врач-косметолог, физиотерапевт, заведующая отделением эстетики тела' },
+  { from: 2018, to: 2021, place: 'Сеть клиник «Атлас»' },
+  { from: 2021, to: 2022, place: '«Олимп Клиник»' },
+  { from: 2022, to: 2026, place: 'Сеть клиник «Атлас»', now: true },
 ];
 
 // Подпись годов: точечное событие — один год, текущее место работы — «сейчас».
 const cvYears = (o: { from: number; to: number; now?: boolean }) =>
   o.now ? `${o.from} — сейчас` : o.from === o.to ? `${o.from}` : `${o.from}–${o.to}`;
-
-// Номер колонки года (сетка считает колонки с единицы) и длина в колонках.
-const cvCol = (year: number) => year - CV_FROM + 1;
-const cvSpan = (o: { from: number; to: number }) => Math.max(1, o.to - o.from);
-
-// Точки на оси — годы, с которых начинается запись в любом из рядов.
-const cvDots = [...new Set([...cvEdu, ...cvWork].map((o) => o.from))].sort((a, b) => a - b);
 
 // ================= ГАЛЕРЕЯ =================
 // Две съёмки идут блоками, а не вперемешку: сначала клиника «Атлас»
@@ -945,53 +930,36 @@ const gallery = [
       </div>
     </div>
 
-    <!-- Таймлайн живёт ВНЕ .container: слева встаёт по сетке, справа уходит
-         в край экрана — обрез и есть приглашение тянуть. -->
-    <div class="cv" data-cv>
+    <div class="cv">
       <div class="container cv__head">
         <span class="mono">Образование и практика</span>
-        <span class="cv__hint mono" aria-hidden="true">Тяните вбок →</span>
       </div>
 
-      <div class="cv__stage">
-        <div
-          class="cv__scroll"
-          data-cv-scroll
-          tabindex="0"
-          role="group"
-          aria-label="Таймлайн образования и практики, 1997–2026"
-        >
-          <div class="cv__grid" style={`grid-template-columns: repeat(${CV_COLS}, var(--cv-year))`}>
+      <div class="container cv__cols">
+        <div class="cv__col">
+          <h3 class="cv__col-title mono">Образование</h3>
+          <ul class="cv__list">
             {cvEdu.map((o) => (
-              <div
-                class="cv__item cv__item--edu"
-                style={`--col: ${cvCol(o.from)}; --span: ${cvSpan(o)}; --row: ${3 - o.lane}`}
-              >
-                <span class="cv__years mono">{cvYears(o)}</span>
-                <span class="cv__place">{o.place}</span>
-                <span class="cv__note">{o.note}</span>
-              </div>
-            ))}
-
-            <div class="cv__axis" aria-hidden="true"></div>
-            {cvDots.map((y) => (
-              <span class="cv__dot" style={`--col: ${cvCol(y)}`} aria-hidden="true"></span>
-            ))}
-
-            {cvWork.map((o) => (
-              <div
-                class="cv__item cv__item--work"
-                style={`--col: ${cvCol(o.from)}; --span: ${cvSpan(o)}; --row: ${3 + o.lane}`}
-              >
+              <li class="cv__row">
                 <span class="cv__years mono">{cvYears(o)}</span>
                 <span class="cv__place">{o.place}</span>
                 {o.note && <span class="cv__note">{o.note}</span>}
-              </div>
+              </li>
             ))}
-
-          </div>
+          </ul>
         </div>
-        <div class="cv__fade" aria-hidden="true"></div>
+        <div class="cv__col">
+          <h3 class="cv__col-title mono">Практика</h3>
+          <ul class="cv__list">
+            {cvWork.map((o) => (
+              <li class="cv__row">
+                <span class="cv__years mono">{cvYears(o)}</span>
+                <span class="cv__place">{o.place}</span>
+                {o.note && <span class="cv__note">{o.note}</span>}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
 
       <div class="container cv__certs">
@@ -1101,6 +1069,17 @@ const gallery = [
           </div>
 
           <div class="clinic__links">
+            <!-- Личные каналы Оксаны — тоже способ записаться: пациент пишет
+                 ей напрямую, а не только звонит в клинику. Те же ссылки,
+                 что в «Где я ещё пишу» (.social). -->
+            <a class="clinic__link" href="https://t.me/krasotanasspaset" target="_blank" rel="noopener">
+              <span>Записаться в Telegram</span>
+              <span class="mono">t.me/krasotanasspaset</span>
+            </a>
+            <a class="clinic__link" href="https://max.ru/join/9kvqhWm2_u6FIFrfRDLo5X-X9fDpg_051CfYLN3_Fiw" target="_blank" rel="noopener">
+              <span>Записаться в MAX</span>
+              <span class="mono">max.ru</span>
+            </a>
             <a class="clinic__link" href="https://t.me/atlas_esthetics" target="_blank" rel="noopener">
               <span>Telegram клиники</span>
               <span class="mono">@atlas_esthetics</span>
@@ -2157,112 +2136,40 @@ const gallery = [
     line-height: 1.3;
   }
 
-  /* ---------- Таймлайн образования и практики ----------
-     Сетка: одна колонка = один год. Запись занимает свои годы
-     (--col — год начала, --span — длительность), но подпись шире ячейки и
-     свободно вылезает вправо — поэтому соседей по годам разводим по этажам
-     (--lane), см. комментарий у данных во фронтматтере. */
+  /* ---------- Образование и практика: хронологический список ----------
+     Было: сетка-таймлайн по годам-колонкам с «этажами» для непересекающихся
+     подписей — на телефоне карточки стояли вразнобой (то выше оси, то ниже,
+     даты резались на сгибе экрана) и требовали тянуть вбок без явной
+     подсказки, что там вообще можно скроллить. Оксана: «нужно сделать
+     последовательно». Теперь два столбца, каждый сверху вниз в хронологии —
+     читать значит просто листать взглядом, без прокрутки и наложений. */
   .cv {
-    /* Ширина года — главная ручка длины ленты. 30 лет × 72px ≈ 2160px,
-       то есть ~1,7 экрана на вьюпорте 1280. Диапазон кручения: 44–90px. */
-    --cv-year: clamp(44px, 5.6vw, 72px);
-    /* Ширина подписи. Потолок 196px не случайный: 2010 и 2013 стоят на одном
-       этаже в трёх годах друг от друга (216px), карточка шире оставит между
-       ними щель в пару пикселей. Поднимаете потолок — разводите их по этажам. */
-    --cv-card: clamp(150px, 15vw, 196px);
     margin-top: clamp(40px, 5vw, 72px);
   }
   .cv__head {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 20px;
     margin-bottom: 20px;
   }
-  /* Подсказка и затухание гаснут, когда лента домотана до конца.
-     Класс висит на корне .cv: подсказка живёт в шапке, а не внутри .cv__stage,
-     и селектор от сцены до неё не достаёт. */
-  .cv__hint {
-    transition: opacity 0.3s var(--ease);
-  }
-  .cv.is-end .cv__hint {
-    opacity: 0;
-  }
-
-  .cv__stage {
-    position: relative;
-  }
-  .cv__scroll {
-    overflow-x: auto;
-    overflow-y: hidden;
-    scrollbar-width: thin;
-    cursor: grab;
-    /* Левый край ленты встаёт по сетке .container, правый уходит в край экрана.
-       Считаем от 100% блока, а не от 100vw: вьюпортные единицы включают
-       полосу прокрутки и лента разъезжается с контентом на пару пикселей. */
-    padding-left: max(var(--gutter), calc((100% - var(--page-max)) / 2 + var(--gutter)));
-    padding-right: var(--gutter);
-    padding-block: 4px;
-  }
-  .cv__scroll.is-dragging {
-    cursor: grabbing;
-    scroll-behavior: auto;
-  }
-  .cv__scroll:focus-visible {
-    outline: 2px solid var(--lime-2);
-    outline-offset: 4px;
-  }
-  .cv__grid {
+  .cv__cols {
     display: grid;
-    /* 1–2 — образование (этаж 2 выше), 3 — ось, 4–5 — практика */
-    grid-template-rows: auto auto 14px auto auto;
-    row-gap: 10px;
-    width: max-content;
-    padding-right: 24px; /* хвост после 2026-го, чтобы ось не упиралась в обрез */
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(28px, 4vw, 56px);
   }
-
-  /* Ось и точки событий */
-  .cv__axis {
-    grid-row: 3;
-    grid-column: 1 / -1;
-    align-self: center;
-    height: 1px;
-    background: var(--sage);
+  .cv__col-title {
+    font-size: var(--text-card-title);
+    letter-spacing: var(--track-heading);
+    margin-bottom: 16px;
   }
-  .cv__dot {
-    grid-row: 3;
-    grid-column: var(--col);
-    justify-self: start;
-    align-self: center;
-    width: 9px;
-    height: 9px;
-    margin-left: -4px;
-    border-radius: 2px;
-    background: var(--lime-2);
+  .cv__list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
   }
-
-  /* Запись таймлайна */
-  .cv__item {
-    grid-column: var(--col) / span var(--span);
+  .cv__row {
     display: flex;
     flex-direction: column;
     gap: 4px;
-    /* Запись не уже --cv-card, но длинные периоды растягиваются на свои годы:
-       так длительность видно шириной подписи, без отдельной полосы.
-       −16px — зазор, чтобы соседние периоды не смыкались вплотную. */
-    width: max(var(--cv-card), calc(var(--span) * var(--cv-year) - 16px));
     padding-left: 12px;
     border-left: 1px solid var(--sage);
-  }
-  /* Ряд считаем в шаблоне, а не через calc() в grid-row: номер линии сетки —
-     это <integer>, и calc() там поддержан не везде. */
-  .cv__item--edu {
-    grid-row: var(--row);
-    align-self: end;
-  }
-  .cv__item--work {
-    grid-row: var(--row);
-    align-self: start;
   }
   .cv__years {
     color: var(--ink);
@@ -2275,24 +2182,9 @@ const gallery = [
     font-size: 0.85rem;
     line-height: 1.25;
   }
-  /* Затухание у правого обреза — «лента продолжается» */
-  .cv__fade {
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    width: clamp(60px, 8vw, 140px);
-    background: linear-gradient(to left, var(--bone) 20%, transparent);
-    pointer-events: none;
-    opacity: 1;
-    transition: opacity 0.3s var(--ease);
-  }
-  .cv.is-end .cv__fade {
-    opacity: 0;
-  }
 
   .cv__certs {
-    margin-top: clamp(12px, 1.6vw, 20px);
+    margin-top: var(--block-gap);
   }
   .cv__certs-head {
     display: block;
@@ -2638,6 +2530,7 @@ const gallery = [
     .social__inner,
     .about__row,
     .care__cols,
+    .cv__cols,
     .clinic__inner {
       grid-template-columns: 1fr;
     }
@@ -2691,11 +2584,6 @@ const gallery = [
     .reels__card {
       flex: 0 0 min(70%, 300px);
       scroll-snap-align: start;
-    }
-    .cv__head {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 8px;
     }
     /* 28 кадров в две колонки — это семь экранов вертикальной колбасы: мозаика
        на телефоне не работает. Поэтому галерея превращается в ленту: высота
@@ -3031,90 +2919,6 @@ const gallery = [
     });
   }
 
-  // Горизонтальные ленты: таймлайн «Обо мне» и карточки прессы. Механика одна —
-  // колесо двигает вбок, мышь тянет, в конце гаснут подсказка и градиент
-  // (класс is-end на корне блока), поэтому живёт одной функцией на обе.
-  const hookRail = (rail: HTMLElement | null, root: HTMLElement | null) => {
-    if (!rail) return;
-
-    const atEnd = () => {
-      const max = rail.scrollWidth - rail.clientWidth;
-      // max <= 1 — лента целиком влезла в экран, тянуть нечего
-      return max <= 1 || rail.scrollLeft >= max - 8;
-    };
-    const updateEnd = () => root?.classList.toggle('is-end', atEnd());
-
-    rail.addEventListener('scroll', updateEnd, { passive: true });
-    window.addEventListener('resize', updateEnd);
-    updateEnd();
-
-    // Вертикальное колесо мыши двигает ленту вбок, но только пока внутри есть
-    // куда ехать: на краях отдаём событие странице, иначе скролл «залипает».
-    rail.addEventListener(
-      'wheel',
-      (e) => {
-        if (Math.abs(e.deltaX) >= Math.abs(e.deltaY)) return;
-        const max = rail.scrollWidth - rail.clientWidth;
-        const canLeft = rail.scrollLeft > 0 && e.deltaY < 0;
-        const canRight = rail.scrollLeft < max - 5 && e.deltaY > 0;
-        if (canLeft || canRight) {
-          e.preventDefault();
-          rail.scrollLeft += e.deltaY;
-        }
-      },
-      { passive: false }
-    );
-
-    // Тянуть мышью. Порог в 4px — чтобы обычный клик не считался перетаскиванием.
-    let down = false;
-    let startX = 0;
-    let startScroll = 0;
-    let moved = false;
-
-    rail.addEventListener('pointerdown', (e) => {
-      if (e.pointerType !== 'mouse') return; // палец и так скроллит нативно
-      down = true;
-      moved = false;
-      startX = e.clientX;
-      startScroll = rail.scrollLeft;
-    });
-
-    rail.addEventListener('pointermove', (e) => {
-      if (!down) return;
-      const dx = e.clientX - startX;
-      if (!moved && Math.abs(dx) < 4) return;
-      if (!moved) {
-        moved = true;
-        rail.classList.add('is-dragging');
-        rail.setPointerCapture(e.pointerId);
-      }
-      e.preventDefault();
-      rail.scrollLeft = startScroll - dx;
-    });
-
-    const endDrag = (e: PointerEvent) => {
-      if (!down) return;
-      down = false;
-      rail.classList.remove('is-dragging');
-      if (rail.hasPointerCapture(e.pointerId)) rail.releasePointerCapture(e.pointerId);
-    };
-    rail.addEventListener('pointerup', endDrag);
-    rail.addEventListener('pointercancel', endDrag);
-
-    // Карточка ленты — ссылка: после перетаскивания гасим клик, иначе любая
-    // протяжка мышью уводит на сайт издания.
-    rail.addEventListener(
-      'click',
-      (e) => {
-        if (moved) {
-          e.preventDefault();
-          e.stopPropagation();
-        }
-      },
-      true
-    );
-  };
-
   // Фоновые видео секций: грузим, только когда секция подъезжает к экрану.
   // rootMargin даёт запас в пол-экрана, чтобы ролик успел стартовать
   // до того, как его увидят, и место постера не мигнуло пустотой.
@@ -3248,13 +3052,6 @@ const gallery = [
       else if (ios) ios.call(video);
     });
   });
-
-  // 6. Обо мне — таймлайн образования и практики
-  hookRail(
-    document.querySelector<HTMLElement>('[data-cv-scroll]'),
-    document.querySelector<HTMLElement>('[data-cv]')
-  );
-  // Пресса на главной ленту больше не использует — там сцена [data-mscroll]
 
   // ================= ЛЕНТА ГАЛЕРЕИ (телефон) =================
   // На узких экранах мозаика превращается в горизонтальную ленту. Градиент
