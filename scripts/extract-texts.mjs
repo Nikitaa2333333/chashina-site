@@ -132,19 +132,21 @@ const hasBlockChildren = (node) =>
       && !skip(c),
   );
 
-/** «Образование и практика»: два списка (.cv__col) → две читаемые таблицы. */
-function cvTables(cols) {
+/** «Образование и практика»: два рельса (.cv__rail-group) → две читаемые таблицы. */
+function cvTables(rails) {
   const out = [];
-  for (const col of cols.childNodes ?? []) {
-    if (!hasClass(col, 'cv__col')) continue;
-    const title = (col.childNodes ?? []).find((c) => hasClass(c, 'cv__col-title'));
-    const list = (col.childNodes ?? []).find((c) => hasClass(c, 'cv__list'));
+  for (const group of rails.childNodes ?? []) {
+    if (!hasClass(group, 'cv__rail-group')) continue;
+    const title = (group.childNodes ?? []).find((c) => hasClass(c, 'cv__rail-title'));
+    const rail = (group.childNodes ?? []).find((c) => hasClass(c, 'cv__rail'));
+    const track = (rail?.childNodes ?? []).find((c) => hasClass(c, 'cv__track'));
     const head = title ? inline(title).replace(/\s+/g, ' ').trim().toLowerCase() : '';
-    const rows = (list?.childNodes ?? [])
-      .filter((row) => hasClass(row, 'cv__row'))
-      .map((row) =>
-        (row.childNodes ?? [])
-          .filter((c) => c.nodeName === 'span')
+    const rows = (track?.childNodes ?? [])
+      .filter((stop) => hasClass(stop, 'cv__stop'))
+      .map((stop) =>
+        (stop.childNodes ?? [])
+          // точка на рельсе — тот же span, но декоративный (aria-hidden) — skip() её и режет
+          .filter((c) => c.nodeName === 'span' && !skip(c))
           .map((c) => inline(c).replace(/\s+/g, ' ').trim())
       )
       .filter((cells) => cells.some(Boolean));
@@ -167,7 +169,7 @@ function blocks(node) {
 
   const tag = node.nodeName;
 
-  if (hasClass(node, 'cv__cols')) return cvTables(node);
+  if (hasClass(node, 'cv__rails')) return cvTables(node);
 
   // подзаголовки внутри «Обо мне» (сам таймлайн и блок сертификатов) — на сайте
   // это mono-подписи, в документе им честнее быть заголовками

@@ -935,30 +935,36 @@ const gallery = [
         <span class="mono">Образование и практика</span>
       </div>
 
-      <div class="container cv__cols">
-        <div class="cv__col">
-          <h3 class="cv__col-title mono">Образование</h3>
-          <ul class="cv__list">
-            {cvEdu.map((o) => (
-              <li class="cv__row">
-                <span class="cv__years mono">{cvYears(o)}</span>
-                <span class="cv__place">{o.place}</span>
-                {o.note && <span class="cv__note">{o.note}</span>}
-              </li>
-            ))}
-          </ul>
+      <div class="cv__rails">
+        <div class="cv__rail-group">
+          <span class="container cv__rail-title mono">Образование</span>
+          <div class="cv__rail" data-cv-rail tabindex="0" role="group" aria-label="Образование, хронология, 1997–2022">
+            <div class="cv__track">
+              {cvEdu.map((o) => (
+                <div class="cv__stop">
+                  <span class="cv__dot" aria-hidden="true"></span>
+                  <span class="cv__years mono">{cvYears(o)}</span>
+                  <span class="cv__place">{o.place}</span>
+                  {o.note && <span class="cv__note">{o.note}</span>}
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
-        <div class="cv__col">
-          <h3 class="cv__col-title mono">Практика</h3>
-          <ul class="cv__list">
-            {cvWork.map((o) => (
-              <li class="cv__row">
-                <span class="cv__years mono">{cvYears(o)}</span>
-                <span class="cv__place">{o.place}</span>
-                {o.note && <span class="cv__note">{o.note}</span>}
-              </li>
-            ))}
-          </ul>
+        <div class="cv__rail-group">
+          <span class="container cv__rail-title mono">Практика</span>
+          <div class="cv__rail" data-cv-rail tabindex="0" role="group" aria-label="Практика, хронология, 2004 — сейчас">
+            <div class="cv__track">
+              {cvWork.map((o) => (
+                <div class="cv__stop">
+                  <span class="cv__dot" aria-hidden="true"></span>
+                  <span class="cv__years mono">{cvYears(o)}</span>
+                  <span class="cv__place">{o.place}</span>
+                  {o.note && <span class="cv__note">{o.note}</span>}
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1068,18 +1074,24 @@ const gallery = [
             </div>
           </div>
 
+          <!-- Запись — через ботов клиники, отдельно от общих контактов:
+               это не «ещё один канал связи», а прямой путь записаться
+               самостоятельно, без звонка администратору. -->
+          <div class="clinic__book">
+            <span class="clinic__book-lead">Записаться можно через бота в MAX или Telegram.</span>
+            <div class="clinic__links">
+              <a class="clinic__link" href="https://max.ru/id7730699137_bot" target="_blank" rel="noopener">
+                <span>Записаться в MAX</span>
+                <span class="mono">@AtlasClinicOfficialBot</span>
+              </a>
+              <a class="clinic__link" href="https://telegram.me/AtlasClinicOfficialBot" target="_blank" rel="noopener">
+                <span>Записаться в Telegram</span>
+                <span class="mono">@AtlasClinicOfficialBot</span>
+              </a>
+            </div>
+          </div>
+
           <div class="clinic__links">
-            <!-- Личные каналы Оксаны — тоже способ записаться: пациент пишет
-                 ей напрямую, а не только звонит в клинику. Те же ссылки,
-                 что в «Где я ещё пишу» (.social). -->
-            <a class="clinic__link" href="https://t.me/krasotanasspaset" target="_blank" rel="noopener">
-              <span>Записаться в Telegram</span>
-              <span class="mono">t.me/krasotanasspaset</span>
-            </a>
-            <a class="clinic__link" href="https://max.ru/join/9kvqhWm2_u6FIFrfRDLo5X-X9fDpg_051CfYLN3_Fiw" target="_blank" rel="noopener">
-              <span>Записаться в MAX</span>
-              <span class="mono">max.ru</span>
-            </a>
             <a class="clinic__link" href="https://t.me/atlas_esthetics" target="_blank" rel="noopener">
               <span>Telegram клиники</span>
               <span class="mono">@atlas_esthetics</span>
@@ -2136,40 +2148,86 @@ const gallery = [
     line-height: 1.3;
   }
 
-  /* ---------- Образование и практика: хронологический список ----------
-     Было: сетка-таймлайн по годам-колонкам с «этажами» для непересекающихся
-     подписей — на телефоне карточки стояли вразнобой (то выше оси, то ниже,
-     даты резались на сгибе экрана) и требовали тянуть вбок без явной
-     подсказки, что там вообще можно скроллить. Оксана: «нужно сделать
-     последовательно». Теперь два столбца, каждый сверху вниз в хронологии —
-     читать значит просто листать взглядом, без прокрутки и наложений. */
+  /* ---------- Образование и практика: таймлайн-рельс, один ряд ----------
+     Было: сетка по годам-колонкам с «этажами» для непересекающихся подписей —
+     близкие по времени события почти сталкивались, а на телефоне вся эта
+     конструкция стояла вразнобой. Пробовали и плоский список — Оксане
+     показалось скучно, попросила вернуть таймлайн.
+     Теперь — два независимых горизонтальных рельса (свой у «Образования»,
+     свой у «Практики»): точка-год-место-пояснение через фиксированный шаг,
+     БЕЗ привязки ширины шага к реальной длительности периода — поэтому
+     два события в один год и два события через десять лет разведены
+     одинаково, наложение исключено конструктивно, а не подгонкой чисел. */
   .cv {
     margin-top: clamp(40px, 5vw, 72px);
   }
   .cv__head {
     margin-bottom: 20px;
   }
-  .cv__cols {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(28px, 4vw, 56px);
-  }
-  .cv__col-title {
-    font-size: var(--text-card-title);
-    letter-spacing: var(--track-heading);
-    margin-bottom: 16px;
-  }
-  .cv__list {
+  .cv__rails {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: clamp(28px, 4vw, 44px);
   }
-  .cv__row {
+  .cv__rail-title {
+    display: block;
+    margin-bottom: 14px;
+  }
+  .cv__rail {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    /* Левый край рельса встаёт по сетке .container, правый уходит в край
+       экрана — обрез и есть приглашение тянуть, как у прежнего таймлайна. */
+    padding-left: max(var(--gutter), calc((100% - var(--page-max)) / 2 + var(--gutter)));
+    padding-right: var(--gutter);
+  }
+  .cv__rail::-webkit-scrollbar {
+    display: none;
+  }
+  .cv__rail:focus-visible {
+    outline: 2px solid var(--lime-2);
+    outline-offset: 4px;
+  }
+  .cv__track {
+    position: relative;
+    display: flex;
+    width: max-content;
+    padding-top: 22px;
+  }
+  /* Линия рельса — одна на всю ленту, за точками */
+  .cv__track::before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--sage);
+  }
+  .cv__stop {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 4px;
-    padding-left: 12px;
-    border-left: 1px solid var(--sage);
+    width: clamp(168px, 15vw, 216px);
+    padding-right: 20px;
+  }
+  .cv__dot {
+    position: absolute;
+    top: -22px;
+    left: 0;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--lime-2);
+    transition: transform 0.25s var(--ease), background 0.25s var(--ease);
+  }
+  .cv__stop:hover .cv__dot,
+  .cv__stop:focus-within .cv__dot {
+    transform: scale(1.4);
+    background: var(--lime);
   }
   .cv__years {
     color: var(--ink);
@@ -2287,6 +2345,25 @@ const gallery = [
   .clinic__link:hover {
     border-color: var(--lime);
     background: rgba(206, 247, 158, 0.06);
+  }
+  /* Запись — свой блок над общими контактами: подводка + те же чипы,
+     но с лаймовой рамкой сразу (не только по ховеру) — это не «ещё один
+     способ связи», а самостоятельное действие. */
+  .clinic__book {
+    margin-top: clamp(24px, 3vw, 36px);
+  }
+  .clinic__book-lead {
+    display: block;
+    margin-bottom: 12px;
+  }
+  .clinic__book .clinic__links {
+    margin-top: 0;
+  }
+  .clinic__book .clinic__link {
+    border-color: var(--lime);
+  }
+  .clinic__book .clinic__link:hover {
+    background: rgba(206, 247, 158, 0.1);
   }
   .clinic__legal {
     margin-top: clamp(24px, 3vw, 36px);
@@ -2530,7 +2607,6 @@ const gallery = [
     .social__inner,
     .about__row,
     .care__cols,
-    .cv__cols,
     .clinic__inner {
       grid-template-columns: 1fr;
     }
