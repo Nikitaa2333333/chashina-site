@@ -132,27 +132,31 @@ const hasBlockChildren = (node) =>
       && !skip(c),
   );
 
-/** Таймлайн «Образование и практика»: сетка спанов → две читаемые таблицы. */
-function cvTables(grid) {
-  const rows = { edu: [], work: [] };
-  for (const item of grid.childNodes ?? []) {
-    if (!hasClass(item, 'cv__item')) continue;
-    const cells = (item.childNodes ?? [])
-      .filter((c) => c.nodeName === 'span')
-      .map((c) => inline(c).replace(/\s+/g, ' ').trim());
-    if (!cells.some(Boolean)) continue;
-    rows[hasClass(item, 'cv__item--edu') ? 'edu' : 'work'].push(cells);
-  }
-  const table = (head, list) => {
-    if (!list.length) return [];
-    const width = Math.max(3, ...list.map((r) => r.length));
+/** «Образование и практика»: два рельса (.cv__rail-group) → две читаемые таблицы. */
+function cvTables(rails) {
+  const out = [];
+  for (const group of rails.childNodes ?? []) {
+    if (!hasClass(group, 'cv__rail-group')) continue;
+    const title = (group.childNodes ?? []).find((c) => hasClass(c, 'cv__rail-title'));
+    const rail = (group.childNodes ?? []).find((c) => hasClass(c, 'cv__rail'));
+    const track = (rail?.childNodes ?? []).find((c) => hasClass(c, 'cv__track'));
+    const head = title ? inline(title).replace(/\s+/g, ' ').trim().toLowerCase() : '';
+    const rows = (track?.childNodes ?? [])
+      .filter((stop) => hasClass(stop, 'cv__stop'))
+      .map((stop) =>
+        (stop.childNodes ?? [])
+          // точка на рельсе — тот же span, но декоративный (aria-hidden) — skip() её и режет
+          .filter((c) => c.nodeName === 'span' && !skip(c))
+          .map((c) => inline(c).replace(/\s+/g, ' ').trim())
+      )
+      .filter((cells) => cells.some(Boolean));
+    if (!rows.length) continue;
+    const width = Math.max(3, ...rows.map((r) => r.length));
     const line = (r) => `| ${Array.from({ length: width }, (_, i) => r[i] ?? '').join(' | ')} |`;
-    return [
-      `*(${head})*`,
-      [line(['Годы', 'Место', 'Пояснение']), `|${' --- |'.repeat(width)}`, ...list.map(line)].join('\n'),
-    ];
-  };
-  return [...table('образование', rows.edu), ...table('практика', rows.work)];
+    out.push(`*(${head})*`);
+    out.push([line(['Годы', 'Место', 'Пояснение']), `|${' --- |'.repeat(width)}`, ...rows.map(line)].join('\n'));
+  }
+  return out;
 }
 
 /** Markdown-блоки узла (массив готовых блоков-строк). */
@@ -165,7 +169,7 @@ function blocks(node) {
 
   const tag = node.nodeName;
 
-  if (hasClass(node, 'cv__grid')) return cvTables(node);
+  if (hasClass(node, 'cv__rails')) return cvTables(node);
 
   // подзаголовки внутри «Обо мне» (сам таймлайн и блок сертификатов) — на сайте
   // это mono-подписи, в документе им честнее быть заголовками
