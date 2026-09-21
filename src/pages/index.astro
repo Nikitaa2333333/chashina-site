@@ -4,6 +4,9 @@ import Header from '../components/Header.astro';
 import BtnPair from '../components/BtnPair.astro';
 import Footer from '../components/Footer.astro';
 import pressAll from '../data/press.json';
+import CvAccordion from '../components/CvAccordion.astro';
+import VideoCard from '../components/VideoCard.astro';
+import { cvEdu, cvExtra, cvWork } from '../data/cv';
 import { asset } from '../lib/asset';
 
 // 4. Как строится работа — три ступени.
@@ -45,6 +48,26 @@ const steps = [
 // 11. Видео — вертикальные ролики из инстаграма Оксаны.
 // Порядок пока произвольный (файлы пришли без тем), подписей нет —
 // карточка это сам ролик.
+// Разборы процедур: горизонтальные ролики Оксаны из клиники.
+// Исходники были 178 и 190 МБ (9.6 Мбит/с — мастер для монтажа), пережаты
+// в crf 24: на нём мелкие цифры на экране аппарата ещё неотличимы от
+// оригинала, а на crf 28 уже плывут в кашу. Подбиралось сравнением
+// кропов 2:1, не по формуле.
+const demos = [
+  {
+    title: 'Радиоволновой лифтинг',
+    time: '2:30',
+    src: '/video/method-morpheus.mp4',
+    poster: '/video/method-morpheus.webp',
+  },
+  {
+    title: 'Световые и лазерные методики',
+    time: '2:39',
+    src: '/video/method-fotona.mp4',
+    poster: '/video/method-fotona.webp',
+  },
+];
+
 const reels = ['01', '02', '03', '04'].map((n) => ({
   src: `/video/reels/reel-${n}.mp4`,
   poster: `/video/reels/reel-${n}.webp`,
@@ -209,32 +232,20 @@ const reviewMore = [
   },
 ];
 
-// 14. Обо мне — образование и практика, простой хронологический список.
-// Было: таймлайн по годам-колонкам с «этажами» для непересекающихся подписей —
-// на телефоне карточки стояли вразнобой (то выше оси, то ниже, даты обрезались
-// на сгибе экрана), Оксана попросила сделать последовательно. Теперь просто
-// два списка сверху вниз в хронологическом порядке — читать нечего разгадывать.
-const cvEdu = [
-  { from: 1997, to: 2002, place: 'Сибирский государственный медицинский университет', note: 'лечебный факультет' },
-  { from: 2002, to: 2004, place: 'МГМСУ', note: '«Лечебное дело»' },
-  { from: 2004, to: 2006, place: 'РМАПО', note: 'ординатура по дерматовенерологии' },
-  { from: 2010, to: 2011, place: 'МГМСУ', note: 'интернатура по хирургии' },
-  { from: 2011, to: 2012, place: 'МИУВ МГУПП', note: 'профессиональная переподготовка по косметологии' },
-  { from: 2013, to: 2013, place: 'ИППО ФМБЦ им. А. И. Бурназяна', note: 'подготовка по физиотерапии' },
-  { from: 2022, to: 2022, place: 'Организация здравоохранения', note: 'переподготовка по общественному здоровью' },
+// 14. Обо мне — образование и практика, три раскрывающиеся плашки.
+// Третий заход по одному блоку. Был таймлайн по годам-колонкам («много всего,
+// непонятно, как читать, всё накладывается»), потом горизонтальные рельсы —
+// они читались, но три ленты подряд занимали пол-экрана и всегда были
+// развёрнуты. Плашки свёрнуты по умолчанию, кроме первой.
+//
+// Данные и правила их формулировок живут в src/data/cv.ts, разметка —
+// в components/CvAccordion.astro. Тёмная «Практика» идёт последней намеренно:
+// она разбивает ряд из светлых плашек и ставит блоку точку.
+const cvGroups = [
+  { key: 'edu', title: 'Образование', theme: 'paper' as const, list: cvEdu },
+  { key: 'extra', title: 'Дополнительное профильное образование', theme: 'tissue' as const, list: cvExtra },
+  { key: 'work', title: 'Практика', theme: 'ink' as const, list: cvWork },
 ];
-
-const cvWork = [
-  { from: 2004, to: 2011, place: 'Врач-косметолог' },
-  { from: 2011, to: 2018, place: 'Клиника антиэйджинга', note: 'врач-косметолог, физиотерапевт, заведующая отделением эстетики тела' },
-  { from: 2018, to: 2021, place: 'Сеть клиник «Атлас»' },
-  { from: 2021, to: 2022, place: '«Олимп Клиник»' },
-  { from: 2022, to: 2026, place: 'Сеть клиник «Атлас»', now: true },
-];
-
-// Подпись годов: точечное событие — один год, текущее место работы — «сейчас».
-const cvYears = (o: { from: number; to: number; now?: boolean }) =>
-  o.now ? `${o.from} — сейчас` : o.from === o.to ? `${o.from}` : `${o.from}–${o.to}`;
 
 // ================= ГАЛЕРЕЯ =================
 // Две съёмки идут блоками, а не вперемешку: сначала клиника «Атлас»
@@ -521,6 +532,34 @@ const gallery = [
     ))}
   </section>
 
+  <!-- ================= АППАРАТЫ ВЖИВУЮ =================
+       Два ролика Оксаны из клиники, по 2,5 минуты со звуком — их садятся
+       и смотрят, поэтому это отдельная секция с крупными горизонтальными
+       карточками, а не иллюстрация внутри полосы метода.
+       В блок «Видео» их не мешаем: там вертикальные ответы на вопросы,
+       другой жанр — в одном ряду они читались бы случайным набором.
+       Плеер общий с вертикалками (components/VideoCard.astro), грузится
+       только по клику: до него на странице лежат два постера по 30 КБ.
+       ПОДПИСИ — по названиям методов, а не по торговым маркам аппаратов:
+       лид секции выше прямо обещает, что торговых названий здесь нет. -->
+  <section class="section demo">
+    <div class="container">
+      <span class="tag mono">Как это выглядит</span>
+      <h2 class="demo__title">Процедура целиком, от настройки аппарата до финала.</h2>
+      <div class="demo__row">
+        {demos.map((d) => (
+          <figure class="demo__item">
+            <VideoCard src={d.src} poster={d.poster} ratio="landscape" w={1000} h={562} label={`Смотреть: ${d.title}`} />
+            <figcaption class="demo__cap">
+              <span class="demo__name">{d.title}</span>
+              <span class="demo__time mono">{d.time}</span>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
   <!-- ================= 6. ГРАВИТАЦИОННЫЙ ПТОЗ И SMAS ================= -->
   <section class="smas" id="smas">
     <div class="container smas__inner">
@@ -660,7 +699,6 @@ const gallery = [
     </div>
   </section>
 
-  <!-- ================= 12. СОЦСЕТИ ================= -->
   <!-- ================= 10. ДОМАШНИЙ УХОД ================= -->
   <section class="section care" id="care">
     <div class="container">
@@ -705,68 +743,7 @@ const gallery = [
       <h2 class="reels__title">Ответы на вопросы, которые чаще всего задают на приёме.</h2>
       <div class="reels__row">
         {reels.map((r) => (
-          <article class="reels__card">
-            <!-- Постер отдельной картинкой, а не атрибутом poster:
-                 poster грузится вместе со страницей, loading="lazy" — только
-                 когда блок подъезжает к экрану -->
-            <img
-              class="reels__poster"
-              src={r.poster}
-              alt=""
-              width="540"
-              height="960"
-              loading="lazy"
-              decoding="async"
-            />
-            <video
-              class="reels__video"
-              data-reel={r.src}
-              playsinline
-              preload="none"
-            ></video>
-            <button class="reels__play" type="button" aria-label="Смотреть видео">
-              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path d="M8 5v14l11-7z" fill="currentColor" />
-              </svg>
-            </button>
-            <!-- Свой пульт вместо нативного: у браузерного своя палитра
-                 и свои иконки, на фирменной плашке он читается чужим.
-                 Появляется после запуска, прячется вместе с курсором. -->
-            <div class="reels__ui" hidden>
-              <button class="reels__toggle" type="button" aria-label="Пауза">
-                <svg class="reels__i-pause" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                  <path d="M7 5h3v14H7zM14 5h3v14h-3z" fill="currentColor" />
-                </svg>
-                <svg class="reels__i-play" viewBox="0 0 24 24" aria-hidden="true" focusable="false" hidden>
-                  <path d="M8 5v14l11-7z" fill="currentColor" />
-                </svg>
-              </button>
-              <div
-                class="reels__bar"
-                role="slider"
-                tabindex="0"
-                aria-label="Перемотка"
-                aria-valuemin="0"
-                aria-valuemax="100"
-                aria-valuenow="0"
-              >
-                <div class="reels__fill"></div>
-              </div>
-              <button class="reels__sound" type="button" aria-label="Выключить звук">
-                <svg class="reels__i-on" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                  <path d="M4 9v6h4l5 4V5L8 9H4zm12 3a4 4 0 0 0-2-3.5v7A4 4 0 0 0 16 12z" fill="currentColor" />
-                </svg>
-                <svg class="reels__i-off" viewBox="0 0 24 24" aria-hidden="true" focusable="false" hidden>
-                  <path d="M4 9v6h4l5 4V5L8 9H4zm11 .5 1.4-1.4 5 5-1.4 1.4-5-5z" fill="currentColor" />
-                </svg>
-              </button>
-              <button class="reels__full" type="button" aria-label="На весь экран">
-                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                  <path d="M4 9V4h5v2H6v3H4zm11-5h5v5h-2V6h-3V4zM4 15h2v3h3v2H4v-5zm14 0h2v5h-5v-2h3v-3z" fill="currentColor" />
-                </svg>
-              </button>
-            </div>
-          </article>
+          <VideoCard src={r.src} poster={r.poster} ratio="portrait" w={540} h={960} />
         ))}
       </div>
     </div>
@@ -942,37 +919,8 @@ const gallery = [
         <span class="mono">Образование и практика</span>
       </div>
 
-      <div class="cv__rails">
-        <div class="cv__rail-group">
-          <span class="container cv__rail-title mono">Образование</span>
-          <div class="cv__rail" data-cv-rail tabindex="0" role="group" aria-label="Образование, хронология, 1997–2022">
-            <div class="cv__track">
-              {cvEdu.map((o) => (
-                <div class="cv__stop">
-                  <span class="cv__dot" aria-hidden="true"></span>
-                  <span class="cv__years mono">{cvYears(o)}</span>
-                  <span class="cv__place">{o.place}</span>
-                  {o.note && <span class="cv__note">{o.note}</span>}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-        <div class="cv__rail-group">
-          <span class="container cv__rail-title mono">Практика</span>
-          <div class="cv__rail" data-cv-rail tabindex="0" role="group" aria-label="Практика, хронология, 2004 — сейчас">
-            <div class="cv__track">
-              {cvWork.map((o) => (
-                <div class="cv__stop">
-                  <span class="cv__dot" aria-hidden="true"></span>
-                  <span class="cv__years mono">{cvYears(o)}</span>
-                  <span class="cv__place">{o.place}</span>
-                  {o.note && <span class="cv__note">{o.note}</span>}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+      <div class="container">
+        <CvAccordion groups={cvGroups} />
       </div>
 
       <div class="container cv__certs">
@@ -1582,6 +1530,43 @@ const gallery = [
     margin-inline: 0.06em;
   }
 
+  /* ================= АППАРАТЫ ВЖИВУЮ =================
+     Оформление карточки — .reels__card в global.css, общее с вертикалками.
+     Здесь только ряд и подписи. */
+  .demo__title {
+    font-size: var(--text-display);
+    letter-spacing: var(--track-display);
+    line-height: 1.1;
+    max-width: var(--measure-head);
+    margin-top: 12px;
+  }
+  .demo__row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(16px, 1.8vw, 28px);
+    margin-top: var(--block-gap);
+  }
+  /* Подпись под кадром, а не поверх него: ролик смотрят целиком,
+     и плашка с текстом поверх видео мешала бы весь просмотр. */
+  .demo__cap {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--sage);
+  }
+  .demo__name {
+    font-size: var(--text-card-title);
+    letter-spacing: var(--track-heading);
+    line-height: 1.2;
+  }
+  .demo__time {
+    font-size: var(--text-caption);
+    flex: none;
+  }
+
   /* ================= 6. SMAS ================= */
   .smas {
     background: var(--ink);
@@ -1924,142 +1909,6 @@ const gallery = [
     gap: clamp(12px, 1.4vw, 20px);
     margin-top: var(--block-gap);
   }
-  .reels__card {
-    position: relative;
-    aspect-ratio: 9 / 16;
-    border-radius: 20px;
-    overflow: hidden;
-    background: var(--ink);
-  }
-  .reels__poster,
-  .reels__video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-  /* Постер лежит поверх пустого video и уходит, когда ролик запущен */
-  .reels__poster {
-    position: absolute;
-    inset: 0;
-    max-width: none;
-  }
-  .reels__card.is-playing .reels__poster {
-    display: none;
-  }
-  /* Лаймовый чип со стрелкой воспроизведения — тот же приём, что у ArrowChip.
-     Пропадает, когда ролик запущен: дальше управление отдаём нативным controls */
-  .reels__play {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 56px;
-    height: 56px;
-    display: grid;
-    place-items: center;
-    border: 0;
-    border-radius: 8px;
-    background: var(--lime);
-    color: var(--ink);
-    cursor: pointer;
-    transition: background 0.25s var(--ease);
-  }
-  .reels__play:hover {
-    background: var(--lime-2);
-  }
-  .reels__play svg {
-    width: 26px;
-    height: 26px;
-  }
-  .reels__card.is-playing .reels__play {
-    display: none;
-  }
-  /* Пульт: стеклянная плашка внизу карточки — тот же приём, что в шапке
-     и на фото-плашках слайдера. Лайм только в заливке полосы */
-  .reels__ui {
-    position: absolute;
-    left: 10px;
-    right: 10px;
-    bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 10px;
-    border-radius: 12px;
-    background: rgba(34, 47, 48, 0.55);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    opacity: 0;
-    transition: opacity 0.25s var(--ease);
-  }
-  /* Показываем по наведению и на паузе; на тач-экранах ховера нет,
-     поэтому там пульт видно всегда (медиазапрос ниже) */
-  .reels__card:hover .reels__ui,
-  .reels__card:focus-within .reels__ui,
-  .reels__card.is-paused .reels__ui {
-    opacity: 1;
-  }
-  .reels__ui button {
-    flex: none;
-    display: grid;
-    place-items: center;
-    width: 28px;
-    height: 28px;
-    padding: 0;
-    border: 0;
-    border-radius: 6px;
-    background: transparent;
-    color: var(--paper);
-    cursor: pointer;
-    transition: color 0.25s var(--ease);
-  }
-  .reels__ui button:hover {
-    color: var(--lime);
-  }
-  .reels__ui svg {
-    width: 18px;
-    height: 18px;
-  }
-  /* Атрибут hidden — из HTML, и на SVG браузер его не применяет: без этого
-     правила в кнопке видно СРАЗУ обе иконки, и пульт разъезжается в два ряда */
-  .reels__ui svg[hidden] {
-    display: none;
-  }
-  /* Сама полоса 3px, но зона попадания — все 12px высоты элемента,
-     иначе в неё не прицелиться ни мышью, ни пальцем */
-  .reels__bar {
-    flex: 1;
-    height: 12px;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    background: linear-gradient(rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.35))
-      center / 100% 3px no-repeat;
-  }
-  .reels__fill {
-    height: 3px;
-    width: 0;
-    background: var(--lime);
-  }
-  /* На тач-экранах ховера нет — пульт держим на виду */
-  @media (hover: none) {
-    .reels__card.is-playing .reels__ui {
-      opacity: 1;
-    }
-  }
-  /* В полноэкранном режиме карточка перестаёт быть вертикальной плашкой:
-     кадр вписываем целиком, чтобы не срезать края */
-  .reels__card:fullscreen {
-    aspect-ratio: auto;
-    width: 100%;
-    height: 100%;
-    border-radius: 0;
-  }
-  .reels__card:fullscreen .reels__video {
-    object-fit: contain;
-  }
-
   /* ================= 12. СОЦСЕТИ ================= */
   .social {
     background: var(--ink);
@@ -2155,97 +2004,15 @@ const gallery = [
     line-height: 1.3;
   }
 
-  /* ---------- Образование и практика: таймлайн-рельс, один ряд ----------
-     Было: сетка по годам-колонкам с «этажами» для непересекающихся подписей —
-     близкие по времени события почти сталкивались, а на телефоне вся эта
-     конструкция стояла вразнобой. Пробовали и плоский список — Оксане
-     показалось скучно, попросила вернуть таймлайн.
-     Теперь — два независимых горизонтальных рельса (свой у «Образования»,
-     свой у «Практики»): точка-год-место-пояснение через фиксированный шаг,
-     БЕЗ привязки ширины шага к реальной длительности периода — поэтому
-     два события в один год и два события через десять лет разведены
-     одинаково, наложение исключено конструктивно, а не подгонкой чисел. */
+  /* ---------- Образование и практика ----------
+     Разметка и вид плашек — в components/CvAccordion.astro; здесь только
+     посадка блока в секцию «Обо мне». Третий заход по этому блоку: таймлайн
+     по годам-колонкам → горизонтальные рельсы → плашки. */
   .cv {
     margin-top: clamp(40px, 5vw, 72px);
   }
   .cv__head {
     margin-bottom: 20px;
-  }
-  .cv__rails {
-    display: flex;
-    flex-direction: column;
-    gap: clamp(28px, 4vw, 44px);
-  }
-  .cv__rail-title {
-    display: block;
-    margin-bottom: 14px;
-  }
-  .cv__rail {
-    overflow-x: auto;
-    overflow-y: hidden;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-    /* Левый край рельса встаёт по сетке .container, правый уходит в край
-       экрана — обрез и есть приглашение тянуть, как у прежнего таймлайна. */
-    padding-left: max(var(--gutter), calc((100% - var(--page-max)) / 2 + var(--gutter)));
-    padding-right: var(--gutter);
-  }
-  .cv__rail::-webkit-scrollbar {
-    display: none;
-  }
-  .cv__rail:focus-visible {
-    outline: 2px solid var(--lime-2);
-    outline-offset: 4px;
-  }
-  .cv__track {
-    position: relative;
-    display: flex;
-    width: max-content;
-    padding-top: 22px;
-  }
-  /* Линия рельса — одна на всю ленту, за точками */
-  .cv__track::before {
-    content: '';
-    position: absolute;
-    top: 4px;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: var(--sage);
-  }
-  .cv__stop {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    width: clamp(168px, 15vw, 216px);
-    padding-right: 20px;
-  }
-  .cv__dot {
-    position: absolute;
-    top: -22px;
-    left: 0;
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    background: var(--lime-2);
-    transition: transform 0.25s var(--ease), background 0.25s var(--ease);
-  }
-  .cv__stop:hover .cv__dot,
-  .cv__stop:focus-within .cv__dot {
-    transform: scale(1.4);
-    background: var(--lime);
-  }
-  .cv__years {
-    color: var(--ink);
-  }
-  .cv__place {
-    font-size: 0.95rem;
-    line-height: 1.25;
-  }
-  .cv__note {
-    font-size: 0.85rem;
-    line-height: 1.25;
   }
 
   .cv__certs {
@@ -2651,6 +2418,12 @@ const gallery = [
       grid-template-columns: 1fr;
       gap: 12px;
     }
+    /* Два кадра 16:9 в ряд на 390px — это две марки по 170px шириной.
+       В одну колонку кадр занимает всю ширину и его видно. Лентой,
+       как вертикалки, не делаем: ролик тут смотрят, а не пролистывают. */
+    .demo__row {
+      grid-template-columns: 1fr;
+    }
     /* Ролики — лентой со свайпом: вчетвером в ряд они превратились бы
        в марки. Карточка занимает ~70% ширины, чтобы следующая выглядывала */
     .reels__row {
@@ -2663,10 +2436,6 @@ const gallery = [
     }
     .reels__row::-webkit-scrollbar {
       display: none;
-    }
-    .reels__card {
-      flex: 0 0 min(70%, 300px);
-      scroll-snap-align: start;
     }
     /* 28 кадров в две колонки — это семь экранов вертикальной колбасы: мозаика
        на телефоне не работает. Поэтому галерея превращается в ленту: высота

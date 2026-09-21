@@ -1,0 +1,211 @@
+---
+// Блок «Образование и практика»: три раскрывающиеся плашки.
+// До 21.09 тут были горизонтальные рельсы (а до них — таймлайн по
+// годам-колонкам); заказчик выбрал плашки, рельсы удалены вместе со
+// страницей сравнения /cv-2/.
+//
+// В шапке НЕТ порядковых номеров «01/02/03» и счётчика «10 записей» —
+// заказчик забраковал и то, и другое: номера ничего не нумеруют (разделов
+// всегда три и порядок очевиден), счётчик отвечает на вопрос, которого
+// никто не задаёт, а вдвоём они давали в шапке мешанину цифр.
+//
+// Почему <details>, а не свои кнопки: раскрытие с клавиатуры, чтение
+// скринридером и работа без JS достаются даром. JS тут только на анимацию
+// высоты — без него плашки всё равно открываются, просто рывком.
+import { cvYears, cvSpan, type CvEntry } from '../data/cv';
+
+interface Props {
+  groups: { key: string; title: string; theme: 'paper' | 'tissue' | 'ink'; list: CvEntry[] }[];
+}
+const { groups } = Astro.props;
+
+---
+
+<div class="acc">
+  {groups.map((g, i) => (
+    <details class={`acc__item acc__item--${g.theme}`} data-acc open={i === 0}>
+      <summary class="acc__head">
+        <span class="acc__title">{g.title}</span>
+        <span class="acc__span mono">{cvSpan(g.list)}</span>
+        <span class="acc__plus" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M8 1v14M1 8h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </span>
+      </summary>
+
+      <div class="acc__body" data-acc-body>
+        <div class="acc__list">
+          {g.list.map((o) => (
+            <div class="acc__row">
+              <span class="acc__years mono">{cvYears(o)}</span>
+              <span class="acc__place">{o.place}</span>
+              <span class="acc__note">{o.note ?? ''}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </details>
+  ))}
+</div>
+
+<style>
+  /* Три плашки встык внутри одного скруглённого блока: цвета сходятся
+     вплотную, как у панелей-ступеней, но блок целиком читается карточкой.
+     overflow: hidden нужен, чтобы углы срезали фон крайних плашек. */
+  .acc {
+    border-radius: var(--radius-frame);
+    overflow: hidden;
+  }
+  .acc__item--paper  { background: var(--paper); color: var(--ink); }
+  .acc__item--tissue { background: var(--tissue); color: var(--ink); }
+  .acc__item--ink    { background: var(--ink); color: var(--paper); }
+
+  /* ---------- Шапка плашки ---------- */
+  .acc__head {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
+    gap: clamp(14px, 2vw, 28px);
+    padding: clamp(20px, 2.4vw, 30px) clamp(20px, 2.6vw, 36px);
+    cursor: pointer;
+    /* Штатный треугольник <summary> убираем в обоих движках: в вебките он
+       рисуется своим псевдоэлементом и list-style его не берёт. */
+    list-style: none;
+    transition: background 0.4s var(--ease);
+  }
+  .acc__head::-webkit-details-marker { display: none; }
+  .acc__head:focus-visible {
+    outline: 2px solid var(--lime-2);
+    outline-offset: -4px;
+  }
+  .acc__title {
+    font-size: var(--text-card-title);
+    letter-spacing: var(--track-heading);
+    line-height: 1.15;
+  }
+  /* Охват лет — единственная подпись в шапке. Счётчик «10 записей» тут был
+     и убран: посетителю всё равно, сколько строк внутри, а в паре с охватом
+     он давал слипшуюся мешанину цифр. */
+  .acc__span {
+    font-size: var(--text-caption);
+    text-align: right;
+  }
+  /* Плюс — лаймовый квадрат 44×44, тот же приём, что у чипа-стрелки.
+     На раскрытии поворачивается на 45° и становится крестиком: одна фигура
+     на оба состояния, подменять иконку не нужно. */
+  .acc__plus {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-btn);
+    background: var(--lime);
+    color: var(--ink);
+    transition: background 0.45s var(--ease);
+  }
+  /* Крутим САМУ иконку, а не плашку: поворот всего квадрата превращает его
+     в ромб, и вместо аккуратного крестика в углу висит повёрнутая кнопка. */
+  .acc__plus svg {
+    transition: transform 0.45s var(--ease);
+  }
+  .acc__head:hover .acc__plus { background: var(--lime-2); }
+  [open] > .acc__head .acc__plus svg { transform: rotate(45deg); }
+
+  /* ---------- Список ----------
+     Швейцарская таблица: волосяная линия сверху у каждой строки, колонки
+     держат общую сетку на все три плашки, поэтому годы стоят столбиком. */
+  .acc__body {
+    overflow: hidden;
+  }
+  .acc__list {
+    padding: 0 clamp(20px, 2.6vw, 36px) clamp(22px, 2.4vw, 32px);
+  }
+  .acc__row {
+    display: grid;
+    grid-template-columns: minmax(104px, 132px) minmax(0, 1fr) minmax(0, 1.25fr);
+    gap: clamp(14px, 2vw, 28px);
+    align-items: baseline;
+    padding: 14px 0;
+    border-top: 1px solid var(--sage);
+  }
+  .acc__item--ink .acc__row { border-top-color: var(--sea); }
+  .acc__years { font-size: var(--text-caption); }
+  .acc__place { font-size: 1rem; line-height: 1.3; }
+  .acc__note  { font-size: 0.95rem; line-height: 1.35; }
+
+  /* ---------- Телефон ----------
+     Три колонки в 350px превращаются в три узких столбика по два слова,
+     поэтому строка разворачивается вертикально: год, место, пояснение. */
+  @media (max-width: 760px) {
+    /* Ячейки расставлены ПОИМЁННО: на автопотоке плюс заворачивался
+       в первую колонку второго ряда и вставал слева от заголовка. */
+    .acc__head {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: start;
+      column-gap: 14px;
+      row-gap: 4px;
+      padding: 20px;
+    }
+    .acc__title { grid-area: 1 / 1 / 2 / 2; }
+    /* Охват уезжает под заголовок: в одном ряду с ним и плюсом он ужимал
+       заголовок до двух слов в строке, и шапка слипалась в кашу. */
+    .acc__span  { grid-area: 2 / 1 / 3 / 2; text-align: left; }
+    .acc__plus  { grid-area: 1 / 2 / 3 / 3; align-self: start; }
+    .acc__list { padding: 0 20px 22px; }
+    .acc__row {
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+  }
+</style>
+
+<script>
+  // Анимация высоты: <details> сам по себе открывается рывком, а плавность
+  // тут половина смысла. Работаем на Web Animations API, чтобы не гонять
+  // max-height с угаданным потолком.
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (!reduce) {
+    document.querySelectorAll<HTMLDetailsElement>('[data-acc]').forEach((item) => {
+      const head = item.querySelector('summary');
+      const body = item.querySelector<HTMLElement>('[data-acc-body]');
+      if (!head || !body) return;
+
+      let running: Animation | null = null;
+      const opts: KeyframeAnimationOptions = {
+        duration: 420,
+        easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+      };
+
+      head.addEventListener('click', (e) => {
+        // Свой сценарий вместо штатного: при закрытии контент обязан
+        // дожить до конца анимации, поэтому open снимаем только в onfinish.
+        e.preventDefault();
+        running?.cancel();
+
+        if (item.open) {
+          const from = body.offsetHeight;
+          running = body.animate(
+            [{ height: `${from}px`, opacity: 1 }, { height: '0px', opacity: 0 }],
+            opts,
+          );
+          running.onfinish = () => {
+            item.open = false;
+            running = null;
+          };
+        } else {
+          item.open = true;
+          const to = body.scrollHeight;
+          running = body.animate(
+            [{ height: '0px', opacity: 0 }, { height: `${to}px`, opacity: 1 }],
+            opts,
+          );
+          running.onfinish = () => {
+            running = null;
+          };
+        }
+      });
+    });
+  }
+</script>
