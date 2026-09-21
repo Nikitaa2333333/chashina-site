@@ -473,3 +473,14 @@ mark {
 .reels__card:fullscreen .reels__video {
   object-fit: contain;
 }
+
+/* На телефоне ряд вертикальных роликов превращается в ленту со свайпом
+   (правило .reels__row — в index.astro). Карточке там нужна фиксированная
+   доля ширины, иначе четыре флекс-элемента ужимаются в марки по 90px.
+   Горизонтальных карточек это не касается: они лежат в обычной сетке. */
+@media (max-width: 900px) {
+  .reels__card--portrait {
+    flex: 0 0 min(70%, 300px);
+    scroll-snap-align: start;
+  }
+}
