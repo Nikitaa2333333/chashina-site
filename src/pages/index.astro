@@ -4,7 +4,8 @@ import Header from '../components/Header.astro';
 import BtnPair from '../components/BtnPair.astro';
 import Footer from '../components/Footer.astro';
 import pressAll from '../data/press.json';
-import { cvEdu, cvExtra, cvWork, cvYears } from '../data/cv';
+import CvAccordion from '../components/CvAccordion.astro';
+import { cvEdu, cvExtra, cvWork } from '../data/cv';
 import { asset } from '../lib/asset';
 
 // 4. Как строится работа — три ступени.
@@ -210,14 +211,20 @@ const reviewMore = [
   },
 ];
 
-// 14. Обо мне — образование и практика, три горизонтальных рельса.
-// Было: таймлайн по годам-колонкам с «этажами» для непересекающихся подписей —
-// на телефоне карточки стояли вразнобой (то выше оси, то ниже, даты обрезались
-// на сгибе экрана), Оксана попросила сделать последовательно.
+// 14. Обо мне — образование и практика, три раскрывающиеся плашки.
+// Третий заход по одному блоку. Был таймлайн по годам-колонкам («много всего,
+// непонятно, как читать, всё накладывается»), потом горизонтальные рельсы —
+// они читались, но три ленты подряд занимали пол-экрана и всегда были
+// развёрнуты. Плашки свёрнуты по умолчанию, кроме первой.
 //
-// Данные и правила их формулировок переехали в src/data/cv.ts: тот же состав
-// показывает пробная версия блока на /cv-2/ (аккордеон), и раздваивать список
-// между двумя файлами нельзя — разойдётся на первой же правке.
+// Данные и правила их формулировок живут в src/data/cv.ts, разметка —
+// в components/CvAccordion.astro. Тёмная «Практика» идёт последней намеренно:
+// она разбивает ряд из светлых плашек и ставит блоку точку.
+const cvGroups = [
+  { key: 'edu', title: 'Образование', theme: 'paper' as const, list: cvEdu },
+  { key: 'extra', title: 'Дополнительное профильное образование', theme: 'tissue' as const, list: cvExtra },
+  { key: 'work', title: 'Практика', theme: 'ink' as const, list: cvWork },
+];
 
 // ================= ГАЛЕРЕЯ =================
 // Две съёмки идут блоками, а не вперемешку: сначала клиника «Атлас»
@@ -925,52 +932,8 @@ const gallery = [
         <span class="mono">Образование и практика</span>
       </div>
 
-      <div class="cv__rails">
-        <div class="cv__rail-group">
-          <span class="container cv__rail-title mono">Образование</span>
-          <div class="cv__rail" data-cv-rail tabindex="0" role="group" aria-label="Образование, хронология, 1997–2013">
-            <div class="cv__track">
-              {cvEdu.map((o) => (
-                <div class="cv__stop">
-                  <span class="cv__dot" aria-hidden="true"></span>
-                  <span class="cv__years mono">{cvYears(o)}</span>
-                  <span class="cv__place">{o.place}</span>
-                  {o.note && <span class="cv__note">{o.note}</span>}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-        <div class="cv__rail-group">
-          <span class="container cv__rail-title mono">Дополнительное профильное образование</span>
-          <div class="cv__rail" data-cv-rail tabindex="0" role="group" aria-label="Дополнительное профильное образование, хронология, 2003–2022">
-            <div class="cv__track">
-              {cvExtra.map((o) => (
-                <div class="cv__stop">
-                  <span class="cv__dot" aria-hidden="true"></span>
-                  <span class="cv__years mono">{cvYears(o)}</span>
-                  <span class="cv__place">{o.place}</span>
-                  {o.note && <span class="cv__note">{o.note}</span>}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-        <div class="cv__rail-group">
-          <span class="container cv__rail-title mono">Практика</span>
-          <div class="cv__rail" data-cv-rail tabindex="0" role="group" aria-label="Практика, хронология, 2004 — сейчас">
-            <div class="cv__track">
-              {cvWork.map((o) => (
-                <div class="cv__stop">
-                  <span class="cv__dot" aria-hidden="true"></span>
-                  <span class="cv__years mono">{cvYears(o)}</span>
-                  <span class="cv__place">{o.place}</span>
-                  {o.note && <span class="cv__note">{o.note}</span>}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+      <div class="container">
+        <CvAccordion groups={cvGroups} />
       </div>
 
       <div class="container cv__certs">
@@ -2153,97 +2116,15 @@ const gallery = [
     line-height: 1.3;
   }
 
-  /* ---------- Образование и практика: таймлайн-рельс, один ряд ----------
-     Было: сетка по годам-колонкам с «этажами» для непересекающихся подписей —
-     близкие по времени события почти сталкивались, а на телефоне вся эта
-     конструкция стояла вразнобой. Пробовали и плоский список — Оксане
-     показалось скучно, попросила вернуть таймлайн.
-     Теперь — два независимых горизонтальных рельса (свой у «Образования»,
-     свой у «Практики»): точка-год-место-пояснение через фиксированный шаг,
-     БЕЗ привязки ширины шага к реальной длительности периода — поэтому
-     два события в один год и два события через десять лет разведены
-     одинаково, наложение исключено конструктивно, а не подгонкой чисел. */
+  /* ---------- Образование и практика ----------
+     Разметка и вид плашек — в components/CvAccordion.astro; здесь только
+     посадка блока в секцию «Обо мне». Третий заход по этому блоку: таймлайн
+     по годам-колонкам → горизонтальные рельсы → плашки. */
   .cv {
     margin-top: clamp(40px, 5vw, 72px);
   }
   .cv__head {
     margin-bottom: 20px;
-  }
-  .cv__rails {
-    display: flex;
-    flex-direction: column;
-    gap: clamp(28px, 4vw, 44px);
-  }
-  .cv__rail-title {
-    display: block;
-    margin-bottom: 14px;
-  }
-  .cv__rail {
-    overflow-x: auto;
-    overflow-y: hidden;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-    /* Левый край рельса встаёт по сетке .container, правый уходит в край
-       экрана — обрез и есть приглашение тянуть, как у прежнего таймлайна. */
-    padding-left: max(var(--gutter), calc((100% - var(--page-max)) / 2 + var(--gutter)));
-    padding-right: var(--gutter);
-  }
-  .cv__rail::-webkit-scrollbar {
-    display: none;
-  }
-  .cv__rail:focus-visible {
-    outline: 2px solid var(--lime-2);
-    outline-offset: 4px;
-  }
-  .cv__track {
-    position: relative;
-    display: flex;
-    width: max-content;
-    padding-top: 22px;
-  }
-  /* Линия рельса — одна на всю ленту, за точками */
-  .cv__track::before {
-    content: '';
-    position: absolute;
-    top: 4px;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: var(--sage);
-  }
-  .cv__stop {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    width: clamp(168px, 15vw, 216px);
-    padding-right: 20px;
-  }
-  .cv__dot {
-    position: absolute;
-    top: -22px;
-    left: 0;
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    background: var(--lime-2);
-    transition: transform 0.25s var(--ease), background 0.25s var(--ease);
-  }
-  .cv__stop:hover .cv__dot,
-  .cv__stop:focus-within .cv__dot {
-    transform: scale(1.4);
-    background: var(--lime);
-  }
-  .cv__years {
-    color: var(--ink);
-  }
-  .cv__place {
-    font-size: 0.95rem;
-    line-height: 1.25;
-  }
-  .cv__note {
-    font-size: 0.85rem;
-    line-height: 1.25;
   }
 
   .cv__certs {

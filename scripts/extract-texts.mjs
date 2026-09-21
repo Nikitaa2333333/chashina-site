@@ -132,21 +132,25 @@ const hasBlockChildren = (node) =>
       && !skip(c),
   );
 
-/** «Образование и практика»: рельсы (.cv__rail-group) → по таблице на каждый.
-    Сейчас их три: образование, дополнительное профильное, практика. */
-function cvTables(rails) {
+/** «Образование и практика»: раскрывающиеся плашки (.acc__item) → по таблице
+    на каждую. Сейчас их три: образование, дополнительное профильное, практика.
+    Свёрнутость плашки на выгрузку не влияет — <details> держит содержимое
+    в разметке всегда, скрывает его CSS. */
+function cvTables(acc) {
   const out = [];
-  for (const group of rails.childNodes ?? []) {
-    if (!hasClass(group, 'cv__rail-group')) continue;
-    const title = (group.childNodes ?? []).find((c) => hasClass(c, 'cv__rail-title'));
-    const rail = (group.childNodes ?? []).find((c) => hasClass(c, 'cv__rail'));
-    const track = (rail?.childNodes ?? []).find((c) => hasClass(c, 'cv__track'));
+  for (const item of acc.childNodes ?? []) {
+    if (!hasClass(item, 'acc__item')) continue;
+    const summary = (item.childNodes ?? []).find((c) => c.nodeName === 'summary');
+    const title = (summary?.childNodes ?? []).find((c) => hasClass(c, 'acc__title'));
+    const body = (item.childNodes ?? []).find((c) => hasClass(c, 'acc__body'));
+    const list = (body?.childNodes ?? []).find((c) => hasClass(c, 'acc__list'));
+    // Охват лет (.acc__span) в таблицу не идёт: он посчитан из тех же
+    // записей, которые в ней и лежат, — в документе это дубль.
     const head = title ? inline(title).replace(/\s+/g, ' ').trim().toLowerCase() : '';
-    const rows = (track?.childNodes ?? [])
-      .filter((stop) => hasClass(stop, 'cv__stop'))
-      .map((stop) =>
-        (stop.childNodes ?? [])
-          // точка на рельсе — тот же span, но декоративный (aria-hidden) — skip() её и режет
+    const rows = (list?.childNodes ?? [])
+      .filter((row) => hasClass(row, 'acc__row'))
+      .map((row) =>
+        (row.childNodes ?? [])
           .filter((c) => c.nodeName === 'span' && !skip(c))
           .map((c) => inline(c).replace(/\s+/g, ' ').trim())
       )
@@ -170,7 +174,7 @@ function blocks(node) {
 
   const tag = node.nodeName;
 
-  if (hasClass(node, 'cv__rails')) return cvTables(node);
+  if (hasClass(node, 'acc')) return cvTables(node);
 
   // подзаголовки внутри «Обо мне» (сам таймлайн и блок сертификатов) — на сайте
   // это mono-подписи, в документе им честнее быть заголовками
