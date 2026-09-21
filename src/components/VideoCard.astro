@@ -1,0 +1,84 @@
+---
+// Карточка видео со своим пультом. Используется дважды: вертикальные ролики
+// из инстаграма (секция «Видео») и горизонтальные ролики про аппараты.
+// Вертикаль/горизонталь задаёт только `ratio` — вся механика одна.
+//
+// ВАЖНО: стили карточки лежат в global.css, а НЕ здесь и не на странице.
+// Классы `.reels__*` приходят из этого компонента со своим astro-scope,
+// и scoped-селектор страницы до них молча не достаёт — та же грабля, из-за
+// которой в своё время отступ у кнопки прессы не применялся. Тот же приём,
+// что у карточек прессы (.pcard): оформление общее — значит в global.css.
+//
+// Логика (пуск, пульт, перемотка, звук, фуллскрин) — один скрипт на все
+// карточки в index.astro, он ищет `.reels__card` по всей странице.
+interface Props {
+  /** Путь к mp4. Подставляется в src по клику — до этого не грузится. */
+  src: string;
+  /** Постер: отдельная ленивая картинка, а не атрибут poster. */
+  poster: string;
+  ratio: 'portrait' | 'landscape';
+  /** Ширина/высота постера — держат место до загрузки. */
+  w: number;
+  h: number;
+  label?: string;
+}
+const { src, poster, ratio, w, h, label = 'Смотреть видео' } = Astro.props;
+---
+
+<article class={`reels__card reels__card--${ratio}`}>
+  <!-- Постер отдельной картинкой, а не атрибутом poster:
+       poster грузится вместе со страницей, loading="lazy" — только
+       когда блок подъезжает к экрану -->
+  <img
+    class="reels__poster"
+    src={poster}
+    alt=""
+    width={w}
+    height={h}
+    loading="lazy"
+    decoding="async"
+  />
+  <video class="reels__video" data-reel={src} playsinline preload="none"></video>
+  <button class="reels__play" type="button" aria-label={label}>
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M8 5v14l11-7z" fill="currentColor" />
+    </svg>
+  </button>
+  <!-- Свой пульт вместо нативного: у браузерного своя палитра
+       и свои иконки, на фирменной плашке он читается чужим.
+       Появляется после запуска, прячется вместе с курсором. -->
+  <div class="reels__ui" hidden>
+    <button class="reels__toggle" type="button" aria-label="Пауза">
+      <svg class="reels__i-pause" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M7 5h3v14H7zM14 5h3v14h-3z" fill="currentColor" />
+      </svg>
+      <svg class="reels__i-play" viewBox="0 0 24 24" aria-hidden="true" focusable="false" hidden>
+        <path d="M8 5v14l11-7z" fill="currentColor" />
+      </svg>
+    </button>
+    <div
+      class="reels__bar"
+      role="slider"
+      tabindex="0"
+      aria-label="Перемотка"
+      aria-valuemin="0"
+      aria-valuemax="100"
+      aria-valuenow="0"
+    >
+      <div class="reels__fill"></div>
+    </div>
+    <button class="reels__sound" type="button" aria-label="Выключить звук">
+      <svg class="reels__i-on" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M4 9v6h4l5 4V5L8 9H4zm12 3a4 4 0 0 0-2-3.5v7A4 4 0 0 0 16 12z" fill="currentColor" />
+      </svg>
+      <svg class="reels__i-off" viewBox="0 0 24 24" aria-hidden="true" focusable="false" hidden>
+        <path d="M4 9v6h4l5 4V5L8 9H4zm11 .5 1.4-1.4 5 5-1.4 1.4-5-5z" fill="currentColor" />
+      </svg>
+    </button>
+    <button class="reels__full" type="button" aria-label="На весь экран">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M4 9V4h5v2H6v3H4zm11-5h5v5h-2V6h-3V4zM4 15h2v3h3v2H4v-5zm14 0h2v5h-5v-2h3v-3z" fill="currentColor" />
+      </svg>
+    </button>
+  </div>
+</article>

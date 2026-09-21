@@ -323,3 +323,153 @@ mark {
     margin: -18px -18px 14px;
   }
 }
+
+
+/* ============================================================
+   КАРТОЧКА ВИДЕО СО СВОИМ ПУЛЬТОМ
+   Разметка — components/VideoCard.astro, используется в двух секциях
+   («Видео» с вертикалками и «Как это выглядит» с горизонтальными
+   роликами про аппараты). Правила ЗДЕСЬ, а не в index.astro: классы
+   приходят из компонента со своим astro-scope, и scoped-селектор
+   страницы до них молча не достаёт. Тот же приём, что у .pcard.
+   На странице остаются только сетка ряда и отступы секции.
+   ============================================================ */
+.reels__card {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--ink);
+}
+/* Пропорция — единственное, чем отличаются два применения карточки:
+   вертикальные ролики из инстаграма и горизонтальные про аппараты.
+   Вся механика (постер, пульт, перемотка, звук, фуллскрин) у них общая. */
+.reels__card--portrait  { aspect-ratio: 9 / 16; }
+.reels__card--landscape { aspect-ratio: 16 / 9; }
+.reels__poster,
+.reels__video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+/* Постер лежит поверх пустого video и уходит, когда ролик запущен */
+.reels__poster {
+  position: absolute;
+  inset: 0;
+  max-width: none;
+}
+.reels__card.is-playing .reels__poster {
+  display: none;
+}
+/* Лаймовый чип со стрелкой воспроизведения — тот же приём, что у ArrowChip.
+   Пропадает, когда ролик запущен: дальше управление отдаём нативным controls */
+.reels__play {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 8px;
+  background: var(--lime);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.25s var(--ease);
+}
+.reels__play:hover {
+  background: var(--lime-2);
+}
+.reels__play svg {
+  width: 26px;
+  height: 26px;
+}
+.reels__card.is-playing .reels__play {
+  display: none;
+}
+/* Пульт: стеклянная плашка внизу карточки — тот же приём, что в шапке
+   и на фото-плашках слайдера. Лайм только в заливке полосы */
+.reels__ui {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: rgba(34, 47, 48, 0.55);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  opacity: 0;
+  transition: opacity 0.25s var(--ease);
+}
+/* Показываем по наведению и на паузе; на тач-экранах ховера нет,
+   поэтому там пульт видно всегда (медиазапрос ниже) */
+.reels__card:hover .reels__ui,
+.reels__card:focus-within .reels__ui,
+.reels__card.is-paused .reels__ui {
+  opacity: 1;
+}
+.reels__ui button {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--paper);
+  cursor: pointer;
+  transition: color 0.25s var(--ease);
+}
+.reels__ui button:hover {
+  color: var(--lime);
+}
+.reels__ui svg {
+  width: 18px;
+  height: 18px;
+}
+/* Атрибут hidden — из HTML, и на SVG браузер его не применяет: без этого
+   правила в кнопке видно СРАЗУ обе иконки, и пульт разъезжается в два ряда */
+.reels__ui svg[hidden] {
+  display: none;
+}
+/* Сама полоса 3px, но зона попадания — все 12px высоты элемента,
+   иначе в неё не прицелиться ни мышью, ни пальцем */
+.reels__bar {
+  flex: 1;
+  height: 12px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  background: linear-gradient(rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.35))
+    center / 100% 3px no-repeat;
+}
+.reels__fill {
+  height: 3px;
+  width: 0;
+  background: var(--lime);
+}
+/* На тач-экранах ховера нет — пульт держим на виду */
+@media (hover: none) {
+  .reels__card.is-playing .reels__ui {
+    opacity: 1;
+  }
+}
+/* В полноэкранном режиме карточка перестаёт быть вертикальной плашкой:
+   кадр вписываем целиком, чтобы не срезать края */
+.reels__card:fullscreen {
+  aspect-ratio: auto;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+}
+.reels__card:fullscreen .reels__video {
+  object-fit: contain;
+}
