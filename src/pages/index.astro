@@ -2359,12 +2359,24 @@ const gallery = [
     .mstrip:nth-child(even) .mstrip__media {
       order: 0;
     }
+    /* Кадр ставим В ПОТОК, и пропорция висит на нём, а не на контейнере.
+       Было наоборот — img абсолютный, высоту держал aspect-ratio
+       на .mstrip__media. Но контейнер при этом ПУСТОЙ (абсолютный
+       ребёнок в поток не входит), и в браузере, который не применяет
+       aspect-ratio к элементу грид-сетки с авто-строкой, плашка
+       схлопывается в ноль — кадр пропадает вместе с местом под него.
+       Ровно это и случилось на iPhone: у всех четырёх методов не было
+       ни фото, ни просвета, текстовые блоки стояли встык.
+       У картинки в потоке высота есть всегда, чинится конструктивно. */
     .mstrip__media {
-      aspect-ratio: 3 / 2;
+      aspect-ratio: auto;
     }
     /* В одну колонку стык у кадра снизу — туда и растворение */
     .mstrip__img,
     .mstrip:nth-child(even) .mstrip__img {
+      position: static;
+      height: auto;
+      aspect-ratio: 3 / 2;
       -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent 99%);
       mask-image: linear-gradient(to bottom, #000 60%, transparent 99%);
     }
