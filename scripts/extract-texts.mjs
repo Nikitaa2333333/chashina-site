@@ -132,7 +132,8 @@ const hasBlockChildren = (node) =>
       && !skip(c),
   );
 
-/** «Образование и практика»: два рельса (.cv__rail-group) → две читаемые таблицы. */
+/** «Образование и практика»: рельсы (.cv__rail-group) → по таблице на каждый.
+    Сейчас их три: образование, дополнительное профильное, практика. */
 function cvTables(rails) {
   const out = [];
   for (const group of rails.childNodes ?? []) {
