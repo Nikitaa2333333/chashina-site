@@ -23,7 +23,9 @@ export default defineConfig({
     sitemap({
       // Постранички списка блога (/blog/2/, /blog/3/ …) в карту не идут:
       // это навигация, поисковику нужны сами посты, а не витрины по 24 штуки.
-      filter: (page) => !/\/blog\/\d+\/$/.test(page),
+      // /cv-2/ — временная страница сравнения версий блока «Образование»
+      // для заказчика; у неё же noindex. Удалится вместе с выбором варианта.
+      filter: (page) => !/\/blog\/\d+\/$/.test(page) && !/\/cv-2\/$/.test(page),
       serialize: (item) => {
         const path = new URL(item.url).pathname;
         const date = postDate.get(path);
