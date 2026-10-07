@@ -1512,32 +1512,6 @@ const gallery = [
     max-width: var(--measure-head);
     margin-top: 12px;
   }
-  .demo__row {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(16px, 1.8vw, 28px);
-    margin-top: var(--block-gap);
-  }
-  /* Подпись под кадром, а не поверх него: ролик смотрят целиком,
-     и плашка с текстом поверх видео мешала бы весь просмотр. */
-  .demo__cap {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 16px;
-    margin-top: 12px;
-    padding-top: 12px;
-    border-top: 1px solid var(--sage);
-  }
-  .demo__name {
-    font-size: var(--text-card-title);
-    letter-spacing: var(--track-heading);
-    line-height: 1.2;
-  }
-  .demo__time {
-    font-size: var(--text-caption);
-    flex: none;
-  }
 
   /* Кнопка в раздел — :global() обязателен: класс висит на корневом <a>
      компонента BtnPair, у которого свой astro-scope, и scoped-селектор
@@ -2413,12 +2387,6 @@ const gallery = [
     :global(.demo__all),
     :global(.reels__all) {
       margin-top: 24px;
-    }
-    /* Два кадра 16:9 в ряд на 390px — это две марки по 170px шириной.
-       В одну колонку кадр занимает всю ширину и его видно. Лентой,
-       как вертикалки, не делаем: ролик тут смотрят, а не пролистывают. */
-    .demo__row {
-      grid-template-columns: 1fr;
     }
     /* Ролики — лентой со свайпом: вчетвером в ряд они превратились бы
        в марки. Карточка занимает ~70% ширины, чтобы следующая выглядывала */

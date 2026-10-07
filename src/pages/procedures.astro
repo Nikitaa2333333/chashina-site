@@ -68,14 +68,16 @@ import { demos } from '../data/videos';
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: clamp(16px, 1.8vw, 28px);
   }
+  /* Без разделительной линии: заказчик её забраковал («убери полосу над
+     видео»), и она тут и правда лишняя — кадр сам отбивает подпись краем.
+     Заодно это возвращает нас к правилу дизайн-системы «никаких
+     разделительных линий». */
   .vcard__cap {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
     gap: 16px;
-    margin-top: 12px;
-    padding-top: 12px;
-    border-top: 1px solid var(--sage);
+    margin-top: 14px;
   }
   .vcard__name {
     font-size: var(--text-card-title);
