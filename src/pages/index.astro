@@ -6,6 +6,7 @@ import Footer from '../components/Footer.astro';
 import pressAll from '../data/press.json';
 import CvAccordion from '../components/CvAccordion.astro';
 import VideoCard from '../components/VideoCard.astro';
+import { homeDemos, homeReels } from '../data/videos';
 import { cvEdu, cvExtra, cvWork } from '../data/cv';
 import { asset } from '../lib/asset';
 
@@ -53,25 +54,9 @@ const steps = [
 // в crf 24: на нём мелкие цифры на экране аппарата ещё неотличимы от
 // оригинала, а на crf 28 уже плывут в кашу. Подбиралось сравнением
 // кропов 2:1, не по формуле.
-const demos = [
-  {
-    title: 'Радиоволновой лифтинг',
-    time: '2:30',
-    src: '/video/method-morpheus.mp4',
-    poster: '/video/method-morpheus.webp',
-  },
-  {
-    title: 'Световые и лазерные методики',
-    time: '2:39',
-    src: '/video/method-fotona.mp4',
-    poster: '/video/method-fotona.webp',
-  },
-];
-
-const reels = ['01', '02', '03', '04'].map((n) => ({
-  src: `/video/reels/reel-${n}.mp4`,
-  poster: `/video/reels/reel-${n}.webp`,
-}));
+// Данные роликов — в src/data/videos.ts: тот же список показывает
+// страница раздела /video/, раздваивать его между двумя файлами нельзя.
+// Флаг `home` там решает, что попадает на главную.
 
 // Принципы. Секцию убирали 07.08 (были три фразы копирайтера), но Оксана
 // переписала блок в Google-документе — по два абзаца на принцип, — поэтому
@@ -547,7 +532,7 @@ const gallery = [
       <span class="tag mono">Как это выглядит</span>
       <h2 class="demo__title">Процедуры.</h2>
       <div class="demo__row">
-        {demos.map((d) => (
+        {homeDemos.map((d) => (
           <figure class="demo__item">
             <VideoCard src={d.src} poster={d.poster} ratio="landscape" w={1000} h={562} label={`Смотреть: ${d.title}`} />
             <figcaption class="demo__cap">
@@ -557,6 +542,7 @@ const gallery = [
           </figure>
         ))}
       </div>
+      <BtnPair class="demo__all" label="Все видео" href="/video/" />
     </div>
   </section>
 
@@ -742,10 +728,11 @@ const gallery = [
       <span class="tag mono">Видео</span>
       <h2 class="reels__title">Ответы на вопросы, которые чаще всего задают на приёме.</h2>
       <div class="reels__row">
-        {reels.map((r) => (
+        {homeReels.map((r) => (
           <VideoCard src={r.src} poster={r.poster} ratio="portrait" w={540} h={960} />
         ))}
       </div>
+      <BtnPair class="reels__all" label="Все видео" href="/video/" />
     </div>
   </section>
 
@@ -1565,6 +1552,14 @@ const gallery = [
   .demo__time {
     font-size: var(--text-caption);
     flex: none;
+  }
+
+  /* Кнопка в раздел — :global() обязателен: класс висит на корневом <a>
+     компонента BtnPair, у которого свой astro-scope, и scoped-селектор
+     страницы до него молча не достаёт. Та же грабля, что у прессы. */
+  :global(.demo__all),
+  :global(.reels__all) {
+    margin-top: clamp(28px, 3.4vw, 44px);
   }
 
   /* ================= 6. SMAS ================= */
@@ -2429,6 +2424,10 @@ const gallery = [
     .principles__item {
       grid-template-columns: 1fr;
       gap: 12px;
+    }
+    :global(.demo__all),
+    :global(.reels__all) {
+      margin-top: 24px;
     }
     /* Два кадра 16:9 в ряд на 390px — это две марки по 170px шириной.
        В одну колонку кадр занимает всю ширину и его видно. Лентой,
