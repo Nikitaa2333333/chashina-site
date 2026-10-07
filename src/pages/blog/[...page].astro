@@ -53,7 +53,7 @@ const title =
         {posts.map((p) => (
           <a class={`card ${p.photos.length ? '' : 'card--dark'}`} href={`/blog/${p.slug}/`}>
             {p.photos.length > 0 && (
-              <span class="card__media">
+              <span class={`card__media ${p.photos[0].h / p.photos[0].w > 4 / 3 ? 'card__media--tall' : ''}`}>
                 <img
                   src={p.photos[0].src}
                   alt=""
@@ -182,17 +182,36 @@ const title =
     background: var(--ink);
     color: var(--paper);
   }
+  /* Обложка идёт СВОЕЙ пропорцией, а не кадрируется под общую.
+     Было `aspect-ratio: 4 / 3` + `object-fit: cover` на всех подряд —
+     и это резало 69 обложек из 71: медиана у постов канала ровно
+     квадрат, а у вертикальных кадров уезжало до 40% высоты вместе
+     с надписью на картинке («КАПЕЛЬНИЦЫ КРАСОТЫ» обрывалось).
+     Разнобой высот тут не брак: карточки и так стоят masonry-колонками
+     и подстраиваются под свой контент. */
   .card__media {
     position: relative;
     display: block;
-    aspect-ratio: 4 / 3;
     overflow: hidden;
   }
   .card__media img {
+    display: block;
     width: 100%;
+    height: auto;
+    transition: scale 0.6s var(--ease);
+  }
+  /* Единственное исключение — кадры выше 3:4 (их 10 из 71, это длинные
+     скриншоты). Своей пропорцией такой занял бы почти тысячу пикселей
+     высоты. Режем до 3:4 и держим ВЕРХ кадра: там заголовок и лицо.
+     Если браузер не применит пропорцию, картинка просто покажется
+     целиком — высота у неё своя, в ноль блок не схлопнется. */
+  .card__media--tall {
+    aspect-ratio: 3 / 4;
+  }
+  .card__media--tall img {
     height: 100%;
     object-fit: cover;
-    transition: scale 0.6s var(--ease);
+    object-position: top;
   }
   .card:hover .card__media img {
     scale: 1.04;
