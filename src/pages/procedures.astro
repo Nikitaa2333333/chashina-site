@@ -1,0 +1,99 @@
+---
+// Раздел «Процедуры» — разборы процедур целиком.
+// Просьба Оксаны: «может тогда всё-таки их в блок с переходом со стартовой
+// сделать? То есть проваливаться туда, как со статьями» — у неё таких
+// роликов много, на главной им места нет. Поэтому САМИ ролики живут
+// только здесь: на главной остаётся заголовок и кнопка сюда.
+//
+// Вертикальные ответы с приёма сюда НЕ мешаем — они другого жанра
+// и остаются своей секцией на главной.
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import VideoCard from '../components/VideoCard.astro';
+import { demos } from '../data/videos';
+---
+
+<Base
+  title="Процедуры — Оксана Чащина, врач-косметолог"
+  description="Разборы процедур из клиники: как идёт работа и на что врач смотрит по ходу. Оксана Чащина, врач-косметолог, Москва."
+>
+  <Header />
+
+  <main class="section video-page">
+    <div class="container">
+      <a class="crumb mono" href="/">← На главную</a>
+      <span class="tag mono">Как это выглядит</span>
+      <h1 class="video-page__title">Процедуры.</h1>
+    </div>
+
+    <div class="container video-page__block">
+      <div class="video-page__demos">
+        {demos.map((d) => (
+          <figure class="vcard">
+            <VideoCard src={d.src} poster={d.poster} ratio="landscape" w={1000} h={562} label={`Смотреть: ${d.title}`} />
+            <figcaption class="vcard__cap">
+              <span class="vcard__name">{d.title}</span>
+              <span class="vcard__time mono">{d.time}</span>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  .video-page {
+    padding-top: 108px; /* шапка fixed */
+  }
+  .video-page__title {
+    font-size: var(--text-display);
+    letter-spacing: var(--track-display);
+    line-height: 1.1;
+    max-width: var(--measure-head);
+    margin-top: 12px;
+  }
+  .video-page__block {
+    margin-top: clamp(40px, 5vw, 72px);
+  }
+
+  /* Разборы процедур: два в ряд, 16:9. Оформление карточки — .reels__card
+     в global.css, общее с главной; тут только сетка и подписи. */
+  .video-page__demos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(16px, 1.8vw, 28px);
+  }
+  /* Без разделительной линии: заказчик её забраковал («убери полосу над
+     видео»), и она тут и правда лишняя — кадр сам отбивает подпись краем.
+     Заодно это возвращает нас к правилу дизайн-системы «никаких
+     разделительных линий». */
+  .vcard__cap {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 14px;
+  }
+  .vcard__name {
+    font-size: var(--text-card-title);
+    letter-spacing: var(--track-heading);
+    line-height: 1.2;
+  }
+  .vcard__time {
+    font-size: var(--text-caption);
+    flex: none;
+  }
+
+  @media (max-width: 760px) {
+    /* Два кадра 16:9 в ряд на телефоне — это две марки по 170px.
+       В одну колонку ролик видно, а смотреть его тут и приходят. */
+    .video-page__demos {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -6,6 +6,7 @@ import Footer from '../components/Footer.astro';
 import pressAll from '../data/press.json';
 import CvAccordion from '../components/CvAccordion.astro';
 import VideoCard from '../components/VideoCard.astro';
+import { homeDemos, homeReels } from '../data/videos';
 import { cvEdu, cvExtra, cvWork } from '../data/cv';
 import { asset } from '../lib/asset';
 
@@ -53,25 +54,9 @@ const steps = [
 // в crf 24: на нём мелкие цифры на экране аппарата ещё неотличимы от
 // оригинала, а на crf 28 уже плывут в кашу. Подбиралось сравнением
 // кропов 2:1, не по формуле.
-const demos = [
-  {
-    title: 'Радиоволновой лифтинг',
-    time: '2:30',
-    src: '/video/method-morpheus.mp4',
-    poster: '/video/method-morpheus.webp',
-  },
-  {
-    title: 'Световые и лазерные методики',
-    time: '2:39',
-    src: '/video/method-fotona.mp4',
-    poster: '/video/method-fotona.webp',
-  },
-];
-
-const reels = ['01', '02', '03', '04'].map((n) => ({
-  src: `/video/reels/reel-${n}.mp4`,
-  poster: `/video/reels/reel-${n}.webp`,
-}));
+// Данные роликов — в src/data/videos.ts: тот же список показывает
+// страница раздела /video/, раздваивать его между двумя файлами нельзя.
+// Флаг `home` там решает, что попадает на главную.
 
 // Принципы. Секцию убирали 07.08 (были три фразы копирайтера), но Оксана
 // переписала блок в Google-документе — по два абзаца на принцип, — поэтому
@@ -532,31 +517,18 @@ const gallery = [
     ))}
   </section>
 
-  <!-- ================= АППАРАТЫ ВЖИВУЮ =================
-       Два ролика Оксаны из клиники, по 2,5 минуты со звуком — их садятся
-       и смотрят, поэтому это отдельная секция с крупными горизонтальными
-       карточками, а не иллюстрация внутри полосы метода.
-       В блок «Видео» их не мешаем: там вертикальные ответы на вопросы,
-       другой жанр — в одном ряду они читались бы случайным набором.
-       Плеер общий с вертикалками (components/VideoCard.astro), грузится
-       только по клику: до него на странице лежат два постера по 30 КБ.
-       ПОДПИСИ — по названиям методов, а не по торговым маркам аппаратов:
-       лид секции выше прямо обещает, что торговых названий здесь нет. -->
+  <!-- ================= ПРОЦЕДУРЫ =================
+       ВХОД в раздел, а не сами ролики. Разборы по 2,5 минуты садятся
+       и смотрят, их у Оксаны много — поэтому они живут своей страницей
+       /procedures/, а на главной остаётся заголовок и кнопка туда.
+       Приём тот же, что у прессы и блога: «проваливаться туда, как со
+       статьями» — её формулировка.
+       Ролики на главной НЕ дублируем: ровно это и просили убрать. -->
   <section class="section demo">
     <div class="container">
       <span class="tag mono">Как это выглядит</span>
       <h2 class="demo__title">Процедуры.</h2>
-      <div class="demo__row">
-        {demos.map((d) => (
-          <figure class="demo__item">
-            <VideoCard src={d.src} poster={d.poster} ratio="landscape" w={1000} h={562} label={`Смотреть: ${d.title}`} />
-            <figcaption class="demo__cap">
-              <span class="demo__name">{d.title}</span>
-              <span class="demo__time mono">{d.time}</span>
-            </figcaption>
-          </figure>
-        ))}
-      </div>
+      <BtnPair class="demo__all" label="Смотреть процедуры" href="/procedures/" />
     </div>
   </section>
 
@@ -742,7 +714,7 @@ const gallery = [
       <span class="tag mono">Видео</span>
       <h2 class="reels__title">Ответы на вопросы, которые чаще всего задают на приёме.</h2>
       <div class="reels__row">
-        {reels.map((r) => (
+        {homeReels.map((r) => (
           <VideoCard src={r.src} poster={r.poster} ratio="portrait" w={540} h={960} />
         ))}
       </div>
@@ -1540,31 +1512,13 @@ const gallery = [
     max-width: var(--measure-head);
     margin-top: 12px;
   }
-  .demo__row {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(16px, 1.8vw, 28px);
-    margin-top: var(--block-gap);
-  }
-  /* Подпись под кадром, а не поверх него: ролик смотрят целиком,
-     и плашка с текстом поверх видео мешала бы весь просмотр. */
-  .demo__cap {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 16px;
-    margin-top: 12px;
-    padding-top: 12px;
-    border-top: 1px solid var(--sage);
-  }
-  .demo__name {
-    font-size: var(--text-card-title);
-    letter-spacing: var(--track-heading);
-    line-height: 1.2;
-  }
-  .demo__time {
-    font-size: var(--text-caption);
-    flex: none;
+
+  /* Кнопка в раздел — :global() обязателен: класс висит на корневом <a>
+     компонента BtnPair, у которого свой astro-scope, и scoped-селектор
+     страницы до него молча не достаёт. Та же грабля, что у прессы. */
+  :global(.demo__all),
+  :global(.reels__all) {
+    margin-top: clamp(28px, 3.4vw, 44px);
   }
 
   /* ================= 6. SMAS ================= */
@@ -2430,11 +2384,9 @@ const gallery = [
       grid-template-columns: 1fr;
       gap: 12px;
     }
-    /* Два кадра 16:9 в ряд на 390px — это две марки по 170px шириной.
-       В одну колонку кадр занимает всю ширину и его видно. Лентой,
-       как вертикалки, не делаем: ролик тут смотрят, а не пролистывают. */
-    .demo__row {
-      grid-template-columns: 1fr;
+    :global(.demo__all),
+    :global(.reels__all) {
+      margin-top: 24px;
     }
     /* Ролики — лентой со свайпом: вчетвером в ряд они превратились бы
        в марки. Карточка занимает ~70% ширины, чтобы следующая выглядывала */
