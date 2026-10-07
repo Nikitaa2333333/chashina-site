@@ -1,36 +1,33 @@
 ---
-// Раздел «Видео» — весь архив роликов. На главной остаётся витрина
-// с кнопкой сюда: приём тот же, что у прессы и блога.
+// Раздел «Процедуры» — разборы процедур целиком.
 // Просьба Оксаны: «может тогда всё-таки их в блок с переходом со стартовой
-// сделать? То есть проваливаться туда, как со статьями» — у неё
-// профессиональных роликов много, на главной им места нет.
+// сделать? То есть проваливаться туда, как со статьями» — у неё таких
+// роликов много, на главной им места нет. Поэтому САМИ ролики живут
+// только здесь: на главной остаётся заголовок и кнопка сюда.
 //
-// Два жанра идут РАЗНЫМИ блоками, а не вперемешку: горизонтальный разбор
-// процедуры на 2,5 минуты и вертикальный ответ на вопрос из приёма —
-// разное время просмотра и разный повод. В одном ряду читались бы
-// случайным набором.
+// Вертикальные ответы с приёма сюда НЕ мешаем — они другого жанра
+// и остаются своей секцией на главной.
 import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import VideoCard from '../components/VideoCard.astro';
-import { demos, reels } from '../data/videos';
+import { demos } from '../data/videos';
 ---
 
 <Base
-  title="Видео — Оксана Чащина, врач-косметолог"
-  description="Разборы процедур из клиники и короткие ответы на вопросы, которые чаще всего задают на приёме. Оксана Чащина, врач-косметолог, Москва."
+  title="Процедуры — Оксана Чащина, врач-косметолог"
+  description="Разборы процедур из клиники: как идёт работа и на что врач смотрит по ходу. Оксана Чащина, врач-косметолог, Москва."
 >
   <Header />
 
   <main class="section video-page">
     <div class="container">
       <a class="crumb mono" href="/">← На главную</a>
-      <span class="tag mono">Видео</span>
-      <h1 class="video-page__title">Как это выглядит и как я объясняю.</h1>
+      <span class="tag mono">Как это выглядит</span>
+      <h1 class="video-page__title">Процедуры.</h1>
     </div>
 
     <div class="container video-page__block">
-      <h2 class="video-page__head">Процедуры</h2>
       <div class="video-page__demos">
         {demos.map((d) => (
           <figure class="vcard">
@@ -44,14 +41,6 @@ import { demos, reels } from '../data/videos';
       </div>
     </div>
 
-    <div class="container video-page__block">
-      <h2 class="video-page__head">Ответы на вопросы с приёма</h2>
-      <div class="video-page__reels">
-        {reels.map((r) => (
-          <VideoCard src={r.src} poster={r.poster} ratio="portrait" w={540} h={960} />
-        ))}
-      </div>
-    </div>
   </main>
 
   <Footer />
@@ -70,11 +59,6 @@ import { demos, reels } from '../data/videos';
   }
   .video-page__block {
     margin-top: clamp(40px, 5vw, 72px);
-  }
-  .video-page__head {
-    font-size: var(--text-card-title);
-    letter-spacing: var(--track-heading);
-    margin-bottom: var(--block-gap);
   }
 
   /* Разборы процедур: два в ряд, 16:9. Оформление карточки — .reels__card
@@ -103,23 +87,11 @@ import { demos, reels } from '../data/videos';
     flex: none;
   }
 
-  /* Вертикалки: сеткой, а не лентой — тут их смотрят списком, листать
-     вбок незачем. Колонки резиновые, чтобы ряд не ломался, когда роликов
-     станет больше четырёх. */
-  .video-page__reels {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: clamp(12px, 1.4vw, 20px);
-  }
-
   @media (max-width: 760px) {
     /* Два кадра 16:9 в ряд на телефоне — это две марки по 170px.
        В одну колонку ролик видно, а смотреть его тут и приходят. */
     .video-page__demos {
       grid-template-columns: 1fr;
-    }
-    .video-page__reels {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 </style>
