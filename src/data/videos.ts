@@ -43,7 +43,8 @@ export const demos: Demo[] = [
 ];
 
 /** Вертикальные ответы на вопросы — ролики из инстаграма. */
-export const reels: Reel[] = ['01', '02', '03', '04'].map((n) => ({
+// Порядок в массиве = порядок на сайте. 05 добавлен 06.11.2026 — самый свежий, идёт первым.
+export const reels: Reel[] = ['05', '01', '02', '03', '04'].map((n) => ({
   src: `/video/reels/reel-${n}.mp4`,
   poster: `/video/reels/reel-${n}.webp`,
   home: true,
